@@ -30,7 +30,28 @@
     <Compile Include="app.py" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="assets\bootstrap-4.0.0-beta.3.zip" />
     <Content Include="requirements.txt" />
+    <Content Include="static\content\bootstrap-grid.css" />
+    <Content Include="static\content\bootstrap-grid.css.map" />
+    <Content Include="static\content\bootstrap-grid.min.css" />
+    <Content Include="static\content\bootstrap-grid.min.css.map" />
+    <Content Include="static\content\bootstrap-reboot.css" />
+    <Content Include="static\content\bootstrap-reboot.css.map" />
+    <Content Include="static\content\bootstrap-reboot.min.css" />
+    <Content Include="static\content\bootstrap-reboot.min.css.map" />
+    <Content Include="static\content\bootstrap.css" />
+    <Content Include="static\content\bootstrap.css.map" />
+    <Content Include="static\content\bootstrap.min.css" />
+    <Content Include="static\content\bootstrap.min.css.map" />
+    <Content Include="static\scripts\bootstrap.bundle.js" />
+    <Content Include="static\scripts\bootstrap.bundle.js.map" />
+    <Content Include="static\scripts\bootstrap.bundle.min.js" />
+    <Content Include="static\scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="static\scripts\bootstrap.js" />
+    <Content Include="static\scripts\bootstrap.js.map" />
+    <Content Include="static\scripts\bootstrap.min.js" />
+    <Content Include="static\scripts\bootstrap.min.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
@@ -44,9 +65,11 @@
     </Interpreter>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="assets\" />
     <Folder Include="static\" />
     <Folder Include="static\content\" />
     <Folder Include="C:\Users\chris\OneDrive\Documents\All Documents\School\A-Level\Computer Science\Shallow Blue\Shallow Blue Flask Web Server\static\fonts\" />
+    <Folder Include="static\fonts\" />
     <Folder Include="static\scripts\" />
     <Folder Include="templates\" />
   </ItemGroup>
