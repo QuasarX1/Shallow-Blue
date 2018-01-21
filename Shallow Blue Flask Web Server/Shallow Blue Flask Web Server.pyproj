@@ -53,6 +53,7 @@
     <Content Include="static\scripts\bootstrap.js.map" />
     <Content Include="static\scripts\bootstrap.min.js" />
     <Content Include="static\scripts\bootstrap.min.js.map" />
+    <Content Include="static\scripts\fontawesome-all.min.js" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
