@@ -54,6 +54,7 @@
     <Content Include="static\scripts\bootstrap.min.js" />
     <Content Include="static\scripts\bootstrap.min.js.map" />
     <Content Include="static\scripts\fontawesome-all.min.js" />
+    <Content Include="templates\MainTemplate.html" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">
