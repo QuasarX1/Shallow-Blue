@@ -1,5 +1,5 @@
 # Creating the Flask object------------------------------------------------------------------------------------------------
-from flask import Flask
+from flask import Flask, render_template
 app = Flask(__name__)
 
 # Make the WSGI interface available at the top level so wfastcgi can get it
@@ -10,6 +10,11 @@ wsgi_app = app.wsgi_app
 def blank():
     """Blank Page"""
     return "This page intentionaly left almost blank."
+
+@app.route('/test')
+def test():
+    """Template Test Page"""
+    return render_template("TemplateTestPage.html")
 
 if __name__ == '__main__':
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
