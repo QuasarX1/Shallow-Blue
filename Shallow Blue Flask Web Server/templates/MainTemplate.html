@@ -1,10 +1,12 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
+        <script src="/static/scripts/fontawesome-all.min.js"></script>
+
         <title>{% block pageTitle %}{% endblock %}</title>
     </head>
     <body>
-        <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
-        <script src="/static/scripts/fontawesome-all.min.js"></script>
+        {% block bodyContent %}{% endblock %}
     </body>
 </html>
