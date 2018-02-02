@@ -1,7 +1,7 @@
-PID_LASTAUTHOR
+PID_CODEPAGE
 range
 MSIError
-PID_CODEPAGE
+_Unspecified
 MSICOLINFO_NAMES
 sequence
 PID_CREATE_DTM
@@ -20,7 +20,7 @@ MSIMODIFY_REPLACE
 type_short
 PID_CHARCOUNT
 len
-Directory
+MSIDBOPEN_PATCHFILE
 set
 OpenDatabase
 type_long
@@ -42,9 +42,9 @@ MSIMODIFY_INSERT
 current_feature
 getattr
 PID_TEMPLATE
-PID_LASTPRINTED
+MSIDBOPEN_CREATEDIRECT
 type_localizable
-type_string
+MSIMODIFY_MERGE
 knownbits
 UuidCreate
 MSIDBOPEN_CREATE
@@ -53,7 +53,7 @@ _directories
 Table
 type_key
 PID_APPNAME
-_Unspecified
+PID_LASTAUTHOR
 string
 add_tables
 MSIMODIFY_UPDATE
@@ -72,7 +72,7 @@ CAB
 MSICOLINFO_TYPES
 add_stream
 datasizemask
-MSIDBOPEN_PATCHFILE
+Directory
 PID_REVNUMBER
 Itanium
 str
@@ -92,5 +92,5 @@ MSIMODIFY_DELETE
 PID_SECURITY
 MSIMODIFY_VALIDATE
 TypeError
-MSIDBOPEN_CREATEDIRECT
-MSIMODIFY_MERGE
+PID_LASTPRINTED
+type_string
