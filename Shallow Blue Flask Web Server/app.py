@@ -11,10 +11,10 @@ def blank():
     """Blank Page"""
     return "This page intentionaly left almost blank."
 
-@app.route('/test')
-def test():
-    """Template Test Page"""
-    return render_template("TemplateTestPage.html")
+#@app.route('/test')
+#def test():
+#    """Template Test Page"""
+#    return render_template("TemplateTestPage.html")
 
 if __name__ == '__main__':
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
