@@ -7,9 +7,10 @@ wsgi_app = app.wsgi_app
 
 # View functions to handel web requests and generate responces-------------------------------------------------------------
 @app.route('/')
-def blank():
-    """Blank Page"""
-    return "This page intentionaly left almost blank."
+@app.route('/home')
+def home():
+    """Splash Page"""
+    return render_template("SplashPage.html")
 
 #@app.route('/test')
 #def test():
