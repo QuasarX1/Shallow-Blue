@@ -8597,3 +8597,7 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extens
 2018-02-02T19:35:19: Deleting 2 files
 2018-02-02T19:35:19: Deleting "C:\Users\chris\OneDrive\Documents\All Documents\School\A-Level\Computer Science\Shallow Blue\Shallow Blue Flask Web Server\env\.ptvs\_dummy_threading.idb"
 2018-02-02T19:35:19: Deleting "C:\Users\chris\OneDrive\Documents\All Documents\School\A-Level\Computer Science\Shallow Blue\Shallow Blue Flask Web Server\env\.ptvs\_dummy__threading_local.idb"
+
+2018-02-18T16:37:06: Start analysis
+2018-02-18T16:37:06: IncludeModulesFromModulePath = win32com
+2018-02-18T16:37:12: Deleting 0 files
