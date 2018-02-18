@@ -45,6 +45,7 @@
     <Content Include="static\content\bootstrap.css.map" />
     <Content Include="static\content\bootstrap.min.css" />
     <Content Include="static\content\bootstrap.min.css.map" />
+    <Content Include="static\content\ShallowBlue.css" />
     <Content Include="static\scripts\anchor.min.js" />
     <Content Include="static\scripts\bootstrap.bundle.js" />
     <Content Include="static\scripts\bootstrap.bundle.js.map" />
