@@ -5,13 +5,13 @@ body
 
 .Page-Heading
 {
-    background-color: deepskyblue;
+    background-color: aqua;
 }
 
 .SplashPage-Clickable-Icon
 {
     color: darkblue;
-    font-size:10em;
+    font-size:15em;
 }
 
 .SplashPage-Clickable-Icon-Caption
