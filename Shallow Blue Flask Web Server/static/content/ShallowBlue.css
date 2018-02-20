@@ -11,4 +11,10 @@ body
 .SplashPage-Clickable-Icon
 {
     color: darkblue;
+    font-size:10em;
+}
+
+.SplashPage-Clickable-Icon-Caption
+{
+    color: white;
 }

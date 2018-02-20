@@ -27,4 +27,5 @@ if __name__ == '__main__':
     except ValueError:
         PORT = 5555
     # Run the web server---------------------------------------------------------------------------------------------------
-    app.run(HOST, PORT, threaded = True)
+    #app.run(HOST, PORT, threaded = True)
+    app.run(host = "0.0.0.0", port = 5555, threaded = True)
