@@ -15,12 +15,12 @@ def home():
 @app.route('/join')
 def join():
     """Join Page"""
-    return render_template("JoinPage.html", pageTitle = "Join")
+    return render_template("JoinPage.html", pageTitle = "Join", eventData = [])
 
 @app.route('/watch')
 def spectate():
     """Spectate Page"""
-    return render_template("JoinPage.html", pageTitle = "Spectate")
+    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = [])
 
 #@app.route('/test')
 #def test():

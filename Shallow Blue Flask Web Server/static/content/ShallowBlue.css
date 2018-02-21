@@ -3,6 +3,11 @@ body
     background-color: blue;
 }
 
+p
+{
+    color: white;
+}
+
 .Page-Heading
 {
     background-color: aqua;
@@ -12,9 +17,4 @@ body
 {
     color: darkblue;
     font-size:12em;
-}
-
-.SplashPage-Clickable-Icon-Caption
-{
-    color: white;
 }
