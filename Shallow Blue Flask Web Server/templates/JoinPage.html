@@ -7,8 +7,14 @@
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">{{pageTitle.upper()}} A TOURNAMENT</h1>
     </header>
-    {% if eventData|length == none %}
-
+    {% if eventData|length != 0 %}
+    {% for eventArray in eventData %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <a class="btn btn-default col-sm-6">{{eventArray[1]}} {{eventArray[0]}}<br />{{eventArray[2]}}</a>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
     {% else %}
     <div class="row">
         <div class="col-sm-3"></div>

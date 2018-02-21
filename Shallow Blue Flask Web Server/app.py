@@ -1,3 +1,6 @@
+# General Library Imports
+import datetime
+
 # Creating the Flask object------------------------------------------------------------------------------------------------
 from flask import Flask, render_template
 app = Flask(__name__)
@@ -15,12 +18,12 @@ def home():
 @app.route('/join')
 def join():
     """Join Page"""
-    return render_template("JoinPage.html", pageTitle = "Join", eventData = [])
+    return render_template("JoinPage.html", pageTitle = "Join", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."]])
 
 @app.route('/watch')
 def spectate():
     """Spectate Page"""
-    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = [])
+    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."]])
 
 #@app.route('/test')
 #def test():
