@@ -5,12 +5,22 @@ app = Flask(__name__)
 # Make the WSGI interface available at the top level so wfastcgi can get it
 wsgi_app = app.wsgi_app
 
-# View functions to handel web requests and generate responces-------------------------------------------------------------
+# View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
 def home():
     """Splash Page"""
     return render_template("SplashPage.html")
+
+@app.route('/join')
+def join():
+    """Join Page"""
+    return render_template("JoinPage.html", pageTitle = "Join")
+
+@app.route('/watch')
+def spectate():
+    """Spectate Page"""
+    return render_template("JoinPage.html", pageTitle = "Spectate")
 
 #@app.route('/test')
 #def test():
