@@ -1,3 +1,4 @@
+/* HTML Tag Overides */
 body
 {
     background-color: blue;
@@ -8,13 +9,23 @@ p
     color: white;
 }
 
+/* General */
 .Page-Heading
 {
     background-color: aqua;
 }
 
+/* Splash Page */
 .SplashPage-Clickable-Icon
 {
     color: darkblue;
     font-size:12em;
+}
+
+/* Join Page */
+.Event-Link
+{
+    background-color: aqua;
+    border: black;
+    border-radius: 20px;
 }
