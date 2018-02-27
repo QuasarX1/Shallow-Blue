@@ -15,14 +15,14 @@
             <table>{# Used to arange the content of the button #}
                 <tr>
                     <td class="event-Link-Date">{# The start date on the left #}
-                        {{eventArray[1].strftime("%d")}}
+                        {{eventArray[1].strftime("%d/%m")}}
                         <br />
-                        {{eventArray[1].strftime("%m")}}
+                        {{eventArray[1].strftime("%Y")}}
                     </td>
                     <td class="Event-Link-Info">
-                        {{eventArray[0]}}{# The event name to the right of the date #}
+                        <b>{{eventArray[0]}}</b>{# The event name to the right of the date #}
                         <br />
-                        {{eventArray[2]}}{# The event description below the name #}
+                        {{eventArray[2][0: 225]}}{% if eventArray[2]|length > 225 %}...{% endif %}{# The event description below the name #}
                     </td>
                 </tr>
             </table>
