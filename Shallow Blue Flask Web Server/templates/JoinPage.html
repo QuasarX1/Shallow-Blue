@@ -14,8 +14,12 @@
         <a class="btn btn-default col-sm-6 Event-Link">
             <table>{# Used to arange the content of the button #}
                 <tr>
-                    <td>{{eventArray[1]}}</>{# The start date on the left #}</td>
-                    <td>
+                    <td class="event-Link-Date">{# The start date on the left #}
+                        {{eventArray[1].strftime("%d")}}
+                        <br />
+                        {{eventArray[1].strftime("%m")}}
+                    </td>
+                    <td class="Event-Link-Info">
                         {{eventArray[0]}}{# The event name to the right of the date #}
                         <br />
                         {{eventArray[2]}}{# The event description below the name #}

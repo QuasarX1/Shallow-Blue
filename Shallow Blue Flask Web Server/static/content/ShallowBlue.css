@@ -29,3 +29,18 @@ p
     border: black;
     border-radius: 20px;
 }
+
+.event-Link-Date
+{
+    font-size: 2em;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.Event-Link-Info
+{
+    padding-left: 1em;
+    width: 100%;
+    text-align: center;
+}

@@ -18,12 +18,12 @@ def home():
 @app.route('/join')
 def join():
     """Join Page"""
-    return render_template("JoinPage.html", pageTitle = "Join", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."]])
+    return render_template("JoinPage.html", pageTitle = "Join", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."], ["Event 3", datetime.datetime(2018, 5, 9), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum leo, gravida vel nisi lacinia, gravida fringilla felis. Maecenas sit amet maximus lorem, ut dapibus ipsum. Aliquam erat volutpat. Vivamus gravida non metus eleifend rhoncus. Praesent quis enim ut urna mollis auctor et volutpat est. Sed quis est accumsan, laoreet felis sit amet, interdum arcu. Duis quis risus at dui eleifend aliquam. Nulla facilisi. Nulla ut tincidunt quam. Aliquam erat volutpat. Fusce convallis magna non nunc vehicula, ut hendrerit odio accumsan. Mauris nec viverra arcu."]])
 
 @app.route('/watch')
 def spectate():
     """Spectate Page"""
-    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."]])
+    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."], ["Event 3", datetime.datetime(2018, 5, 9), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum leo, gravida vel nisi lacinia, gravida fringilla felis. Maecenas sit amet maximus lorem, ut dapibus ipsum. Aliquam erat volutpat. Vivamus gravida non metus eleifend rhoncus. Praesent quis enim ut urna mollis auctor et volutpat est. Sed quis est accumsan, laoreet felis sit amet, interdum arcu. Duis quis risus at dui eleifend aliquam. Nulla facilisi. Nulla ut tincidunt quam. Aliquam erat volutpat. Fusce convallis magna non nunc vehicula, ut hendrerit odio accumsan. Mauris nec viverra arcu."]])
 
 #@app.route('/test')
 #def test():
