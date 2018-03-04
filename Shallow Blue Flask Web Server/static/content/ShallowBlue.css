@@ -46,11 +46,46 @@ p
 }
 
 /*Event Template Nav Bar*/
-.navBar_ul {
+.navBar_ul
+{
     list-style-type: none;
     margin: 0;
     padding: 0;
     background-color: aqua;
     border: 2px solid black;
     border-radius: 6px;
+}
+
+.navBar_ul li
+{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.navBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+}
+
+.navBar_ul li:first-child
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.navBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.navBar_ul li a.active
+{
+    background-color: goldenrod;
+}
+
+.navBar_ul li a:hover:not(.active)
+{
+    background-color: darkblue;
+    color: white;
 }
