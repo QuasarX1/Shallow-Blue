@@ -8,7 +8,16 @@
         <h1 style="text-align:center">{{eventName.upper()}} - {{pageTitle.upper()}}</h1>
     </header>
     <div class="row">
-        <div class="col-sm-3"></div>{# Navigation Bar #}
+        <div class="col-sm-3">{# Navigation Bar #}
+            <ul>
+                <li>Navigation:</li>
+                <li><a>Home</a></li>
+                <li><a>Pairings</a></li>
+                <li><a>Progress/Scores</a></li>
+                <li><a>Home</a></li>
+                <li><a>Splash Page</a></li>
+            </ul>
+        </div>
         <div class="col-sm-6">{% block pageContent %}{% endblock %}</div>{# This holds the content of the page. #}
         <div class="col-sm-3"></div>{# Score Bar #}
     </div>
