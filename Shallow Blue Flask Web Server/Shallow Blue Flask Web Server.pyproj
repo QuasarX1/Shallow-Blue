@@ -64,6 +64,7 @@
     <Content Include="templates\JoinPage.html" />
     <Content Include="templates\MainTemplate.html" />
     <Content Include="templates\SplashPage.html" />
+    <Content Include="templates\TemplateTestPage.html" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

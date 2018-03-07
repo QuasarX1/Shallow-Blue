@@ -9,13 +9,12 @@
     </header>
     <div class="row">
         <div class="col-sm-3">{# Navigation Bar #}
-            <ul>
+            <ul class="navBar_ul">
                 <li>Navigation:</li>
-                <li><a>Home</a></li>
-                <li><a>Pairings</a></li>
-                <li><a>Progress/Scores</a></li>
-                <li><a>Home</a></li>
-                <li><a>Splash Page</a></li>
+                <li><a class="{{homeClass}}">Home</a></li>
+                <li><a class="{{pairingsClass}}">Pairings</a></li>
+                <li><a class="{{progressClass}}">Progress/Scores</a></li>
+                <li><a class="{{splashClass}}">Splash Page</a></li>
             </ul>
         </div>
         <div class="col-sm-6">{% block pageContent %}{% endblock %}</div>{# This holds the content of the page. #}
