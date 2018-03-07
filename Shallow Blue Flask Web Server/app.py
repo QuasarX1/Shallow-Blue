@@ -28,7 +28,7 @@ def spectate():
 @app.route('/test')
 def test():
     """Template Test Page"""
-    return render_template("TemplateTestPage.html", eventName = "Test Event", pageTitle = "Test Page", homeClass = "active")
+    return render_template("TemplateTestPage.html", eventName = "Test Event", pageTitle = "Test Page", splashClass = "active")
 
 if __name__ == '__main__':
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
