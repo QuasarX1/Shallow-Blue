@@ -45,6 +45,8 @@
     <Content Include="static\content\bootstrap.css.map" />
     <Content Include="static\content\bootstrap.min.css" />
     <Content Include="static\content\bootstrap.min.css.map" />
+    <Content Include="static\content\ShallowBlue.css" />
+    <Content Include="static\scripts\anchor.min.js" />
     <Content Include="static\scripts\bootstrap.bundle.js" />
     <Content Include="static\scripts\bootstrap.bundle.js.map" />
     <Content Include="static\scripts\bootstrap.bundle.min.js" />
@@ -53,8 +55,15 @@
     <Content Include="static\scripts\bootstrap.js.map" />
     <Content Include="static\scripts\bootstrap.min.js" />
     <Content Include="static\scripts\bootstrap.min.js.map" />
+    <Content Include="static\scripts\clipboard.min.js" />
     <Content Include="static\scripts\fontawesome-all.min.js" />
+    <Content Include="static\scripts\holder.min.js" />
+    <Content Include="static\scripts\jquery-slim.min.js" />
+    <Content Include="static\scripts\popper.min.js" />
+    <Content Include="templates\EventTemplate.html" />
+    <Content Include="templates\JoinPage.html" />
     <Content Include="templates\MainTemplate.html" />
+    <Content Include="templates\SplashPage.html" />
   </ItemGroup>
   <ItemGroup>
     <Interpreter Include="env\">

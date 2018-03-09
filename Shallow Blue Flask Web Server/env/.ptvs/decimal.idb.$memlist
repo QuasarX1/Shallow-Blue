@@ -9,7 +9,7 @@ Underflow
 __decimal_context__
 BasicContext
 DivisionByZero
-setcontext
+ROUND_FLOOR
 Subnormal
 HAVE_THREADS
 DefaultContext
@@ -32,7 +32,7 @@ ROUND_CEILING
 MIN_EMIN
 ROUND_HALF_UP
 sys
-ROUND_FLOOR
+setcontext
 localcontext
 DecimalTuple
 ROUND_HALF_EVEN

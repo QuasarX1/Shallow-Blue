@@ -1,0 +1,149 @@
+/* HTML Tag Overides */
+body
+{
+    background-color: blue;
+}
+
+p
+{
+    color: white;
+}
+
+/* General */
+.Page-Heading
+{
+    background-color: aqua;
+}
+
+/* Splash Page */
+.SplashPage-Clickable-Icon
+{
+    color: darkblue;
+    font-size:12em;
+}
+
+/* Join Page */
+.Event-Link
+{
+    background-color: aqua;
+    border: black;
+    border-radius: 20px;
+}
+
+.event-Link-Date
+{
+    font-size: 2em;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+}
+
+.Event-Link-Info
+{
+    padding-left: 1em;
+    width: 100%;
+    text-align: center;
+}
+
+/*Event Template Nav Bar*/
+.navBar_ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.navBar_ul li
+{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.navBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+}
+
+.navBar_ul li:first-child
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.navBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.navBar_ul li a.active
+{
+    background-color: goldenrod;
+}
+
+.navBar_ul li a:hover:not(.active)
+{
+    background-color: darkblue;
+    color: white;
+}
+
+/*Event Template Score Bar*/
+.scoreBar_ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.scoreBar_ul li
+{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.scoreBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+}
+
+.scoreBar_ul li:first-child
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.scoreBar_ul li:nth-child(2)
+{
+    background-color: goldenrod;
+    color: white;
+}
+
+.scoreBar_ul li:nth-child(3)
+{
+    background-color: lightslategrey;
+    color: white;
+}
+
+.scoreBar_ul li:nth-child(4)
+{
+    background-color: saddlebrown;
+    color: white;
+}
+
+.scoreBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.scoreBar_ul li a:hover:not(:empty)
+{
+    background-color: darkblue;
+    color: white;
+}

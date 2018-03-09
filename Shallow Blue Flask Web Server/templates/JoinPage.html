@@ -1,0 +1,42 @@
+﻿{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+
+{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+
+{% block bodyContent %}
+<div class="container-fluid">
+    <header class="jumbotron Page-Heading">
+        <h1 style="text-align:center">{{pageTitle.upper()}} A TOURNAMENT</h1>
+    </header>
+    {% if eventData|length != 0 %}{# If there is at least one event in the list #}
+    {% for eventArray in eventData %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <a class="btn btn-default col-sm-6 Event-Link">
+            <table>{# Used to arange the content of the button #}
+                <tr>
+                    <td class="event-Link-Date">{# The start date on the left #}
+                        {{eventArray[1].strftime("%d/%m")}}
+                        <br />
+                        {{eventArray[1].strftime("%Y")}}
+                    </td>
+                    <td class="Event-Link-Info">
+                        <b>{{eventArray[0]}}</b>{# The event name to the right of the date #}
+                        <br />
+                        {{eventArray[2][0: 225]}}{% if eventArray[2]|length > 225 %}...{% endif %}{# The event description below the name #}
+                    </td>
+                </tr>
+            </table>
+        </a>
+        <div class="col-sm-3"></div>
+    </div>
+    <br />
+    {% endfor %}
+    {% else %}{# If there are no events in the list #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">There are currently no events avalable to join!<br />If you belive this is in error, please speek to the websitesite operator.</p>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
