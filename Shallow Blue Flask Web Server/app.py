@@ -1,5 +1,10 @@
 # General Library Imports
+import sqlite3
 import datetime
+
+con = sqlite3.connect("test.db")
+
+cur = con.cursor()
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
 from flask import Flask, render_template
