@@ -7,7 +7,7 @@ import os
 from flask import Flask, render_template
 app = Flask(__name__)
 
-database = DBInterface.DBInterface(os.path.abspath("/ShallowBlueDatabase.db"))
+database = DBInterface.DBInterface(os.path.join(os.path.dirname(__file__), "ShallowBlueDatabase.db"))
 
 # Make the WSGI interface available at the top level so wfastcgi can get it
 wsgi_app = app.wsgi_app
