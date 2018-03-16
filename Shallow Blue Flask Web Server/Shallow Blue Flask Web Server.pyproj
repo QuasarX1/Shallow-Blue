@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="assets\" />
+    <Folder Include="Data\" />
     <Folder Include="static\" />
     <Folder Include="static\content\" />
     <Folder Include="C:\Users\chris\OneDrive\Documents\All Documents\School\A-Level\Computer Science\Shallow Blue\Shallow Blue Flask Web Server\static\fonts\" />
