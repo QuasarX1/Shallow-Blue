@@ -1,4 +1,4 @@
-# General Library Imports
+# General Library Imports--------------------------------------------------------------------------------------------------
 import datetime
 import DBInterface
 import os
@@ -7,7 +7,9 @@ import os
 from flask import Flask, render_template
 app = Flask(__name__)
 
-database = DBInterface.DBInterface(os.path.join(os.path.dirname(__file__), "ShallowBlueDatabase.db"))
+# Creating the database object---------------------------------------------------------------------------------------------
+rootDirectory = os.path.dirname(__file__)
+database = DBInterface.DBInterface(os.path.join(rootDirectory, "Data/DatabaseLocation.txt"), rootDirectory)
 
 # Make the WSGI interface available at the top level so wfastcgi can get it
 wsgi_app = app.wsgi_app
