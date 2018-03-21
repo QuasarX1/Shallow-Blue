@@ -22,7 +22,7 @@ class DBInterface(object):
 
         try:
             file = open(pathToLocationFile, "r")
-            deafultPath = os.path.join(applicationRootDirectory, file.readline()[0:-1])
+            deafultPath = file.readline()[0:-1]
             alternatePath = file.readline()
             file.close()
 
@@ -61,8 +61,6 @@ If you wish to close the application and deal with the issue yourself, please re
                 file.write(deafultPath)
                 file.write(alternatePath)
                 file.close()
-
-                deafultPath = os.path.join(applicationRootDirectory, deafultPath)
 
         # Set the value of the db path-------------------------------------------------------------------------------------
         pathToDB = None
