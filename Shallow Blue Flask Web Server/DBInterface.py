@@ -20,11 +20,13 @@ class DBInterface(object):
         # Read in the db location------------------------------------------------------------------------------------------
         deafultPath = None
         alternatePath = None
+        alternateName = None
 
         try:
             file = open(pathToLocationFile, "r")
             deafultPath = file.readline()[0:-1]
-            alternatePath = file.readline()
+            alternatePath = file.readline()[0:-1]
+            alternateName = file.readline()
             file.close()
 
         # Handle any error with the reading of the file--------------------------------------------------------------------
@@ -58,9 +60,11 @@ If you wish to close the application and deal with the issue yourself, please re
 
                 deafultPath = "Data/ShallowBlueDatabase.db"
                 alternatePath = ""
+                alternateName = ""
 
                 file.write(deafultPath + "\n")
-                file.write(alternatePath)
+                file.write(alternatePath + "\n")
+                file.write(alternateName)
                 file.close()
 
         # Set the value of the db path-------------------------------------------------------------------------------------
@@ -89,7 +93,7 @@ If you wish to close the application and deal with the issue yourself, please re
                 pathToDB = os.path.join(applicationRootDirectory, deafultPath)
 
         else:
-            pathToDB = alternatePath
+            pathToDB = os.path.join(alternatePath, alternateName)
         
         # Connect to the db file-------------------------------------------------------------------------------------------
         self._connection = sqlite3.connect(pathToDB)# Connects to the database specified by the path in the variable "pathToDB"

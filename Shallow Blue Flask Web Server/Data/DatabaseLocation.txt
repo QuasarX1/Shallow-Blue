@@ -1,2 +1,3 @@
 Data/ShallowBlueDatabase.db
-C:/Users/chris/OneDrive/Documents/All Documents/School/A-Level/Computer Science/Shallow Blue/Shallow Blue Flask Web Server/Data/testFolder/ShallowBlueDatabase.db
+C:/Users/chris/OneDrive/Documents/All Documents/School/A-Level/Computer Science/Shallow Blue/Shallow Blue Flask Web Server/Data/testFolder_WRONG_NAME
+ShallowBlueDatabase.db
