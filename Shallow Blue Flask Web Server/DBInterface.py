@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import sys
 
 class DBInterface(object):
     """
@@ -44,7 +45,7 @@ If you wish to close the application and deal with the issue yourself, please re
 
             if choice == "n":
                 print(e)
-                exit()
+                sys.exit()
 
             else:
                 file = None
@@ -58,7 +59,7 @@ If you wish to close the application and deal with the issue yourself, please re
                 deafultPath = "Data/ShallowBlueDatabase.db"
                 alternatePath = ""
 
-                file.write(deafultPath)
+                file.write(deafultPath + "\n")
                 file.write(alternatePath)
                 file.close()
 
@@ -82,7 +83,7 @@ If you wish to close the application and deal with the issue yourself, please re
                     print("You muse enter \"y\" or \"n\"!")
 
             if choice == "n":
-                exit()
+                sys.exit()
 
             else:
                 pathToDB = os.path.join(applicationRootDirectory, deafultPath)
@@ -98,9 +99,11 @@ If you wish to close the application and deal with the issue yourself, please re
 
     def __del__(self):
         """
-        Safely closes the database connection at the end of the programm or in the event of an unexpected termination.
+        Safely closes the database connection at the end of the program or in the event of an unexpected termination.
         """
-        self._cursor.close()# Closes the cursor used to manipulate the database
-        print("Database cursor closed")
-        self._connection.close()# Closes the connection to the database
-        print("Database connection closed")
+        if self._cursor != None:# Checks that _cursor has been assigned a value
+            self._cursor.close()# Closes the cursor used to manipulate the database
+            print("Database cursor closed")
+        if self._connection != None:# Checks that _connection has been assigned a value
+            self._connection.close()# Closes the connection to the database
+            print("Database connection closed")
