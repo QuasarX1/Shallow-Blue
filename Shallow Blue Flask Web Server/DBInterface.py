@@ -87,6 +87,7 @@ If you wish to close the application and deal with the issue yourself, please re
                     print("You muse enter \"y\" or \"n\"!")
 
             if choice == "n":
+                print("Alternate database location not found. Path provided was: " + alternatePath)
                 sys.exit()
 
             else:
