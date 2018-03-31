@@ -102,6 +102,99 @@ If you wish to close the application and deal with the issue yourself, please re
         self._cursor = self._connection.cursor()# Creates a cursor object that is used to manipulate the database
         print("Database cursor created")
 
+    def createTables():
+        # user table
+        _cursor.execute(
+            """CREATE TABLE user (
+            user_id int NOT NULL AUTO_INCREMENT,
+            user_name varchar(255) NOT NULL,
+            first_name varchar(255),
+            last_name varchar(255),
+            password varchar(255),
+            email varchar(255),
+            dob datetime,
+            PRIMARY KEY (user_id)
+            )"""
+        )
+
+        # event table
+        _cursor.execute(
+            """CREATE TABLE event (
+            event_id int NOT NULL AUTO_INCREMENT,
+            event_name varchar(255),
+            event_info text,
+            event_creator_id int,
+            event_type varchar(255),
+            event_start_datetime datetime,
+            event_status varchar(255),
+            win_score real,
+            draw_score real,
+            lose_score real,
+            no_show_score real,
+            PRIMARY KEY (event_id),
+            FOREIGN KEY (event_creator_id) REFERENCES user(user_id)
+            )"""
+        )
+
+        # player table
+        _cursor.execute(
+            """CREATE TABLE player (
+            player_id int NOT NULL AUTO_INCREMENT,
+            user_id int,
+            event_id int,
+            score real,
+            position int,
+            PRIMARY KEY (player_id),
+            FOREIGN KEY (user_id) REFERENCES user(user_id),
+            FOREIGN KEY (event_id) REFERENCES event(event_id)
+            )"""
+        )
+
+        # sr_pairing table
+        _cursor.execute(
+            """CREATE TABLE sr_pairing (
+            event_id int,
+            round_number int,
+            board_id int,
+            player_id int,
+            colour varchar(255),
+            result varchar(255),
+            PRIMARY KEY (round_number, board_id, player_id),
+            FOREIGN KEY (event_id) REFERENCES event(event_id),
+            FOREIGN KEY (player_id) REFERENCES player(player_id)
+            )"""
+        )
+
+        # ladder_pairing table
+        _cursor.execute(
+            """CREATE TABLE ladder_pairing (
+            event_id int,
+            match_number int,
+            player_id int,
+            colour varchar(255),
+            result varchar(255),
+            PRIMARY KEY (match_number, player_id),
+            FOREIGN KEY (event_id) REFERENCES event(event_id),
+            FOREIGN KEY (player_id) REFERENCES player(player_id)
+            )"""
+        )
+
+        # Add admin user
+        _cursor.execute(
+            """INSERT INTO user (
+                user_name,
+                password
+            )
+            VALUES (
+                'admin'
+                'admin'
+            )
+            """
+        )
+
+        # Save the changes to the database
+        _connection.commit()
+
     def __del__(self):
         """
         Safely closes the database connection at the end of the program or in the event of an unexpected termination.
