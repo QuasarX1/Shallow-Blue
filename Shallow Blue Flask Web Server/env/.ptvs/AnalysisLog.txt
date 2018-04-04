@@ -8605,19 +8605,3 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extens
 2018-03-07T15:37:00: Start analysis
 2018-03-07T15:37:00: IncludeModulesFromModulePath = win32com
 2018-03-07T15:37:04: Deleting 0 files
-
-2018-03-15T12:49:56: Start analysis
-2018-03-15T12:49:56: IncludeModulesFromModulePath = win32com
-2018-03-15T12:49:58: Deleting 0 files
-
-2018-03-22T13:14:01: Start analysis
-2018-03-22T13:14:01: IncludeModulesFromModulePath = win32com
-2018-03-22T13:14:04: Deleting 0 files
-
-2018-03-23T14:17:45: Start analysis
-2018-03-23T14:17:45: IncludeModulesFromModulePath = win32com
-2018-03-23T14:17:47: Deleting 0 files
-
-2018-04-04T14:36:19: Start analysis
-2018-04-04T14:36:19: IncludeModulesFromModulePath = win32com
-2018-04-04T14:36:23: Deleting 0 files
