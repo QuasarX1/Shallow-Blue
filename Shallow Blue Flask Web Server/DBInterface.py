@@ -18,13 +18,13 @@ class DBInterface(object):
             pathToLocationFile - string - the relitive path to the database location file
         """
         # Read in the db location------------------------------------------------------------------------------------------
-        deafultPath = None
+        deafultPath = "Data"
+        deafultName = "ShallowBlueDatabase.db"
         alternatePath = None
         alternateName = None
 
         try:
             file = open(pathToLocationFile, "r")
-            deafultPath = file.readline()[0:-1]
             alternatePath = file.readline()[0:-1]
             alternateName = file.readline()
             file.close()
@@ -58,11 +58,9 @@ If you wish to close the application and deal with the issue yourself, please re
                 else:
                     file = open(pathToLocationFile, "a")
 
-                deafultPath = "Data/ShallowBlueDatabase.db"
                 alternatePath = ""
                 alternateName = ""
 
-                file.write(deafultPath + "\n")
                 file.write(alternatePath + "\n")
                 file.write(alternateName)
                 file.close()
@@ -71,7 +69,7 @@ If you wish to close the application and deal with the issue yourself, please re
         pathToDB = None
 
         if alternatePath == "":
-            pathToDB = os.path.join(applicationRootDirectory, deafultPath)
+            pathToDB = os.path.join(applicationRootDirectory, os.path.join(deafultPath, deafultName))
 
         elif not os.path.exists(alternatePath):
             while True:
@@ -91,7 +89,7 @@ If you wish to close the application and deal with the issue yourself, please re
                 sys.exit()
 
             else:
-                pathToDB = os.path.join(applicationRootDirectory, deafultPath)
+                pathToDB = os.path.join(applicationRootDirectory, os.path.join(deafultPath, deafultName))
 
         else:
             pathToDB = os.path.join(alternatePath, alternateName)
@@ -101,99 +99,96 @@ If you wish to close the application and deal with the issue yourself, please re
         print("Database connection created to " + pathToDB)
         self._cursor = self._connection.cursor()# Creates a cursor object that is used to manipulate the database
         print("Database cursor created")
+        self._cursor.execute("PRAGMA foreign_keys = ON;")
 
-    def createTables():
+    def createTables(self):
         # user table
-        _cursor.execute(
+        self._cursor.execute(
             """CREATE TABLE user (
-            user_id int NOT NULL AUTO_INCREMENT,
-            user_name varchar(255) NOT NULL,
-            first_name varchar(255),
-            last_name varchar(255),
-            password varchar(255),
-            email varchar(255),
-            dob datetime,
-            PRIMARY KEY (user_id)
+                user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_name varchar(255) NOT NULL UNIQUE,
+                first_name varchar(255),
+                last_name varchar(255),
+                password varchar(255),
+                email varchar(255),
+                dob datetime
             )"""
         )
 
         # event table
-        _cursor.execute(
+        self._cursor.execute(
             """CREATE TABLE event (
-            event_id int NOT NULL AUTO_INCREMENT,
-            event_name varchar(255),
-            event_info text,
-            event_creator_id int,
-            event_type varchar(255),
-            event_start_datetime datetime,
-            event_status varchar(255),
-            win_score real,
-            draw_score real,
-            lose_score real,
-            no_show_score real,
-            PRIMARY KEY (event_id),
-            FOREIGN KEY (event_creator_id) REFERENCES user(user_id)
+                event_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                event_name varchar(255) NOT NULL,
+                event_info text NOT NULL,
+                event_creator_id int NOT NULL,
+                event_type varchar(255) NOT NULL,
+                event_start_datetime datetime NOT NULL,
+                event_status varchar(255) NOT NULL,
+                win_score real NOT NULL,
+                draw_score real NOT NULL,
+                lose_score real NOT NULL,
+                no_show_score real NOT NULL,
+                FOREIGN KEY (event_creator_id) REFERENCES user(user_id)
             )"""
         )
 
         # player table
-        _cursor.execute(
+        self._cursor.execute(
             """CREATE TABLE player (
-            player_id int NOT NULL AUTO_INCREMENT,
-            user_id int,
-            event_id int,
-            score real,
-            position int,
-            PRIMARY KEY (player_id),
-            FOREIGN KEY (user_id) REFERENCES user(user_id),
-            FOREIGN KEY (event_id) REFERENCES event(event_id)
+                player_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id int,
+                event_id int NOT NULL,
+                score real NOT NULL DEFAULT 0,
+                position int NOT NULl DEFAULT 0,
+                FOREIGN KEY (user_id) REFERENCES user(user_id),
+                FOREIGN KEY (event_id) REFERENCES event(event_id)
             )"""
         )
 
         # sr_pairing table
-        _cursor.execute(
+        self._cursor.execute(
             """CREATE TABLE sr_pairing (
-            event_id int,
-            round_number int,
-            board_id int,
-            player_id int,
-            colour varchar(255),
-            result varchar(255),
-            PRIMARY KEY (round_number, board_id, player_id),
-            FOREIGN KEY (event_id) REFERENCES event(event_id),
-            FOREIGN KEY (player_id) REFERENCES player(player_id)
+                event_id int NOT NULL,
+                round_number int NOT NULL,
+                board_id int NOT NULL,
+                player_id int NOT NULL,
+                colour varchar(255) NOT NULL,
+                result varchar(255),
+                PRIMARY KEY (round_number, board_id, player_id),
+                FOREIGN KEY (event_id) REFERENCES event(event_id),
+                FOREIGN KEY (player_id) REFERENCES player(player_id)
             )"""
         )
 
         # ladder_pairing table
-        _cursor.execute(
+        self._cursor.execute(
             """CREATE TABLE ladder_pairing (
-            event_id int,
-            match_number int,
-            player_id int,
-            colour varchar(255),
-            result varchar(255),
-            PRIMARY KEY (match_number, player_id),
-            FOREIGN KEY (event_id) REFERENCES event(event_id),
-            FOREIGN KEY (player_id) REFERENCES player(player_id)
+                event_id int NOT NULL,
+                match_number int NOT NULL,
+                player_id int NOT NULL,
+                colour varchar(255) NOT NULL,
+                result varchar(255),
+                PRIMARY KEY (match_number, player_id),
+                FOREIGN KEY (event_id) REFERENCES event(event_id),
+                FOREIGN KEY (player_id) REFERENCES player(player_id)
             )"""
         )
 
         # Add admin user
-        _cursor.execute(
+        self._cursor.execute(
             """INSERT INTO user (
                 user_name,
                 password
             )
             VALUES (
+                'admin',
                 'admin'
-                'admin'
-            )
-            """
+            )"""
         )
 
         # Save the changes to the database
-        _connection.commit()
+        self._connection.commit()
 
     def __del__(self):
         """
