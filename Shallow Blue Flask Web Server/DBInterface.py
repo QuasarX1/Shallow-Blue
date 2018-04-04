@@ -67,9 +67,11 @@ If you wish to close the application and deal with the issue yourself, please re
 
         # Set the value of the db path-------------------------------------------------------------------------------------
         pathToDB = None
+        nameOfDB = None
 
         if alternatePath == "":
-            pathToDB = os.path.join(applicationRootDirectory, os.path.join(deafultPath, deafultName))
+            pathToDB = os.path.join(applicationRootDirectory, deafultPath)
+            nameOfDB = deafultName
 
         elif not os.path.exists(alternatePath):
             while True:
@@ -89,22 +91,59 @@ If you wish to close the application and deal with the issue yourself, please re
                 sys.exit()
 
             else:
-                pathToDB = os.path.join(applicationRootDirectory, os.path.join(deafultPath, deafultName))
+                pathToDB = os.path.join(applicationRootDirectory, deafultPath)
+                nameOfDB = deafultName
 
         else:
-            pathToDB = os.path.join(alternatePath, alternateName)
+            pathToDB = alternatePath
+            nameOfDB = alternateName
         
         # Connect to the db file-------------------------------------------------------------------------------------------
-        self._connection = sqlite3.connect(pathToDB)# Connects to the database specified by the path in the variable "pathToDB"
-        print("Database connection created to " + pathToDB)
+        makeTables = False
+
+        if not os.path.exists(os.path.join(pathToDB, nameOfDB)):
+            makeTables = True
+
+        self._connection = sqlite3.connect(os.path.join(pathToDB, nameOfDB))# Connects to the database specified by the path in the variable "pathToDB"
+        print("Database connection created to " + os.path.join(pathToDB, nameOfDB))
         self._cursor = self._connection.cursor()# Creates a cursor object that is used to manipulate the database
         print("Database cursor created")
-        self._cursor.execute("PRAGMA foreign_keys = ON;")
+
+        self._cursor.execute("PRAGMA foreign_keys = ON")# Force referential integrity when creating, modifying and deleting records
+
+        self._cursor.execute("SELECT name FROM sqlite_master WHERE type = 'table'")
+        tableNames = self._cursor.fetchall()# Retrives a list of all the tables in the database
+
+        if tableNames == []:# If the database is blank
+            makeTables = True
+
+        elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',)]:# If the list of tables is incorrect
+            while True:
+                choice = input("""The database contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
+If you wish to continue with this database, please return \"y\". Please note that any nessessary tables that currently don't exist will be created if you chose to do so.\n
+If you wish to close the application and deal with the issue yourself, please return \"n\".\n
+---> """)
+
+                if choice == "y" or choice == "n":
+                    break
+
+                else:
+                    print("You muse enter \"y\" or \"n\"!")
+
+            if choice == "n":
+                print("The list of tables in the database was incorrect. The tables located were: " + str(tableNames))
+                sys.exit()
+
+            else:
+                makeTables = True
+
+        if makeTables == True:
+            self.createTables()# Create the tables in the database
 
     def createTables(self):
         # user table
         self._cursor.execute(
-            """CREATE TABLE user (
+            """CREATE TABLE IF NOT EXISTS user (
                 user_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_name varchar(255) NOT NULL UNIQUE,
                 first_name varchar(255),
@@ -117,7 +156,7 @@ If you wish to close the application and deal with the issue yourself, please re
 
         # event table
         self._cursor.execute(
-            """CREATE TABLE event (
+            """CREATE TABLE IF NOT EXISTS event (
                 event_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 event_name varchar(255) NOT NULL,
                 event_info text NOT NULL,
@@ -135,7 +174,7 @@ If you wish to close the application and deal with the issue yourself, please re
 
         # player table
         self._cursor.execute(
-            """CREATE TABLE player (
+            """CREATE TABLE IF NOT EXISTS player (
                 player_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 user_id int,
                 event_id int NOT NULL,
@@ -148,7 +187,7 @@ If you wish to close the application and deal with the issue yourself, please re
 
         # sr_pairing table
         self._cursor.execute(
-            """CREATE TABLE sr_pairing (
+            """CREATE TABLE IF NOT EXISTS sr_pairing (
                 event_id int NOT NULL,
                 round_number int NOT NULL,
                 board_id int NOT NULL,
@@ -163,7 +202,7 @@ If you wish to close the application and deal with the issue yourself, please re
 
         # ladder_pairing table
         self._cursor.execute(
-            """CREATE TABLE ladder_pairing (
+            """CREATE TABLE IF NOT EXISTS ladder_pairing (
                 event_id int NOT NULL,
                 match_number int NOT NULL,
                 player_id int NOT NULL,
@@ -176,16 +215,18 @@ If you wish to close the application and deal with the issue yourself, please re
         )
 
         # Add admin user
-        self._cursor.execute(
-            """INSERT INTO user (
-                user_name,
-                password
+        self._cursor.execute("SELECT user_id FROM user WHERE user_name = 'admin'")
+        if self._cursor.fetchall() == []:# If the admin user dosen't allready exist
+            self._cursor.execute(
+                """INSERT INTO user (
+                    user_name,
+                    password
+                )
+                VALUES (
+                    'admin',
+                    'admin'
+                )"""
             )
-            VALUES (
-                'admin',
-                'admin'
-            )"""
-        )
 
         # Save the changes to the database
         self._connection.commit()
