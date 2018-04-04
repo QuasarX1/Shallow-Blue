@@ -119,7 +119,7 @@ If you wish to close the application and deal with the issue yourself, please re
 
         elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',)]:# If the list of tables is incorrect
             while True:
-                choice = input("""The database contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
+                choice = input("""The database """ + nameOfDB + """ contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
 If you wish to continue with this database, please return \"y\". Please note that any nessessary tables that currently don't exist will be created if you chose to do so.\n
 If you wish to close the application and deal with the issue yourself, please return \"n\".\n
 ---> """)
