@@ -37,6 +37,7 @@
     <Content Include="assets\fontawesome-free-5.0.4.zip" />
     <Content Include="Data\DatabaseLocation.txt" />
     <Content Include="Data\ShallowBlueDatabase.db" />
+    <Content Include="GitChangeDeleteMe.txt" />
     <Content Include="requirements.txt" />
     <Content Include="static\content\bootstrap-grid.css" />
     <Content Include="static\content\bootstrap-grid.css.map" />
