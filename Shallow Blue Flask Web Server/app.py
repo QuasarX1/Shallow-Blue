@@ -1,9 +1,15 @@
-# General Library Imports
+# General Library Imports--------------------------------------------------------------------------------------------------
 import datetime
+import DBInterface
+import os
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
 from flask import Flask, render_template
 app = Flask(__name__)
+
+# Creating the database object---------------------------------------------------------------------------------------------
+rootDirectory = os.path.dirname(__file__)
+database = DBInterface.DBInterface(os.path.join(rootDirectory, "Data/DatabaseLocation.txt"), rootDirectory)
 
 # Make the WSGI interface available at the top level so wfastcgi can get it
 wsgi_app = app.wsgi_app
@@ -41,3 +47,6 @@ if __name__ == '__main__':
         PORT = 5555
     # Run the web server---------------------------------------------------------------------------------------------------
     app.run(HOST, PORT, threaded = True)
+
+    # Clearup Operations---------------------------------------------------------------------------------------------------
+    del database
