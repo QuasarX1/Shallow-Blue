@@ -231,6 +231,14 @@ If you wish to close the application and deal with the issue yourself, please re
         # Save the changes to the database
         self._connection.commit()
 
+    def getUser(self, userName, password):
+        self._cursor.execute("""SELECT user_id, user_name, first_name, last_name 
+FROM user 
+WHERE user_name = %s AND password = %s"""(userName, password)
+        )
+
+        return self._cursor.fetchone()
+
     def __del__(self):
         """
         Safely closes the database connection at the end of the program or in the event of an unexpected termination.

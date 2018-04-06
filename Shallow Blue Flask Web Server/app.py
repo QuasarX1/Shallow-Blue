@@ -4,7 +4,7 @@ import DBInterface
 import os
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 app = Flask(__name__)
 
 # Creating the database object---------------------------------------------------------------------------------------------
@@ -20,6 +20,11 @@ wsgi_app = app.wsgi_app
 def home():
     """Splash Page"""
     return render_template("SplashPage.html")
+
+@app.route('/login')
+def login():
+    """Login Page"""
+    return redirect(url_for("home"))
 
 @app.route('/join')
 def join():
