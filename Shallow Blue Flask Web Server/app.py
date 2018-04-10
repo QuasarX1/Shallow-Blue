@@ -2,11 +2,18 @@
 import datetime
 import DBInterface
 import os
+import random
+import string
 import WTFClasses
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
 from flask import Flask, render_template, redirect, url_for
 app = Flask(__name__)
+
+# Adding the app config data
+app.config["SECRET_KEY"] = ""
+for i in range(0, 10):
+    app.config["SECRET_KEY"] += string.printable[random.SystemRandom().randint(0, len(string.printable))]
 
 # Creating the database object---------------------------------------------------------------------------------------------
 rootDirectory = os.path.dirname(__file__)
