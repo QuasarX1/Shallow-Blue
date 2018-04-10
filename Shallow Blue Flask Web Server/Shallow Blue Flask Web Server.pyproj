@@ -31,6 +31,9 @@
     <Compile Include="DBInterface.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="WTFClasses.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="assets\bootstrap-4.0.0-beta.3.zip" />
