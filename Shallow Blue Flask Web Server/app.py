@@ -2,6 +2,7 @@
 import datetime
 import DBInterface
 import os
+import WTFClasses
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
 from flask import Flask, render_template, redirect, url_for
@@ -21,10 +22,19 @@ def home():
     """Splash Page"""
     return render_template("SplashPage.html")
 
-@app.route('/login')
+@app.route('/login', methods = ["GET", "POST"])
 def login():
     """Login Page"""
-    return redirect(url_for("home"))
+    form = WTFClasses.LoginForm()
+
+    if form.validate_on_submit():
+        userName = form.usernameTextBox.data
+        password = form.passwordPasswordBox.data
+
+        userData = database.getUser(userName, password)
+
+        if userData != None:
+            return redirect(url_for("home"))
 
 @app.route('/join')
 def join():
