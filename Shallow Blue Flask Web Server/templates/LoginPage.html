@@ -7,5 +7,15 @@
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">Login</h1>
     </header>
+    <div class="col-sm-3"></div>
+    <form method="POST" class="col-sm-6">
+        {{form.hidden_tag()}}{# Used for CRSF protection #}
+        {{form.usernameTextBox.label}} {{form.usernameTextBox()}}<br />
+        {{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}<br />
+        {{form.submitButton()}}
+    </form>
+    <br />
+    <p>Or sign up here ---></p> <a class="btn btn-default" href="">Sign Up</a>
+    <div class="col-sm-3"></div>
 </div>
 {% endblock %}

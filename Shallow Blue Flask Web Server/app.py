@@ -41,7 +41,14 @@ def login():
         userData = database.getUser(userName, password)
 
         if userData != None:
+            session["userID"] = userData["user_id"]
+            session["userName"] = userData["userName"]
+            session["firstName"] = userData["first_name"]
+            session["lastName"] = userData["last_name"]
+
             return redirect(url_for("home"))
+
+    return render_template("LoginPage.html", pageTitle = "Login", form = form)
 
 @app.route('/join')
 def join():
