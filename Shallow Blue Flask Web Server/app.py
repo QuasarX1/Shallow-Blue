@@ -7,7 +7,7 @@ import string
 import WTFClasses
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, session
 app = Flask(__name__)
 
 # Adding the app config data
@@ -41,10 +41,10 @@ def login():
         userData = database.getUser(userName, password)
 
         if userData != None:
-            session["userID"] = userData["user_id"]
-            session["userName"] = userData["userName"]
-            session["firstName"] = userData["first_name"]
-            session["lastName"] = userData["last_name"]
+            session["userID"] = userData[0]
+            session["userName"] = userData[1]
+            session["firstName"] = userData[2]
+            session["lastName"] = userData[3]
 
             return redirect(url_for("home"))
 
@@ -78,4 +78,4 @@ if __name__ == '__main__':
     app.run(HOST, PORT, threaded = True)
 
     # Clearup Operations---------------------------------------------------------------------------------------------------
-    del database
+    #del database
