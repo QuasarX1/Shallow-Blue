@@ -7,7 +7,7 @@ import string
 import WTFClasses
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
-from flask import Flask, render_template, redirect, url_for, session
+from flask import Flask, render_template, redirect, url_for, session, flash
 app = Flask(__name__)
 
 # Adding the app config data
@@ -47,6 +47,9 @@ def login():
             session["lastName"] = userData[3]
 
             return redirect(url_for("home"))
+
+        else:
+            flash("Credentials were incorrect. Please try again.")
 
     return render_template("LoginPage.html", pageTitle = "Login", form = form)
 

@@ -15,6 +15,15 @@ p
     background-color: aqua;
 }
 
+.button-background {
+    background-color: aqua;
+}
+
+.button-icon {
+    color: darkblue;
+    font-size: 2em;
+}
+
 /* Splash Page */
 .SplashPage-Clickable-Icon
 {
@@ -22,13 +31,14 @@ p
     font-size:12em;
 }
 
+.splash_button-background {
+    background-color: aqua;
+    border-radius: 40px;
+    display: block;
+}
+
 /* Join Page */
 .Event-Link
-{
-    background-color: aqua;
-    border: black;
-    border-radius: 20px;
-}
 
 .event-Link-Date
 {

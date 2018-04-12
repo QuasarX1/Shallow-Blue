@@ -7,15 +7,53 @@
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">Login</h1>
     </header>
-    <div class="col-sm-3"></div>
-    <form method="POST" class="col-sm-6">
-        {{form.hidden_tag()}}{# Used for CRSF protection #}
-        {{form.usernameTextBox.label}} {{form.usernameTextBox()}}<br />
-        {{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}<br />
-        {{form.submitButton()}}
-    </form>
-    <br />
-    <p>Or sign up here ---></p> <a class="btn btn-default" href="">Sign Up</a>
-    <div class="col-sm-3"></div>
+
+    {% for message in get_flashed_messages() %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6">
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{message}}
+            </div>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6" style="text-align: center">
+            <form method="POST">
+                {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+                <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
+                {% for error in form.usernameTextBox.errors %}
+                <p>{{error}}</p>
+                {% endfor %}
+
+                <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
+                {% for error in form.passwordPasswordBox.errors %}
+                <p>{{error}}</p>
+                {% endfor %}
+
+                <p>{{form.submitButton(class="btn button-background")}}</p>
+            </form>
+
+            <br />
+
+            <p>
+                Or sign up here ---> 
+                <a class="btn button-background" href="">
+                    <i class="fas fa-user-plus button-icon"></i>
+                </a>
+            </p>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
 </div>
 {% endblock %}
