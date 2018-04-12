@@ -6,8 +6,11 @@ import random
 import string
 import WTFClasses
 
-# Creating the Flask object------------------------------------------------------------------------------------------------
+# Specific Imports---------------------------------------------------------------------------------------------------------
 from flask import Flask, render_template, redirect, url_for, session, flash
+from functools import wraps
+
+# Creating the Flask object------------------------------------------------------------------------------------------------
 app = Flask(__name__)
 
 # Adding the app config data
@@ -22,12 +25,26 @@ database = DBInterface.DBInterface(os.path.join(rootDirectory, "Data/DatabaseLoc
 # Make the WSGI interface available at the top level so wfastcgi can get it
 wsgi_app = app.wsgi_app
 
+# Custom Decorators---------------------------------------------------------------------------------------------------------
+def testLogin(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        loggedIn = False
+
+        if "userID" in session:
+            loggedIn = True
+
+        return func(loggedIn)
+
+    return wrapper
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
-def home():
+@testLogin
+def home(loggedIn):
     """Splash Page"""
-    return render_template("SplashPage.html")
+    return render_template("SplashPage.html", loggedIn = loggedIn)
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -52,6 +69,17 @@ def login():
             flash("Credentials were incorrect. Please try again.")
 
     return render_template("LoginPage.html", pageTitle = "Login", form = form)
+
+@app.route('/logout')
+def logout():
+    del session["userID"]
+    del session["userName"]
+    del session["firstName"]
+    del session["lastName"]
+
+    flash("You have sucessfully logged out.")
+
+    return redirect(url_for("home"))
 
 @app.route('/join')
 def join():
