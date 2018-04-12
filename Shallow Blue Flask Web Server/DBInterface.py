@@ -8,8 +8,24 @@ class DBInterface(object):
     """
 
     # Atributes------------------------------------------------------------------------------------------------------------
+    _location = None
     _connection = None
     _cursor = None
+
+    # Decorator to handel the connection-----------------------------------------------------------------------------------
+    def connect(method):
+        def wrapper(*args, **kwargs):
+            args[0]._connection = sqlite3.connect(args[0]._location)
+            args[0]._cursor = args[0]._connection.cursor()
+
+            result = method(*args, **kwargs)
+
+            args[0]._cursor.close()
+            args[0]._connection.close()
+
+            return result
+
+        return wrapper
 
     # Methods--------------------------------------------------------------------------------------------------------------
     def __init__(self, pathToLocationFile, applicationRootDirectory):
@@ -104,8 +120,10 @@ If you wish to close the application and deal with the issue yourself, please re
         if not os.path.exists(os.path.join(pathToDB, nameOfDB)):
             makeTables = True
 
-        self._connection = sqlite3.connect(os.path.join(pathToDB, nameOfDB))# Connects to the database specified by the path in the variable "pathToDB"
-        print("Database connection created to " + os.path.join(pathToDB, nameOfDB))
+        self._location = os.path.join(pathToDB, nameOfDB)
+
+        self._connection = sqlite3.connect(self._location)# Connects to the database specified by the path in the variable "pathToDB"
+        print("Database connection created to " + self._location)
         self._cursor = self._connection.cursor()# Creates a cursor object that is used to manipulate the database
         print("Database cursor created")
 
@@ -139,6 +157,34 @@ If you wish to close the application and deal with the issue yourself, please re
 
         if makeTables == True:
             self.createTables()# Create the tables in the database
+        if tableNames == []:# If the database is blank
+            makeTables = True
+
+        elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',)]:# If the list of tables is incorrect
+            while True:
+                choice = input("""The database """ + nameOfDB + """ contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
+If you wish to continue with this database, please return \"y\". Please note that any nessessary tables that currently don't exist will be created if you chose to do so.\n
+If you wish to close the application and deal with the issue yourself, please return \"n\".\n
+---> """)
+
+                if choice == "y" or choice == "n":
+                    break
+
+                else:
+                    print("You muse enter \"y\" or \"n\"!")
+
+            if choice == "n":
+                print("The list of tables in the database was incorrect. The tables located were: " + str(tableNames))
+                sys.exit()
+
+            else:
+                makeTables = True
+
+        if makeTables == True:
+            self.createTables()# Create the tables in the database
+
+        self._cursor.close()
+        self._connection.close()
 
     def createTables(self):
         # user table
@@ -231,13 +277,30 @@ If you wish to close the application and deal with the issue yourself, please re
         # Save the changes to the database
         self._connection.commit()
 
-    def __del__(self):
+    @connect
+    def getUser(self, userName, password):
         """
-        Safely closes the database connection at the end of the program or in the event of an unexpected termination.
+        Retrives a user's id and names from the database.
+        Paramiters:
+            userName - the user's username
+            password - the user's password
         """
-        if self._cursor != None:# Checks that _cursor has been assigned a value
-            self._cursor.close()# Closes the cursor used to manipulate the database
-            print("Database cursor closed")
-        if self._connection != None:# Checks that _connection has been assigned a value
-            self._connection.close()# Closes the connection to the database
-            print("Database connection closed")
+        self._cursor.execute(
+            """SELECT user_id, user_name, first_name, last_name 
+            FROM user 
+            WHERE user_name = '%s' AND password = '%s'"""
+            % (userName, password)
+        )
+
+        return self._cursor.fetchone()
+
+    #def __del__(self):
+    #    """
+    #    Safely closes the database connection at the end of the program or in the event of an unexpected termination.
+    #    """
+    #    if self._cursor != None:# Checks that _cursor has been assigned a value
+    #        self._cursor.close()# Closes the cursor used to manipulate the database
+    #        print("Database cursor closed")
+    #    if self._connection != None:# Checks that _connection has been assigned a value
+    #        self._connection.close()# Closes the connection to the database
+    #        print("Database connection closed")
