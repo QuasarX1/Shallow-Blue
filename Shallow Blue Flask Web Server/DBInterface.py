@@ -304,7 +304,12 @@ If you wish to close the application and deal with the issue yourself, please re
             FROM user"""
         )
 
-        return self._cursor.fetchall()
+        results = self._cursor.fetchall()
+
+        for i in range(0, len(results)):
+            results[i] = results[i][0]
+
+        return results
 
     #def __del__(self):
     #    """
