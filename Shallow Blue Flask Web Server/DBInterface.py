@@ -294,6 +294,18 @@ If you wish to close the application and deal with the issue yourself, please re
 
         return self._cursor.fetchone()
 
+    @connect
+    def getUsernames(self):
+        """
+        Retrives all of the usernames from the user table.
+        """
+        self._cursor.execute(
+            """SELECT user_name
+            FROM user"""
+        )
+
+        return self._cursor.fetchall()
+
     #def __del__(self):
     #    """
     #    Safely closes the database connection at the end of the program or in the event of an unexpected termination.
