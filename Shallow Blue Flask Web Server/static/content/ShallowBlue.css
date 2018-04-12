@@ -38,7 +38,11 @@ p
 }
 
 /* Join Page */
-.Event-Link
+.Event-Link {
+    background-color: aqua;
+    border: black;
+    border-radius: 20px;
+}
 
 .event-Link-Date
 {
