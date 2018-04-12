@@ -77,6 +77,8 @@ def logout():
     del session["firstName"]
     del session["lastName"]
 
+    flash("You have sucessfully logged out.")
+
     return redirect(url_for("home"))
 
 @app.route('/join')
