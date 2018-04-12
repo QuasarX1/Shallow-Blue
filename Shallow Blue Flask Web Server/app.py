@@ -2,10 +2,18 @@
 import datetime
 import DBInterface
 import os
+import random
+import string
+import WTFClasses
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for, session, flash
 app = Flask(__name__)
+
+# Adding the app config data
+app.config["SECRET_KEY"] = ""
+for i in range(0, 10):
+    app.config["SECRET_KEY"] += string.printable[random.SystemRandom().randint(0, len(string.printable))]
 
 # Creating the database object---------------------------------------------------------------------------------------------
 rootDirectory = os.path.dirname(__file__)
@@ -20,6 +28,30 @@ wsgi_app = app.wsgi_app
 def home():
     """Splash Page"""
     return render_template("SplashPage.html")
+
+@app.route('/login', methods = ["GET", "POST"])
+def login():
+    """Login Page"""
+    form = WTFClasses.LoginForm()
+
+    if form.validate_on_submit():
+        userName = form.usernameTextBox.data
+        password = form.passwordPasswordBox.data
+
+        userData = database.getUser(userName, password)
+
+        if userData != None:
+            session["userID"] = userData[0]
+            session["userName"] = userData[1]
+            session["firstName"] = userData[2]
+            session["lastName"] = userData[3]
+
+            return redirect(url_for("home"))
+
+        else:
+            flash("Credentials were incorrect. Please try again.")
+
+    return render_template("LoginPage.html", pageTitle = "Login", form = form)
 
 @app.route('/join')
 def join():
@@ -49,4 +81,4 @@ if __name__ == '__main__':
     app.run(HOST, PORT, threaded = True)
 
     # Clearup Operations---------------------------------------------------------------------------------------------------
-    del database
+    #del database

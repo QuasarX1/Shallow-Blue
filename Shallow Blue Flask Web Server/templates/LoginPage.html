@@ -1,0 +1,59 @@
+﻿{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+
+{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+
+{% block bodyContent %}
+<div class="container-fluid">
+    <header class="jumbotron Page-Heading">
+        <h1 style="text-align:center">Login</h1>
+    </header>
+
+    {% for message in get_flashed_messages() %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6">
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{message}}
+            </div>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6" style="text-align: center">
+            <form method="POST">
+                {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+                <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
+                {% for error in form.usernameTextBox.errors %}
+                <p>{{error}}</p>
+                {% endfor %}
+
+                <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
+                {% for error in form.passwordPasswordBox.errors %}
+                <p>{{error}}</p>
+                {% endfor %}
+
+                <p>{{form.submitButton(class="btn button-background")}}</p>
+            </form>
+
+            <br />
+
+            <p>
+                Or sign up here ---> 
+                <a class="btn button-background" href="">
+                    <i class="fas fa-user-plus button-icon"></i>
+                </a>
+            </p>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+{% endblock %}

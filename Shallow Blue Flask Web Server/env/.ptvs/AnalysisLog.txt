@@ -8605,3 +8605,108 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extens
 2018-03-07T15:37:00: Start analysis
 2018-03-07T15:37:00: IncludeModulesFromModulePath = win32com
 2018-03-07T15:37:04: Deleting 0 files
+
+2018-04-08T00:50:11: Start analysis
+2018-04-08T00:50:12: IncludeModulesFromModulePath = win32com
+2018-04-08T00:50:15: Deleting 0 files
+
+2018-04-08T16:40:16: Start analysis
+2018-04-08T16:40:17: IncludeModulesFromModulePath = win32com
+2018-04-08T16:40:19: Including c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf because flask_wtf.csrf needs updating
+2018-04-08T16:40:20: Including c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms because wtforms.compat needs updating
+2018-04-08T16:40:20: Deleting 0 files
+2018-04-08T16:40:20: astropy.CallDepth = 0
+2018-04-08T16:40:20: delphixpy.CallDepth = 0
+2018-04-08T16:40:20: matplotlib.CallDepth = 3
+2018-04-08T16:40:20: pandas.CallDepth = 0
+2018-04-08T16:40:20: sympy.CallDepth = 0
+2018-04-08T16:40:20: Start group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf" with 11 files
+2018-04-08T16:40:21: Parsing complete
+2018-04-08T16:40:21: Analyzing "flask_wtf.csrf" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\csrf.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.file" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\file.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.form" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\form.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.html5" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\html5.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.i18n" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\i18n.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf._compat" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\_compat.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\__init__.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.recaptcha.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\recaptcha\fields.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.recaptcha.validators" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\recaptcha\validators.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.recaptcha.widgets" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\recaptcha\widgets.py")
+2018-04-08T16:40:21: Analyzing "flask_wtf.recaptcha" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf\recaptcha\__init__.py")
+2018-04-08T16:40:21: Starting analysis of 11 modules
+2018-04-08T16:40:24: Analysis complete
+2018-04-08T16:40:24: Saving group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf"
+2018-04-08T16:40:25: End of group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\flask_wtf"
+2018-04-08T16:40:25: Start group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms" with 40 files
+2018-04-08T16:40:25: Parsing complete
+2018-04-08T16:40:25: Analyzing "wtforms.compat" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\compat.py")
+2018-04-08T16:40:25: Analyzing "wtforms.form" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\form.py")
+2018-04-08T16:40:25: Analyzing "wtforms.i18n" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\i18n.py")
+2018-04-08T16:40:25: Analyzing "wtforms.meta" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\meta.py")
+2018-04-08T16:40:25: Analyzing "wtforms.utils" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\utils.py")
+2018-04-08T16:40:25: Analyzing "wtforms.validators" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\validators.py")
+2018-04-08T16:40:25: Analyzing "wtforms" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.csrf.core" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\csrf\core.py")
+2018-04-08T16:40:25: Analyzing "wtforms.csrf.session" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\csrf\session.py")
+2018-04-08T16:40:25: Analyzing "wtforms.csrf" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\csrf\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.appengine.db" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\appengine\db.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.appengine.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\appengine\fields.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.appengine.ndb" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\appengine\ndb.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.appengine" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\appengine\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.csrf.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\csrf\fields.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.csrf.form" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\csrf\form.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.csrf.session" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\csrf\session.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.csrf" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\csrf\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.dateutil.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\dateutil\fields.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.dateutil" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\dateutil\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.django.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\django\fields.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.django.i18n" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\django\i18n.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.django.orm" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\django\orm.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.django" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\django\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.django.templatetags.wtforms" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\django\templatetags\wtforms.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.django.templatetags" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\django\templatetags\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.i18n.form" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\i18n\form.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.i18n.utils" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\i18n\utils.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.i18n" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\i18n\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.sqlalchemy.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\sqlalchemy\fields.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.sqlalchemy.orm" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\sqlalchemy\orm.py")
+2018-04-08T16:40:25: Analyzing "wtforms.ext.sqlalchemy" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\ext\sqlalchemy\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.fields.core" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\fields\core.py")
+2018-04-08T16:40:25: Analyzing "wtforms.fields.html5" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\fields\html5.py")
+2018-04-08T16:40:25: Analyzing "wtforms.fields.simple" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\fields\simple.py")
+2018-04-08T16:40:25: Analyzing "wtforms.fields" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\fields\__init__.py")
+2018-04-08T16:40:25: Analyzing "wtforms.widgets.core" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\widgets\core.py")
+2018-04-08T16:40:25: Analyzing "wtforms.widgets.html5" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\widgets\html5.py")
+2018-04-08T16:40:25: Analyzing "wtforms.widgets" ("c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms\widgets\__init__.py")
+2018-04-08T16:40:25: Starting analysis of 40 modules
+2018-04-08T16:40:28: Analysis complete
+2018-04-08T16:40:28: Saving group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms"
+2018-04-08T16:40:30: [ERROR] wtforms.i18n.messages_path: Unknown has no name
+2018-04-08T16:40:30: [ERROR] wtforms.ext.appengine.fields.KeyPropertyField.KeyPropertyField: Unknown has no name
+2018-04-08T16:40:30: End of group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms"
+2018-04-08T16:40:32: Deleting 0 files
+
+2018-04-10T09:34:07: Start analysis
+2018-04-10T09:34:08: IncludeModulesFromModulePath = win32com
+2018-04-10T09:34:10: Deleting 0 files
+
+2018-04-10T11:41:39: Start analysis
+2018-04-10T11:41:39: IncludeModulesFromModulePath = win32com
+2018-04-10T11:41:45: Deleting 0 files
+
+2018-04-10T14:55:45: Start analysis
+2018-04-10T14:55:45: IncludeModulesFromModulePath = win32com
+2018-04-10T14:55:47: Deleting 0 files
+
+2018-04-11T00:16:58: Start analysis
+2018-04-11T00:16:58: IncludeModulesFromModulePath = win32com
+2018-04-11T00:17:00: Deleting 0 files
+
+2018-04-11T14:28:08: Start analysis
+2018-04-11T14:28:08: IncludeModulesFromModulePath = win32com
+2018-04-11T14:28:10: Deleting 0 files
+
+2018-04-11T19:24:45: Start analysis
+2018-04-11T19:24:45: IncludeModulesFromModulePath = win32com
+2018-04-11T19:24:52: Deleting 0 files
