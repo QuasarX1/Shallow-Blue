@@ -8,13 +8,13 @@ class LoginForm(FlaskForm):
     submitButton = SubmitField("Login")
 
 class SignupForm(FlaskForm):
-    firstNameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
-    lastNameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    firstNameTextBox = StringField("First Name", validators = [DataRequired(message = "This is a required field.")])
+    lastNameTextBox = StringField("Last name", validators = [DataRequired(message = "This is a required field.")])
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
-    emailTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field."), Email("This field must contain a valid email adress.")])
+    emailTextBox = StringField("Email", validators = [DataRequired(message = "This is a required field."), Email("This field must contain a valid email adress.")])
     dobDayIntegerBox = IntegerField("Day")
     dobMonthIntegerBox = IntegerField("Month")
     dobYearIntegerBox = IntegerField("Year")    
     passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
-    repeatPasswordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field."), EqualTo(passwordPasswordBox, "Your passwords don't match. Please try entering them again.")])
+    repeatPasswordBox = PasswordField("Repeat Password", validators = [DataRequired(message = "This is a required field."), EqualTo("passwordPasswordBox", "Your passwords don't match. Please try entering them again.")])
     submitButton = SubmitField("Signup")

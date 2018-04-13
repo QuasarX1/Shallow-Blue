@@ -112,10 +112,10 @@ def signup():
             valid = False
 
             # Check that day and month values are valid
-            if month in (1, 3, 5, 7, 8, 10, 12) and (day < 1 or day > 31):
+            if month in [1, 3, 5, 7, 8, 10, 12] and (day < 1 or day > 31):
                 form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
 
-            elif month in (4, 6, 9, 11) and (day < 1 or day > 31):
+            elif month in [4, 6, 9, 11] and (day < 1 or day > 31):
                 form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
             
             elif month == 2:
@@ -133,9 +133,11 @@ def signup():
         if valid == True:# If the username and date fields are valid
             database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, form.passwordPasswordBox.data, form.emailTextBox.data, datetime.date(year, month, day).strftime())
 
+            flash("Welcome %s." %(form.usernameTextBox.data))
+
             return redirect(url_for("home"))
 
-    return render_template("LoginPage.html", pageTitle = "Signup", form = form)
+    return render_template("SignupPage.html", pageTitle = "Signup", form = form)
 
 @app.route('/join')
 def join():
