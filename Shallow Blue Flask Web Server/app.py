@@ -87,44 +87,53 @@ def signup():
     form = WTFClasses.SignupForm()
 
     if form.validate_on_submit():
+        year = form.dobYearIntegerBox.data
+        month = form.dobMonthIntegerBox.data
+        day = form.dobDayIntegerBox.data
 
-        #run validation
+        # Validate username and date fields---------------------------------------------------------------------------------
         valid = True
 
-        try:
-            userNames = None#getUserNames()
-            if form.usernameTextBox.data in userNames:
-                pass#validation fail
+        # Retrive a list of usernames from the database
+        userNames = database.getUsernames()
 
-            if form.dobYearIntegerBox.data > today or form.dobYearIntegerBox.data < today - 120:
-                pass#validation fail
-
-            if form.dobMonthIntegerBox.data in (1, 3, 5, 7, 8, 10, 12) and (form.dobDayIntegerBox.data < 1 or form.dobDayIntegerBox.data > 31):
-                pass
-
-            elif form.dobMonthIntegerBox.data in (4, 6, 9, 11) and (form.dobDayIntegerBox.data < 1 or form.dobDayIntegerBox.data > 31):
-                pass
-            
-            elif form.dobMonthIntegerBox.data == 2:
-                if int(form.dobYearIntegerBox.data/4) == int(float(form.dobYearIntegerBox.data/4.0)) and (form.dobDayIntegerBox.data < 1 or form.dobDayIntegerBox.data > 29):
-                    pass#validation fail
-
-                elif form.dobDayIntegerBox.data < 1 or form.dobDayIntegerBox.data > 28:
-                    pass#validation fail
-
-            else:
-                pass#no month
-
-        except:
+        # Check username is unique
+        if form.usernameTextBox.data in userNames:
+            form.usernameTextBox.errors.append("This username is allready being used. Please try another")
             valid = False
 
-        if valid == True:#test validation
-            pass#add user
+        try:
+            # Check the date is in a sutable range
+            if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(0, 0, 0) < datetime.date.today() - datetime.date(120, 1, 1):
+                form.dobDayIntegerBox.errors.append("The date provided was not posible as a date of birth. Please try again.")
+                valid = False
+
+        except ValueError:
+            valid = False
+
+            # Check that day and month values are valid
+            if month in (1, 3, 5, 7, 8, 10, 12) and (day < 1 or day > 31):
+                form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+            elif month in (4, 6, 9, 11) and (day < 1 or day > 31):
+                form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+            
+            elif month == 2:
+                if int(year/4) == int(float(year/4.0)) and (day < 1 or day > 29):
+                    form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                elif day < 1 or day > 28:
+                    form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+            else:
+                form.dobMonthIntegerBox.errors.append("The month provided dosen't exist.")
+
+        
+
+        if valid == True:# If the username and date fields are valid
+            database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, form.passwordPasswordBox.data, form.emailTextBox.data, datetime.date(year, month, day).strftime())
 
             return redirect(url_for("home"))
-
-        else:
-            flash("Some parts of the form were invalid. Please try again.")
 
     return render_template("LoginPage.html", pageTitle = "Signup", form = form)
 

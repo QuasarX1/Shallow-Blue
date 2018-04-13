@@ -311,6 +311,20 @@ If you wish to close the application and deal with the issue yourself, please re
 
         return results
 
+    @connect
+    def addUser(self, userName, firstName, lastName, password, email, dob):
+        self._cursor.execute(
+            """INSERT INTO user(
+                user_name, first_name, last_name, password, email, dob
+            )
+            VALUES(
+                '%s', '%s', '%s', '%s', '%s', '%s'
+            )"""
+            %(userName, firstName, lastName, password, email, dob)
+        )
+
+        self._cursor.commit()
+
     #def __del__(self):
     #    """
     #    Safely closes the database connection at the end of the program or in the event of an unexpected termination.
