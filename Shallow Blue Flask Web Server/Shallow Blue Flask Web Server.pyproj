@@ -72,6 +72,7 @@
     <Content Include="templates\JoinPage.html" />
     <Content Include="templates\LoginPage.html" />
     <Content Include="templates\MainTemplate.html" />
+    <Content Include="templates\SignupPage.html" />
     <Content Include="templates\SplashPage.html" />
   </ItemGroup>
   <ItemGroup>

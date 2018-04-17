@@ -8787,3 +8787,19 @@ C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\Extens
 2018-04-12T13:24:41: [ERROR] wtforms.ext.appengine.fields.KeyPropertyField.KeyPropertyField: Unknown has no name
 2018-04-12T13:24:41: End of group "c:\users\chris\onedrive\documents\all documents\school\a-level\computer science\shallow blue\shallow blue flask web server\env\lib\site-packages\wtforms"
 2018-04-12T13:24:42: Deleting 0 files
+
+2018-04-17T01:51:36: Start analysis
+2018-04-17T01:51:36: IncludeModulesFromModulePath = win32com
+2018-04-17T01:51:41: Deleting 0 files
+
+2018-04-17T09:19:26: Start analysis
+2018-04-17T09:19:26: IncludeModulesFromModulePath = win32com
+2018-04-17T09:19:32: Deleting 0 files
+
+2018-04-17T14:44:14: Start analysis
+2018-04-17T14:44:14: IncludeModulesFromModulePath = win32com
+2018-04-17T14:44:18: Deleting 0 files
+
+2018-04-17T16:19:39: Start analysis
+2018-04-17T16:19:39: IncludeModulesFromModulePath = win32com
+2018-04-17T16:19:45: Deleting 0 files
