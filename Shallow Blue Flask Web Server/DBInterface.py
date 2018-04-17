@@ -1,3 +1,4 @@
+import hashlib
 import os
 import sqlite3
 import sys
@@ -270,8 +271,9 @@ If you wish to close the application and deal with the issue yourself, please re
                 )
                 VALUES (
                     'admin',
-                    'admin'
+                    '%s'
                 )"""
+                %(hashlib.sha512("admin".encode('utf8')).hexdigest())
             )
 
         # Save the changes to the database
