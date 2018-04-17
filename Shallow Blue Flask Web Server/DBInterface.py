@@ -323,7 +323,7 @@ If you wish to close the application and deal with the issue yourself, please re
             %(userName, firstName, lastName, password, email, dob)
         )
 
-        self._cursor.commit()
+        self._connection.commit()
 
     #def __del__(self):
     #    """

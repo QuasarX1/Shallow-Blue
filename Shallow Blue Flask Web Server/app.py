@@ -3,6 +3,7 @@ import datetime
 import DBInterface
 import os
 import random
+import sqlite3
 import string
 import WTFClasses
 
@@ -104,7 +105,8 @@ def signup():
 
         try:
             # Check the date is in a sutable range
-            if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(0, 0, 0) < datetime.date.today() - datetime.date(120, 1, 1):
+            datetime.timedelta()
+            if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
                 form.dobDayIntegerBox.errors.append("The date provided was not posible as a date of birth. Please try again.")
                 valid = False
 
@@ -128,11 +130,11 @@ def signup():
             else:
                 form.dobMonthIntegerBox.errors.append("The month provided dosen't exist.")
 
-        
-
+        # Add the user to the database-------------------------------------------------------------------------------------
         if valid == True:# If the username and date fields are valid
-            try:# In case the username has been taken by another user after the check
-                database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, form.passwordPasswordBox.data, form.emailTextBox.data, datetime.date(year, month, day).strftime())
+            # In case the username has been taken by another user after the check
+            try:
+                database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, form.passwordPasswordBox.data, form.emailTextBox.data, datetime.date(year, month, day).strftime("%Y-%m-%d"))
 
             except sqlite3.IntegrityError:
                  form.usernameTextBox.errors.append("This username is allready being used. Please try another")
