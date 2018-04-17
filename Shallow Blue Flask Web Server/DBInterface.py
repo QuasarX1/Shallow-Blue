@@ -314,6 +314,15 @@ If you wish to close the application and deal with the issue yourself, please re
         return results
 
     @connect
+    def getEventListings(self):
+        self._cursor.execute(
+            """SELECT event_id, event_name, event_start_datetime, event_info, event_status
+            FROM event"""
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
     def addUser(self, userName, firstName, lastName, password, email, dob):
         self._cursor.execute(
             """INSERT INTO user(

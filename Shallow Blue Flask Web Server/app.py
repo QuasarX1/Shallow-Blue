@@ -151,12 +151,32 @@ def signup():
 @app.route('/join')
 def join():
     """Join Page"""
-    return render_template("JoinPage.html", pageTitle = "Join", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."], ["Event 3", datetime.datetime(2018, 5, 9), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum leo, gravida vel nisi lacinia, gravida fringilla felis. Maecenas sit amet maximus lorem, ut dapibus ipsum. Aliquam erat volutpat. Vivamus gravida non metus eleifend rhoncus. Praesent quis enim ut urna mollis auctor et volutpat est. Sed quis est accumsan, laoreet felis sit amet, interdum arcu. Duis quis risus at dui eleifend aliquam. Nulla facilisi. Nulla ut tincidunt quam. Aliquam erat volutpat. Fusce convallis magna non nunc vehicula, ut hendrerit odio accumsan. Mauris nec viverra arcu."]])
+    events = database.getEventListings()
+
+    listings = []
+
+    for event in events:
+        if event[4] == "registration" and datetime.datetime.fromtimestamp(event[2]) > datetime.datetime.now():
+            listings.append([event[0], event[1], datetime.datetime.fromtimestamp(event[2]), event[3]])
+
+    listings.sort(key = lambda event: event[2])
+
+    return render_template("JoinPage.html", pageTitle = "Join", eventData = listings)
 
 @app.route('/watch')
 def spectate():
     """Spectate Page"""
-    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = [["Event 1", datetime.datetime(2018, 1, 1), "Event info."], ["Event 2", datetime.datetime(2018, 12, 31), "Event info."], ["Event 3", datetime.datetime(2018, 5, 9), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent ipsum leo, gravida vel nisi lacinia, gravida fringilla felis. Maecenas sit amet maximus lorem, ut dapibus ipsum. Aliquam erat volutpat. Vivamus gravida non metus eleifend rhoncus. Praesent quis enim ut urna mollis auctor et volutpat est. Sed quis est accumsan, laoreet felis sit amet, interdum arcu. Duis quis risus at dui eleifend aliquam. Nulla facilisi. Nulla ut tincidunt quam. Aliquam erat volutpat. Fusce convallis magna non nunc vehicula, ut hendrerit odio accumsan. Mauris nec viverra arcu."]])
+    events = database.getEventListings()
+
+    listings = []
+
+    for event in events:
+        if event[4] != "finnished":
+            listings.append([event[0], event[1], datetime.datetime.fromtimestamp(event[2]), event[3]])
+
+    listings.sort(key = lambda event: event[2])
+
+    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings)
 
 #@app.route('/test')
 #def test():
