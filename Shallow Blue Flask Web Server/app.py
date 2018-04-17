@@ -131,7 +131,13 @@ def signup():
         
 
         if valid == True:# If the username and date fields are valid
-            database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, form.passwordPasswordBox.data, form.emailTextBox.data, datetime.date(year, month, day).strftime())
+            try:# In case the username has been taken by another user after the check
+                database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, form.passwordPasswordBox.data, form.emailTextBox.data, datetime.date(year, month, day).strftime())
+
+            except sqlite3.IntegrityError:
+                 form.usernameTextBox.errors.append("This username is allready being used. Please try another")
+
+                 return render_template("SignupPage.html", pageTitle = "Signup", form = form)
 
             flash("Welcome %s." %(form.usernameTextBox.data))
 
