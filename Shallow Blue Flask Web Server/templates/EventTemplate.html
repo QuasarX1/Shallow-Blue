@@ -1,11 +1,11 @@
 ﻿{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
 
-{% block pageTitle %}{{eventName}} - {{pageTitle}}{% endblock %}
+{% block pageTitle %}{{event.name}} - {{pageTitle}}{% endblock %}
 
 {% block bodyContent %}
 <div class="container-fluid">
     <header class="jumbotron Page-Heading">
-        <h1 style="text-align:center">{{eventName.upper()}} - {{pageTitle.upper()}}</h1>
+        <h1 style="text-align:center">{{event.name.upper()}} - {{pageTitle.upper()}}</h1>
     </header>
     <div class="row">
         <div class="col-sm-3">{# Navigation Bar #}
@@ -21,12 +21,12 @@
         <div class="col-sm-3">{# Score Bar #}
             <ul class="scoreBar_ul">
                 <li>Ranking:</li>
-                <li><a>1st - </a></li>
-                <li><a>2nd - </a></li>
-                <li><a>3rd - </a></li>
-                <li><a>4th - </a></li>
-                <li><a>5th - </a></li>
-                <li><a>6th - </a></li>
+                <li><a>1st - {{event.players[0].username}}</a></li>
+                <li><a>2nd - {{event.players[1].username}}</a></li>
+                <li><a>3rd - {{event.players[2].username}}</a></li>
+                <li><a>4th - {{event.players[3].username}}</a></li>
+                <li><a>5th - {{event.players[4].username}}</a></li>
+                <li><a>6th - {{event.players[5].username}}</a></li>
                 <li><a>See Compleat List</a></li>
             </ul>
         </div>

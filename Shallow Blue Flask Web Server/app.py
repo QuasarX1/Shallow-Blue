@@ -178,6 +178,10 @@ def spectate():
 
     return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings)
 
+@app.route('/<eventID>/home')
+def homepage(eventID):
+    pass
+
 #@app.route('/test')
 #def test():
 #    """Template Test Page"""
