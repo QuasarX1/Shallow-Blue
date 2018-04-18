@@ -316,7 +316,7 @@ If you wish to close the application and deal with the issue yourself, please re
     @connect
     def getEventListings(self):
         self._cursor.execute(
-            """SELECT event_id, event_name, event_start_datetime, event_info, event_status
+            """SELECT event_id, event_name, event_start_datetime, event_info, event_status, event_type
             FROM event"""
         )
 

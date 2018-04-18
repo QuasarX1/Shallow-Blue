@@ -156,7 +156,7 @@ def join():
     listings = []
 
     for event in events:
-        if event[4] == "registration" and datetime.datetime.fromtimestamp(event[2]) > datetime.datetime.now():
+        if event[4] == "registration" and datetime.datetime.fromtimestamp(event[2]) > datetime.datetime.now() or event[5] == "ladder" and event[4] != "finnished":
             listings.append([event[0], event[1], datetime.datetime.fromtimestamp(event[2]), event[3]])
 
     listings.sort(key = lambda event: event[2])
