@@ -336,6 +336,19 @@ If you wish to close the application and deal with the issue yourself, please re
 
         self._connection.commit()
 
+    @connect
+    def updatePlayer(self, id, score, position):
+        self._cursor.execute(
+            """
+                UPDATE player
+                SET score = '%s', position = '%s'
+                WHERE player_id = '%s';
+            """
+            %(score, position, id)
+        )
+
+        self._connection.commit()
+
     #def __del__(self):
     #    """
     #    Safely closes the database connection at the end of the program or in the event of an unexpected termination.
