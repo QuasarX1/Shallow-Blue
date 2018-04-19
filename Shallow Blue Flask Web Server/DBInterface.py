@@ -337,6 +337,20 @@ If you wish to close the application and deal with the issue yourself, please re
         self._connection.commit()
 
     @connect
+    def addPlayer(self, userID, eventID):
+        self._cursor.execute(
+            """
+                INSERT INTO player(
+                    user_id, event_id, score, position
+                )
+                VALUES(
+                    '%s', '%s', '0', '0'
+                )
+            """
+            %(userID, eventID)
+        )
+
+    @connect
     def updatePlayer(self, id, score, position):
         self._cursor.execute(
             """

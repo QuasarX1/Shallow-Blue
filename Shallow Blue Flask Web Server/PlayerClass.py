@@ -7,9 +7,6 @@ class Player(object):
     __name: int = None
     name = property(fget = lambda self: self.__name)
 
-    __eventID: int = None
-    eventID = property(fget = lambda self: self.__eventID)
-
     __score: float = None
     score = property(fget = lambda self: self.__score)
 
@@ -19,9 +16,8 @@ class Player(object):
     def __init__(self, playerData: list):
         self.__id = playerData[0]
         self.__name = playerData[1]
-        self.__eventID = playerData[2]
-        self.__score = playerData[3]
-        self.__position = playerData[4]
+        self.__score = playerData[2]
+        self.__position = playerData[3]
 
     def updatePlayer(self, database):
         database.updatePlayer(__id, __score, __position)

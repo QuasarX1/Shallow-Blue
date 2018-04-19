@@ -31,7 +31,13 @@
     <Compile Include="DBInterface.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="EventClass.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="PlayerClass.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="SR_EventClass.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WTFClasses.py">
