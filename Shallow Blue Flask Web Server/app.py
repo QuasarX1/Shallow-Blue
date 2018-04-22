@@ -2,9 +2,11 @@
 import datetime
 import DBInterface
 import hashlib
+import Ladder_EventClass
 import os
 import random
 import sqlite3
+import SR_EventClass
 import string
 import WTFClasses
 
@@ -180,7 +182,45 @@ def spectate():
 
 @app.route('/<eventID>/home')
 def homepage(eventID):
-    pass
+    event = None
+
+    #Create the event object
+    eventData = database.getEvent(eventID)
+    if eventData[4] == "ladder":
+        event = Ladder_EventClass.Ladder_Event(database, eventData)
+    else:
+        event = SR_EventClass.SR_Event(database, eventData)
+
+    #event.addPlayer(database, 1)
+
+    return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active")
+
+@app.route('/<eventID>/pairings', methods = ["GET", "POST"])
+def pairings(eventID):
+    event = None
+
+    #Create the event object
+    eventData = database.getEvent( eventID)
+    if eventData[4] == "ladder":
+        event = Ladder_EventClass.Ladder_Eventdatabase, (eventData)
+    else:
+        event = SR_EventClass.SR_Event(database, eventData)
+
+    currentPairings = event.getPairings(database)
+
+@app.route('/<eventID>/scores')
+def scores(eventID):
+    event = None
+
+    #Create the event object
+    eventData = database.getEvent(eventID)
+    if eventData[4] == "ladder":
+        event = Ladder_EventClass.Ladder_Event(database, eventData)
+    else:
+        event = SR_EventClass.SR_Event(database, eventData)
+
+    event.sortPlayers()
+    return event.players
 
 #@app.route('/test')
 #def test():

@@ -197,7 +197,8 @@ If you wish to close the application and deal with the issue yourself, please re
                 last_name varchar(255),
                 password varchar(255),
                 email varchar(255),
-                dob datetime
+                dob datetime,
+                raiting int
             )"""
         )
 
@@ -211,6 +212,8 @@ If you wish to close the application and deal with the issue yourself, please re
                 event_type varchar(255) NOT NULL,
                 event_start_datetime datetime NOT NULL,
                 event_status varchar(255) NOT NULL,
+                round_number int NOT NULL,
+                total_rounds int,
                 win_score real NOT NULL,
                 draw_score real NOT NULL,
                 lose_score real NOT NULL,
@@ -223,7 +226,7 @@ If you wish to close the application and deal with the issue yourself, please re
         self._cursor.execute(
             """CREATE TABLE IF NOT EXISTS player (
                 player_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                user_id int,
+                user_id int NOT NULL,
                 event_id int NOT NULL,
                 score real NOT NULL DEFAULT 0,
                 position int NOT NULl DEFAULT 0,
@@ -240,6 +243,7 @@ If you wish to close the application and deal with the issue yourself, please re
                 board_id int NOT NULL,
                 player_id int NOT NULL,
                 colour varchar(255) NOT NULL,
+                expected_result real NOT NULL,
                 result varchar(255),
                 PRIMARY KEY (round_number, board_id, player_id),
                 FOREIGN KEY (event_id) REFERENCES event(event_id),
@@ -254,6 +258,7 @@ If you wish to close the application and deal with the issue yourself, please re
                 match_number int NOT NULL,
                 player_id int NOT NULL,
                 colour varchar(255) NOT NULL,
+                expected_result real NOT NULL,
                 result varchar(255),
                 PRIMARY KEY (match_number, player_id),
                 FOREIGN KEY (event_id) REFERENCES event(event_id),
@@ -267,13 +272,29 @@ If you wish to close the application and deal with the issue yourself, please re
             self._cursor.execute(
                 """INSERT INTO user (
                     user_name,
-                    password
+                    password,
+                    raiting
                 )
                 VALUES (
                     'admin',
-                    '%s'
+                    '%s',
+                    '1200'
                 )"""
                 %(hashlib.sha512("admin".encode('utf8')).hexdigest())
+            )
+
+        # Add bye user
+        self._cursor.execute("SELECT user_id FROM user WHERE user_name = 'bye'")
+        if self._cursor.fetchall() == []:# If the bye user dosen't allready exist
+            self._cursor.execute(
+                """INSERT INTO user (
+                    user_name,
+                    raiting
+                )
+                VALUES (
+                    'bye',
+                    '0'
+                )"""
             )
 
         # Save the changes to the database
@@ -323,13 +344,93 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchall()
 
     @connect
+    def getEvent(self, eventID):
+        self._cursor.execute(
+            """
+                SELECT *
+                FROM event
+                WHERE event_id = '%s'
+            """
+            %(eventID)
+        )
+
+        return self._cursor.fetchone()
+
+    @connect
+    def getPlayers(self, eventID):
+        """
+        Retrives all of the players in an event from the player table.
+        """
+        self._cursor.execute(
+            """SELECT player_id, user_name, score, position, raiting
+            FROM user AS u OUTER LEFT JOIN player AS p
+            ON u.user_id = p.user_id
+            WHERE event_id = '%s'"""
+            %(eventID)
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
+    def getPlayer(self, userID, eventID):
+        """
+        Retrives a player from the player table using their user id and the event id.
+        """
+        self._cursor.execute(
+            """
+                SELECT *
+                FROM player
+                WHERE user_id = '%s' AND event_id = '%s'
+            """
+            %(userID, eventID)
+        )
+
+        return self._cursor.fetchone()
+
+    @connect
+    def getSR_Pairings(self, eventID, roundNumber):
+        self._cursor.execute(
+            """
+                SELECT board_id, player_id, user_name, colour, expected_result, result
+                FROM sr_pairing AS sr JOIN
+                    (SELECT player_id, user_name
+                    FROM player AS p JOIN user AS u
+                    ON p.user_id = u.user_id
+                AS p
+                ON sr.player_id = p.player_id
+                WHERE event_id = '%s', round_id = '%s'
+            """
+            %(eventID, roundNumber)
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
+    def getLadder_Pairings(self, eventID):
+        self._cursor.execute(
+            """
+                SELECT match_id, player_id, user_name, colour, expected_result
+                FROM sr_pairing AS sr JOIN
+                    (SELECT player_id, user_name
+                    FROM player AS p JOIN user AS u
+                    ON p.user_id = u.user_id
+                AS p
+                ON sr.player_id = p.player_id
+                WHERE event_id = '%s', result IS NULL
+            """
+            %(eventID)
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
     def addUser(self, userName, firstName, lastName, password, email, dob):
         self._cursor.execute(
             """INSERT INTO user(
-                user_name, first_name, last_name, password, email, dob
+                user_name, first_name, last_name, password, email, dob, raiting
             )
             VALUES(
-                '%s', '%s', '%s', '%s', '%s', '%s'
+                '%s', '%s', '%s', '%s', '%s', '%s', '1200'
             )"""
             %(userName, firstName, lastName, password, email, dob)
         )
@@ -350,6 +451,64 @@ If you wish to close the application and deal with the issue yourself, please re
             %(userID, eventID)
         )
 
+        self._connection.commit()
+
+    @connect
+    def addLadderPairing(self, eventID, match, bPlayerID, wPlayerID, bExpectedResult, wExpectedResult):
+        self._cursor.execute(
+            """
+                INSERT INTO 'ladder_pairing'(
+                    event_id, match_number, player_id, expected_result, colour
+                )
+                VALUES(
+                    '%s', '%s', '%s', '%s', 'black'
+                )
+            """
+            %(eventID, match, bPlayerID, bExpectedResult)
+        )
+
+        self._cursor.execute(
+            """
+                INSERT INTO 'ladder_pairing'(
+                    event_id, match_number, player_id, expected_result, colour
+                )
+                VALUES(
+                    '%s', '%s', '%s', '%s', 'white'
+                )
+            """
+            %(eventID, match, wPlayerID, wExpectedResult)
+        )
+
+        self._connection.commit()
+
+    @connect
+    def addSRPairing(self, eventID, round, board, bPlayerID, wPlayerID, bExpectedResult, wExpectedResult):
+        self._cursor.execute(
+            """
+                INSERT INTO 'sr_pairing'(
+                    event_id, round_number, board_id, player_id, expected_result, colour
+                )
+                VALUES(
+                    '%s', '%s', '%s', '%s', '%s', 'black'
+                )
+            """
+            %(eventID, round, board, bPlayerID, bExpectedResult)
+        )
+
+        self._cursor.execute(
+            """
+                INSERT INTO 'sr_pairing'(
+                    event_id, round_number, board_id, player_id, expected_result, colour
+                )
+                VALUES(
+                    '%s', '%s', '%s', '%s', '%s', 'white'
+                )
+            """
+            %(eventID, round, board, wPlayerID, wExpectedResult)
+        )
+
+        self._connection.commit()
+
     @connect
     def updatePlayer(self, id, score, position):
         self._cursor.execute(
@@ -362,6 +521,204 @@ If you wish to close the application and deal with the issue yourself, please re
         )
 
         self._connection.commit()
+
+    @connect
+    def updateEvent(self, event):
+        self._cursor.execute(
+            """
+                UPDATE event
+                SET status = '%s', round_number = '%s'
+                WHERE event_id = '%s';
+            """
+            %(event.status, event.round, event.id)
+        )
+
+        self._connection.commit()
+
+    @connect
+    def updateSR_Pairing(self, roundNumber, bPlayer, bResult, wPlayer, wResult):
+        if bPlayer.name != "bye":
+            self._cursor.execute(
+                """
+                    UPDATE sr_pairing
+                    SET result = '%s'
+                    WHERE round_number = '%s', player_id = '%s'
+                """
+                %(bResult, roundNumber, bPlayer.id)
+            )
+
+            self._cursor.execute(
+                """
+                    SELECT expected_result
+                    FROM sr_pairing
+                    WHERE round_number = '%s', player_id = '%s'
+                """
+                %(roundNumber, bPlayer.id)
+            )
+
+            newRaiting = bPlayer.updateRaiting(self._cursor.fetchone()[0], bResult)
+
+            self._cursor.execute(
+                """
+                    UPDATE user
+                    SET raiting = '%s'
+                    WHERE user_name = '%s'
+                """
+                %(newRaiting, bPlayer.name)
+            )
+
+        if wPlayer.name != "bye":
+            self._cursor.execute(
+                """
+                    UPDATE sr_pairing
+                    SET result = '%s'
+                    WHERE round_number = '%s', player_id = '%s'
+                """
+                %(wResult, roundNumber, wPlayer.id)
+            )
+
+            self._cursor.execute(
+                """
+                    SELECT expected_result
+                    FROM sr_pairing
+                    WHERE round_number = '%s', player_id = '%s'
+                """
+                %(roundNumber, wPlayer.id)
+            )
+
+            newRaiting = wPlayer.updateRaiting(self._cursor.fetchone()[0], wResult)
+
+            self._cursor.execute(
+                """
+                    UPDATE user
+                    SET raiting = '%s'
+                    WHERE user_name = '%s'
+                """
+                %(newRaiting, wPlayer.name)
+            )
+        
+        self._connection.commit()
+
+    @connect
+    def updateLadder_Pairing(self, match, bPlayer, bResult, wPlayer, wResult):
+        # Update black
+        self._cursor.execute(
+            """
+                UPDATE ladder_pairing
+                SET result = '%s'
+                WHERE match_number = '%s', player_id = '%s';
+            """
+            %(bResult, match, bPlayer.id)
+        )
+
+        self._cursor.execute(
+            """
+                SELECT expected_result
+                FROM ladder_pairing
+                WHERE match_number = '%s', player_id = '%s'
+            """
+            %(match, bPlayer.id)
+        )
+
+        newRaiting = bPlayer.updateRaiting(self._cursor.fetchone()[0], bResult)
+
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET raiting = '%s'
+                WHERE user_name = '%s'
+            """
+            %(newRaiting, bPlayer.name)
+        )
+
+        # Update white
+        self._cursor.execute(
+            """
+                UPDATE ladder_pairing
+                SET result = '%s'
+                WHERE match_number = '%s', player_id = '%s';
+            """
+            %(wResult, match, wPlayer.id)
+        )
+
+        self._cursor.execute(
+            """
+                SELECT expected_result
+                FROM ladder_pairing
+                WHERE match_number = '%s', player_id = '%s'
+            """
+            %(match, wPlayer.id)
+        )
+
+        newRaiting = wPlayer.updateRaiting(self._cursor.fetchone()[0], wResult)
+
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET raiting = '%s'
+                WHERE user_name = '%s'
+            """
+            %(newRaiting, wPlayer.name)
+        )
+        
+        self._connection.commit()
+
+    @connect
+    def getUnfinnishedPairings(self, event):
+        if event.eventType == "ladder":
+            self._cursor.execute(
+                """
+                    SELECT *
+                    FROM ladder_pairing
+                    WHERE event_id = '%s', result IS NULL
+                """
+                %(event.id)
+            )
+
+        else:
+            self._cursor.execute(
+                """
+                    SELECT *
+                    FROM sr_pairing
+                    WHERE event_id = '%s', result IS NULL
+                """
+                %(event.id)
+            )
+
+        return self._cursor.fetchall()
+
+    @connect
+    def getPlayerResults(self, playeIDr):
+        self._cursor.execute(
+            """
+                SELECT round_number, result
+                FROM sr_pairing
+                WHERE player_id = '%s'
+            """
+            %(playerID)
+        )
+
+        results = self._cursor.fetchall()
+        results.sort(key = lambda round: round[0], reverse = True)
+
+        return results
+
+    @connect
+    def getAdvancedPlayerResults(playerID):
+        self._cursor.execute(
+            """
+                SELECT 1.round_number, 1.result, 2.player_id
+                FROM sr_pairing AS 1 SELF JOIN  sr_pairing AS 2
+                ON 1.board_id = 2.board_id
+                WHERE 1.player_id = '%s'
+            """
+            %(playerID)
+        )
+
+        results = self._cursor.fetchall()
+        results.sort(key = lambda round: round[0], reverse = True)
+
+        return results
 
     #def __del__(self):
     #    """

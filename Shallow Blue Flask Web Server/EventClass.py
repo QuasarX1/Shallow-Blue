@@ -1,46 +1,65 @@
 import datetime
+import PlayerClass
+import math
 
 class Event(object):
     """A class representation of the current event in use."""
 
-    __id: int = None
-    id = property(fget = lambda self: self.__id)
+    def __init__(self, database, eventData):
+        self.id: int = None
 
-    __name: str = None
-    name = property(fget = lambda self: self.__name)
+        self.name: str = None
 
-    __info: str = None
-    info = property(fget = lambda self: self.__info)
+        self.info: str = None
 
-    __creatorID: float = None
-    creatorID = property(fget = lambda self: self.__creatorID)
+        self.creatorID: float = None
 
-    __eventType: str = None
-    eventType = property(fget = lambda self: self.__eventType)
+        self.eventType: str = None
 
-    __startDateTime: datetime.datetime = None
-    startDateTime = property(fget = lambda self: self.__startDateTime)
+        self.startDateTime: datetime.datetime = None
+        
+        self.status: str = None
 
-    __status: str = None
-    status = property(fget = lambda self: self.__status)
+        self.round: int = None
 
-    __scoring: list = []
-    startDateTime = property(fget = lambda self: self.__startDateTime)
+        self.totalRounds: int = None
+        
+        self.scoring: dict = {}
+        
+        self.players: list = []
 
-    __players: list = []
-    players = property(fget = lambda self: self.__players)
+        self.id = eventData[0]
+        self.name = eventData[1]
+        self.info = eventData[2]
+        self.creatorID = eventData[3]
+        self.eventType = eventData[4]
+        self.startDateTime = datetime.datetime.fromtimestamp(eventData[5])
+        self.status = eventData[6]
+        self.round = eventData[7]
+        self.totalRounds = eventData[8]
+        self.scoring = {"W": int(eventData[9]), "D": int(eventData[10]), "L": int(eventData[11]), "NS": int(eventData[12])}
+        
+        playersData = database.getPlayers(self.id)
 
-    def __init__(self):
-        pass
-
-    def getPlayers(self):
-        pass
+        for playerData in playersData:
+            self.players.append(PlayerClass.Player(playerData))
 
     def addPlayer(self, database, userID):
-        pass
+        player = database.getPlayer(self.id, userID)
 
-    def createPairings(self):
-        raise NotImplementedError
+        if player == None:
+            database.addPlayer(self.id, userID)
+        else:
+            raise ValueError("This user has allready joined this event.")
 
-    def addPairing(self):
-        raise NotImplementedError
+        self.players.append(PlayerClass.Player(database.getPlayer(self.id, userID)))
+
+        self.sortPlayers()
+
+    def updatePlayers(self, database):
+        for player in self.players:
+            player.updatePlayer(database)
+
+    @staticmethod
+    def predictResult(player, oponent):
+        return 1 / (1 + 10 ^ ( (player.raiting - oponent.raiting) / 400) )
