@@ -43,6 +43,9 @@
     <Compile Include="SR_EventClass.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="templates\ProfilePage.html">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="WTFClasses.py">
       <SubType>Code</SubType>
     </Compile>

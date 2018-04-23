@@ -148,7 +148,7 @@ def signup():
         if valid == True:# If the username and date fields are valid
             # In case the username has been taken by another user after the check
             try:
-                database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest(), form.emailTextBox.data, datetime.date(year, month, day).strftime("%Y-%m-%d"))
+                database.addUser(form.usernameTextBox.data, form.firstNameTextBox.data, form.lastNameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest(), form.emailTextBox.data, datetime.datetime(year, month, day).timestamp())
 
             except sqlite3.IntegrityError:
                  form.usernameTextBox.errors.append("This username is allready being used. Please try another")
@@ -168,6 +168,22 @@ def signup():
             return redirect(url_for("home"))
 
     return render_template("SignupPage.html", pageTitle = "Signup", form = form)
+
+@app.route('/profile')
+@forceLogin
+def profile():
+    userData = []
+    
+    for item in database.getUser(session["userName"]):
+        userData.append(item)
+
+    userData.pop(4)
+
+    if userData[5] != None:
+        userData[5] = datetime.datetime.fromtimestamp(int(userData[5]))
+        userData[5] = userData[5].strftime(format = "%d/%m/%Y")
+
+    return render_template("ProfilePage.html", pageTitle = "Profile", user = userData)
 
 @app.route('/watch')
 def spectate():

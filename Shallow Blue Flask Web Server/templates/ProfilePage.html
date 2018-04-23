@@ -1,0 +1,54 @@
+{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+
+{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+
+{% block bodyContent %}
+<div class="container-fluid">
+    <header class="jumbotron Page-Heading">
+        <h1 style="text-align:center">{{user[1].upper()}}'S PROFILE</h1>
+    </header>
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <table>
+                <tr>
+                    <td><p>User ID</p></td>
+                    <td><p>{{user[0]}}</p></td>
+                </tr>
+
+                <tr>
+                    <td><p>Username</p></td>
+                    <td><p>{{user[1].title()}}</p></td>
+                </tr>
+
+                <tr>
+                    <td><p>First Name</p></td>
+                    <td><p>{{user[2]}}</p></td>
+                </tr>
+
+                <tr>
+                    <td><p>Last Name</p></td>
+                    <td><p>{{user[3]}}</p></td>
+                </tr>
+
+                <tr>
+                    <td><p>Email</p></td>
+                    <td><p>{{user[4]}}</p></td>
+                </tr>
+
+                <tr>
+                    <td><p>Date of Birth</p></td>
+                    <td><p>{{user[5]}}</p></td>
+                </tr>
+
+                <tr>
+                    <td><p>Elo Raiting</p></td>
+                    <td><p>{{user[6]}}</p></td>
+                </tr>
+            </table>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+{% endblock %}
