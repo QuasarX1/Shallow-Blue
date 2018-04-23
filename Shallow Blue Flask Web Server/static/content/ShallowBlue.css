@@ -80,6 +80,7 @@ p
 {
     text-decoration: none;
     display: block;
+    color: #000;
 }
 
 .navBar_ul li:first-child
@@ -125,6 +126,7 @@ p
 {
     text-decoration: none;
     display: block;
+    color: #000;
 }
 
 .scoreBar_ul li:first-child
