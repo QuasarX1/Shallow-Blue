@@ -7,14 +7,32 @@
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">{{pageTitle.upper()}} A TOURNAMENT</h1>
     </header>
+
+    {% for message in get_flashed_messages() %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6">
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{message}}
+            </div>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
+
     {% if eventData|length != 0 %}{# If there is at least one event in the list #}
     {% for eventArray in eventData %}
     <div class="row">
         <div class="col-sm-3"></div>
-        <a class="btn btn-default col-sm-6 Event-Link">
-            <table>{# Used to arange the content of the button #}
+        <a class="btn btn-default col-sm-6 Event-Link" href="{% if pageTitle.lower() == 'spectate' %}{{url_for("homepage", eventID = eventArray[0])}}{% else %}{{url_for("joinEvent", eventID = eventArray[0])}}{% endif %}">
+            <table>
+                {# Used to arange the content of the button #}
                 <tr>
-                    <td class="event-Link-Date">{# The start date on the left #}
+                    <td class="event-Link-Date">
+                        {# The start date on the left #}
                         {{eventArray[2].strftime("%d/%m")}}
                         <br />
                         {{eventArray[2].strftime("%Y")}}
@@ -35,6 +53,178 @@
     <div class="row">
         <div class="col-sm-3"></div>
         <p class="col-sm-6">There are currently no events avalable to {{pageTitle.lower()}}!<br />If you belive this is in error, please speek to the websitesite operator.</p>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endif %}
+
+    {% if pageTitle.lower() == 'join' %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <h4 class="col-sm-6" style="color: white"> OR CREATE A NEW EVENT</h4>
+        <div class="col-sm-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <form class="col-sm-6" method="POST">
+            {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+            <table>
+                <tr>
+                    <td>
+                        <p>{{form.typeSelector.label}}</p>
+                        {% for error in form.typeSelector.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.typeSelector()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.maxRoundsIntegerBox.label}}</p>
+                        {% for error in form.maxRoundsIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.maxRoundsIntegerBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.playersIntegerBox.label}}</p>
+                        {% for error in form.playersIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.playersIntegerBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.eventNameTextBox.label}}</p>
+                        {% for error in form.eventNameTextBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.eventNameTextBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.infoTextBox.label}}</p>
+                        {% for error in form.infoTextBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.infoTextBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.startDayIntegerBox.label}} / {{form.startMonthIntegerBox.label}} / {{form.startYearIntegerBox.label}}</p>
+                        {% for error in form.startDayIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                        {% for error in form.startMonthIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                        {% for error in form.startYearIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.startDayIntegerBox()}} / {{form.startMonthIntegerBox()}} / {{form.startYearIntegerBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.startHourIntegerBox.label}} : {{form.startMinuteIntegerBox.label}}</p>
+                        {% for error in form.startHourIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                        {% for error in form.startMinuteIntegerBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.startHourIntegerBox()}} : {{form.startMinuteIntegerBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.winScoreFloatBox.label}}</p>
+                        {% for error in form.winScoreFloatBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.winScoreFloatBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.drawScoreFloatBox.label}}</p>
+                        {% for error in form.drawScoreFloatBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.drawScoreFloatBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.loseScoreFloatBox.label}}</p>
+                        {% for error in form.loseScoreFloatBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.loseScoreFloatBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.noShowScoreFloatBox.label}}</p>
+                        {% for error in form.noShowScoreFloatBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.noShowScoreFloatBox()}}</p>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <p>{{form.adminPasswordBox.label}}</p>
+                        {% for error in form.adminPasswordBox.errors %}
+                        <p>{{error}}</p>
+                        {% endfor %}
+                    </td>
+                    <td>
+                        <p>{{form.adminPasswordBox()}}</p>
+                    </td>
+                </tr>
+            </table>
+
+            <p>{{form.submitButton()}}</p>
+        </form>
         <div class="col-sm-3"></div>
     </div>
     {% endif %}

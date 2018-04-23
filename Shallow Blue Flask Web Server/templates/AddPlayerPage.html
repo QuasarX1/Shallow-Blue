@@ -1,0 +1,36 @@
+﻿{% extends "EventTemplate.html" %}{# This page builds on the EventTemplate page #}
+
+{% block pageContent %}
+<form class="container-fluid" style="text-align: center" method="POST">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">
+            Use this page to add players to the event that don't have an account.<br />
+            Note - this won't allow them to login and this isn't transferable accross multiple events. This can't be undone so be sure before submitting.
+        </p>
+        <div class="col-sm-3"></div>
+    </div>
+
+    {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+
+    {% for error in form.usernameTextBox.errors %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{error}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{form.submitButton()}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+</form>
+{% endblock %}
