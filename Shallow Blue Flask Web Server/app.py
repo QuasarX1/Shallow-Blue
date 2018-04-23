@@ -42,6 +42,16 @@ def testLogin(func):
 
     return wrapper
 
+def forceLogin(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if "userID" in session:
+            return func()
+        else:
+            flash("You must be logged in to view that page.")
+            return redirect(url_for("login"))
+    return wrapper
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
@@ -75,6 +85,7 @@ def login():
     return render_template("LoginPage.html", pageTitle = "Login", form = form)
 
 @app.route('/logout')
+@forceLogin
 def logout():
     del session["userID"]
     del session["userName"]
@@ -174,6 +185,7 @@ def spectate():
     return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings)
 
 @app.route('/join', methods = ["GET", "POST"])
+@forceLogin
 def join():
     """Join Page"""
     form = WTFClasses.CreateEvent()
@@ -307,6 +319,7 @@ def join():
     return render_template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
 
 @app.route('/<eventID>/join')
+@forceLogin
 def joinEvent(eventID):
     event = None
 
@@ -347,6 +360,7 @@ def homepage(eventID):
         return redirect(url_for("home"))
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
+@forceLogin
 def addPlayer(eventID):
     event = None
 
@@ -356,6 +370,10 @@ def addPlayer(eventID):
         event = Ladder_EventClass.Ladder_Event(database, eventData)
     else:
         event = SR_EventClass.SR_Event(database, eventData)
+
+    if session["userID"] != event.creatorID:
+        flash("You don't have permission to access that page.")
+        return redirect(url_for("homepage", eventID = eventID))
 
     form = WTFClasses.AddPlayer()
 
@@ -432,6 +450,7 @@ def pairings(eventID):
         return render_template("PairingsPage.html", event = event, startNextRound = False, pageTitle = "Pairings", pairings = currentPairings, forms = forms, pairingsClass = "active", session = session)
 
 @app.route('/<eventID>/startRound')
+@forceLogin
 def startRound(eventID):
     event = None
 
@@ -441,6 +460,10 @@ def startRound(eventID):
         flash("That event type can't have pairings generated for it.")
         return redirect(url_for("home"))
     event = SR_EventClass.SR_Event(database, eventData)
+
+    if session["userID"] != event.creatorID:
+        flash("You don't have permission to access that page.")
+        return redirect(url_for("homepage", eventID = eventID))
 
     if event.round == 0:
         if len(event.players) < 2:
@@ -453,6 +476,7 @@ def startRound(eventID):
     return redirect(url_for("pairings", eventID = eventID))
 
 @app.route('/<eventID>/startLadderEvent')
+@forceLogin
 def startLadderEvent(eventID):
     event = None
 
@@ -463,12 +487,17 @@ def startLadderEvent(eventID):
     else:
         flash("Only ladder events can be started in this way.")
         return redirect(url_for("home"))
+
+    if session["userID"] != event.creatorID:
+        flash("You don't have permission to access that page.")
+        return redirect(url_for("homepage", eventID = eventID))
     
     event.startEvent(database)
     
     return redirect(url_for("pairings", eventID = eventID))
 
 @app.route('/<eventID>/addPairings', methods = ["GET", "POST"])
+@forceLogin
 def addLadderPairings(eventID):
     event = None
 
@@ -479,6 +508,10 @@ def addLadderPairings(eventID):
     else:
         flash("That event type can't have manual pairings.")
         return redirect(url_for("home"))
+
+    if session["userID"] != event.creatorID:
+        flash("You don't have permission to access that page.")
+        return redirect(url_for("homepage", eventID = eventID))
 
     form = WTFClasses.PairingForm()
 
