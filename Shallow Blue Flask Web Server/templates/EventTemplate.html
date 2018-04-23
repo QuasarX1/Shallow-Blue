@@ -7,27 +7,48 @@
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">{{event.name.upper()}} - {{pageTitle.upper()}}</h1>
     </header>
+
+    {% for message in get_flashed_messages() %}
     <div class="row">
-        <div class="col-sm-3">{# Navigation Bar #}
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6">
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{message}}
+            </div>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-3">
+            {# Navigation Bar #}
             <ul class="navBar_ul">
                 <li>Navigation:</li>
-                <li><a class="{{homeClass}}", href="{{url_for("homepage", eventID = event.id)}}">Home</a></li>
-                <li><a class="{{pairingsClass}}">Pairings</a></li>
-                <li><a class="{{progressClass}}">Progress/Scores</a></li>
-                <li><a class="{{splashClass}}">Splash Page</a></li>
+                <li><a class="{{homeClass}}" href="{{url_for("homepage", eventID = event.id)}}">Home</a></li>
+                <li><a class="{{pairingsClass}}" href="{{url_for("pairings", eventID = event.id)}}">Pairings</a></li>
+                <li><a class="{{progressClass}}" href="{{url_for("scores", eventID = event.id)}}">Progress/Scores</a></li>
+                {% if session["userID"] == event.creatorID %}
+                <li><a class="{{addPlayerClass}}" href="{{url_for("addPlayer", eventID = event.id)}}">Add Player</a></li>
+                {% endif %}
+                <li><a class="{{splashClass}}" href="{{url_for("home")}}">Splash Page</a></li>
             </ul>
         </div>
         <div class="col-sm-6">{% block pageContent %}{% endblock %}</div>{# This holds the content of the page. #}
-        <div class="col-sm-3">{# Score Bar #}
+        <div class="col-sm-3">
+            {# Score Bar #}
             <ul class="scoreBar_ul">
                 <li>Ranking:</li>
-                <li><a>1st - {% if event.players|length >= 1 %}{{event.players[0].name}}{% endif %}</a></li>
-                <li><a>2nd - {% if event.players|length >= 2 %}{{event.players[1].name}}{% endif %}</a></li>
-                <li><a>3rd - {% if event.players|length >= 3 %}{{event.players[2].name}}{% endif %}</a></li>
-                <li><a>4th - {% if event.players|length >= 4 %}{{event.players[3].name}}{% endif %}</a></li>
-                <li><a>5th - {% if event.players|length >= 5 %}{{event.players[4].name}}{% endif %}</a></li>
-                <li><a>6th - {% if event.players|length >= 6 %}{{event.players[5].name}}{% endif %}</a></li>
-                <li><a>See Compleat List</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">1st - {% if event.players|length >= 1 %}{{event.players[0].name}}{% endif %}</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">2nd - {% if event.players|length >= 2 %}{{event.players[1].name}}{% endif %}</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">3rd - {% if event.players|length >= 3 %}{{event.players[2].name}}{% endif %}</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">4th - {% if event.players|length >= 4 %}{{event.players[3].name}}{% endif %}</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">5th - {% if event.players|length >= 5 %}{{event.players[4].name}}{% endif %}</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">6th - {% if event.players|length >= 6 %}{{event.players[5].name}}{% endif %}</a></li>
+                <li><a href="{{url_for("scores", eventID = event.id)}}">See Complete List</a></li>
             </ul>
         </div>
     </div>

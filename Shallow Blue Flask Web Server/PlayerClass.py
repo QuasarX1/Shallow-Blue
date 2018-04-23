@@ -19,12 +19,12 @@ class Player(object):
         self.raiting = playerData[4]
 
     def updatePlayer(self, database):
-        database.updatePlayer(self.id, self.score, self.position)
+        database.updatePlayer(self)
 
     def updateScore(self, database, result, scoringValues):
         self.score += scoringValues[result]
 
-        updatePlayer(database)
+        self.updatePlayer(database)
 
     def updateRaiting(self, expectedResult, result):
         score: float = None
@@ -38,7 +38,7 @@ class Player(object):
 
         k: int = None
 
-        if raiting < 2400: k = 20
+        if self.raiting < 2400: k = 20
         else: k = 10
 
         self.raiting = self.raiting + (k * scoreDifference)

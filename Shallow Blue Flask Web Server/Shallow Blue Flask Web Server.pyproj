@@ -80,11 +80,15 @@
     <Content Include="static\scripts\holder.min.js" />
     <Content Include="static\scripts\jquery-slim.min.js" />
     <Content Include="static\scripts\popper.min.js" />
+    <Content Include="templates\AddPairingsPage.html" />
+    <Content Include="templates\AddPlayerPage.html" />
     <Content Include="templates\EventHomePage.html" />
     <Content Include="templates\EventTemplate.html" />
     <Content Include="templates\JoinPage.html" />
     <Content Include="templates\LoginPage.html" />
     <Content Include="templates\MainTemplate.html" />
+    <Content Include="templates\PairingsPage.html" />
+    <Content Include="templates\ScoresPage.html" />
     <Content Include="templates\SignupPage.html" />
     <Content Include="templates\SplashPage.html" />
   </ItemGroup>

@@ -1,28 +1,35 @@
 import EventClass
 
 class Ladder_Event(EventClass.Event):
-    def __init__(self, eventData):
-        EventClass.Event.__init__(self, eventData)
+    def __init__(self, database, eventData):
+        EventClass.Event.__init__(self, database, eventData)
 
     def startEvent(self, database):
         self.status = "in progress"
+        self.round = 1
+
+        self.players.sort(key = lambda player: player.raiting, reverse = True)
+
+        self.updatePositions(database)
+
+        database.updateEvent(self)
 
     def sortPlayers(self):
         self.players.sort(key = lambda player: player.position, reverse = True)
 
-    def addPairing(self, database, match, bPlayer, wPlayer):
-        activePairings = database.getUnfinnishedPairings(self)
+    def addPairing(self, database, bPlayer, wPlayer):
+        activePairings = database.getUnfinishedPairings(self)
 
         valid = True
 
         # Check that neithr of the players is allready paired
         for pairing in activePairings:
-            if bPlayer.id in pairing or wPlayer.id in pairing:
+            if bPlayer.id == pairing[2] or wPlayer.id == pairing[2]:
                 valid = False
                 break
 
         if valid:
-            database.addLadder_Pairing(self.id, match, bPlayer, wPlayer)
+            database.addLadderPairing(self.id, self.round, bPlayer, wPlayer, EventClass.Event.predictResult(bPlayer, wPlayer), EventClass.Event.predictResult(wPlayer, bPlayer))
         else:
             raise ValueError("One of the players is currently paired.")
 
@@ -31,20 +38,20 @@ class Ladder_Event(EventClass.Event):
         database.updateEvent(self)
 
     def getPairings(self, database):
-        return database.getLadder_Pairings(self.id, self.round)
+        return database.getLadder_Pairings(self.id)
 
     def updatePairing(self, database, match, bPlayer, bResult, wPlayer, wResult):
         # Swap positions of the players if nessessary
-        if bPlayer.position < wPlayer.raitipositionng and bResult == "W" or wPlayer.position < bPlayer.raitipositionng and wResult == "W":
+        if bPlayer.position > wPlayer.position and bResult == "W" or wPlayer.position > bPlayer.position and wResult == "W":
             storePosition = bPlayer.position
             bPlayer.position = wPlayer.position
-            wPlayre.position = storePosition
+            wPlayer.position = storePosition
 
-            bPlayer.updatePlayer()
-            wPlayer.updatePlayer()
+            bPlayer.updatePlayer(database)
+            wPlayer.updatePlayer(database)
 
         # Update the pairing and the user's raitings
         database.updateLadder_Pairing(match, bPlayer, bResult, wPlayer, wResult)
 
     def endEvent():
-        self.status = "finnished"
+        self.status = "finished"

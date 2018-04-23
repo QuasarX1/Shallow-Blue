@@ -1,4 +1,5 @@
 import EventClass
+import math
 import PlayerClass
 
 class SR_Event(EventClass.Event):
@@ -8,10 +9,28 @@ class SR_Event(EventClass.Event):
     def startEvent(self, database):
         self.status = "in progress"
 
-        if float(int(len(players)/2)) != float(len(players)/2.0):
-            self.addPlayer(database, database.getUser("bye", None))
+        self.round = 1
 
-        self.updatePositions()
+        self.sortPlayers()
+
+        if float(int(len(self.players)/2)) != float(len(self.players)/2.0):
+            self.addPlayer(database, database.getUser("bye")[0])
+
+        self.updatePositions(database)
+
+        if self.totalRounds == "None":
+            if self.eventType == "round robin":
+                self.totalRounds = len(self.players) - 1
+            else:
+                rounds = 1
+                counter = 2
+                while counter < len(self.players) and rounds <= 7:
+                    counter *= 2
+                    rounds += 1
+
+                self.totalRounds = rounds
+
+        database.updateEvent(self)
 
     def sortPlayers(self):
         self.players.sort(key = lambda player: player.raiting, reverse = True)
@@ -25,7 +44,7 @@ class SR_Event(EventClass.Event):
             scoreBands = []
             currentScoreBand = None
 
-            for player in players:
+            for player in self.players:
                 if player.score != currentScoreBand:# If the current player is in a different score band
                     scoreBands.append([])# Add a new band
                     currentScoreBand = player.score# Update the current score band
@@ -62,15 +81,15 @@ class SR_Event(EventClass.Event):
 
             for i in range(0, len(self.players)):
                 if i == 0:
-                    stationaryPlayer = self.player[i]
+                    stationaryPlayer = self.players[i]
                 elif i/2 == float(int(i/2)):
-                    set1.append(players[i])
+                    set1.append(self.players[i])
                 else:
-                    set2.append(players[i])
+                    set2.append(self.players[i])
 
             # Modify positions to match round----------------------------------------------------------------------------------
             for i in range(0, self.round - 1):
-                emp1 = []
+                temp1 = []
                 temp2 = []
 
                 for item in set1:
@@ -101,7 +120,7 @@ class SR_Event(EventClass.Event):
 
             # Add each pairing to the database----------------------------------------------------------------------------------
             for i in range(0, len(pairings)):
-                self.addPairing(database, self.round, i, pairings[i][0], pairings[i][1])
+                self.addPairing(database, i, pairings[i][0], pairings[i][1])
 
     def addPairing(self, database, board, bPlayer, wPlayer):
         database.addSRPairing(self.id, self.round, board, bPlayer, wPlayer, EventClass.Event.predictResult(bPlayer, wPlayer), EventClass.Event.predictResult(wPlayer, bPlayer))
@@ -109,13 +128,13 @@ class SR_Event(EventClass.Event):
     def getPairings(self, database):
         return database.getSR_Pairings(self.id, self.round)
 
-    def updatePairing(self, database, bPlayer, bResult, wPlayer, wResult):
-        bPlayer.updateScore(bResult, self.scoring)
-        wPlayer.updateScore(wResult, self.scoring)
+    def updatePairing(self, database, boardNumber, bPlayer, bResult, wPlayer, wResult):
+        bPlayer.updateScore(database, bResult, self.scoring)
+        wPlayer.updateScore(database, wResult, self.scoring)
         
         database.updateSR_Pairing(self.round, bPlayer, bResult, wPlayer, wResult)
 
-        if len(database.getUnfinnishedPairings(self)) == 0:
+        if len(database.getUnfinishedPairings(self)) == 0:
             isEndOfEvent = self.endRound(database)
 
             if isEndOfEvent == True: return "End of event"
@@ -123,11 +142,11 @@ class SR_Event(EventClass.Event):
 
         else: return None
 
-    def updatePositions(self, database):
-        for position in range(1, len(self.players) + 1):
-            self.players[i - 1].position = i
+    #def updatePositions(self, database):
+    #    for position in range(1, len(self.players) + 1):
+    #        self.players[position - 1].position = position
 
-        self.updatePlayers(database)
+    #    self.updatePlayers(database)
 
     def endRound(self, database):
         self.sortPlayers()
@@ -136,6 +155,8 @@ class SR_Event(EventClass.Event):
 
         if self.round != self.totalRounds:
             self.round += 1
+
+            database.updateEvent(self)
         else:
             try:
                 self.endEvent(database, False)
@@ -144,21 +165,21 @@ class SR_Event(EventClass.Event):
 
             return True
 
-    def endEvent(database, useOponentsScores):
+    def endEvent(self, database, useOponentsScores):
         self.sortPlayers()
 
         while True:
             changed = False
 
             for counter in range(0, len(self.players)):
-                if counter != len(self.players):
+                if counter != len(self.players) - 1:
                     if self.players[counter].score == self.players[counter + 1].score:
                         if useOponentsScores == False:
-                            sum1 = sumOfProgressiveScores(self.players[counter])
-                            sum2 = sumOfProgressiveScores(self.players[counter + 1])
+                            sum1 = self.sumOfProgressiveScores(database, self.players[counter])
+                            sum2 = self.sumOfProgressiveScores(database, self.players[counter + 1])
                         else:
-                            sum1 = sumOfOponentsScores(self.players[counter])
-                            sum2 = sumOfOponentsScores(self.players[counter + 1])
+                            sum1 = self.sumOfOponentsScores(self.players[counter])
+                            sum2 = self.sumOfOponentsScores(self.players[counter + 1])
 
                         if sum2 > sum1:
                             carry = self.players.pop(counter + 1)
@@ -169,10 +190,10 @@ class SR_Event(EventClass.Event):
             if changed == False: break
 
         #If SoPS is used and the top 2 have the same SoPS, use SoOS
-        if useOponentsScores == False and sumOfProgressiveScores(self.players[0]) == sumOfProgressiveScores(self.players[1]):
+        if useOponentsScores == False and self.sumOfProgressiveScores(database, self.players[0]) == self.sumOfProgressiveScores(database, self.players[1]):
             raise ValueError("Sum of Progressive Scores didn't produce a clear winner.")
 
-        self.status = "finnished"
+        self.status = "finished"
 
         self.updatePositions(database)
 
@@ -196,9 +217,9 @@ class SR_Event(EventClass.Event):
         return SoPS
 
 
-    def sumOfOponentsScores(self, player):
+    def sumOfOponentsScores(self, database, player):
 
-        def sumOpponentsScores(opponentID):
+        def sumOpponentsScores(database, opponentID):
             results = database.getPlayerResults(opponentID)
 
             score = 0.0
@@ -216,9 +237,9 @@ class SR_Event(EventClass.Event):
 
         for round in results:
             if round[1] == "W":
-                SoOS = SoOS + sumOpponentsScores(round[2])
+                SoOS = SoOS + sumOpponentsScores(database, round[2])
             
             elif round[1] == "D":
-                SoOS = SoOS + 0.5 * sumOpponentsScores(round[2])
+                SoOS = SoOS + 0.5 * sumOpponentsScores(database, round[2])
 
         return SoOS
