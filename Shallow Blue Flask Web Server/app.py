@@ -318,7 +318,7 @@ def join():
 
                 if admin != None:
                     database.addEvent(name, info, session["userID"], eventType, datetime.datetime(year, month, day, hour, minute).timestamp(), noRounds, winScore, drawScore, loseScore, noShowScore)
-                    flash("The event " + + " has sucessfully been created. To join the event, select it from 'Join'. To administer the event, access it through 'Spectate'.")
+                    flash("The event " + name + " has sucessfully been created. To join the event, select it from 'Join'. To administer the event, access it through 'Spectate'.")
                     return redirect(url_for("home"))
                 else:
                     flash("The admin password was either wrong or wasn't entered. Please ask the admin to enter their password to create the event.")
