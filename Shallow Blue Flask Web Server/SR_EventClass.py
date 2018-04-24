@@ -1,5 +1,4 @@
 import EventClass
-import math
 import PlayerClass
 
 class SR_Event(EventClass.Event):
