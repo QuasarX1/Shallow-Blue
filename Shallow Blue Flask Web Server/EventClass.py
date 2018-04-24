@@ -1,6 +1,5 @@
 import datetime
 import PlayerClass
-import math
 
 class Event(object):
     """A class representation of the current event in use."""
