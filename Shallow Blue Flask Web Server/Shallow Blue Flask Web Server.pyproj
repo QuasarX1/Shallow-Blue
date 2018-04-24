@@ -51,6 +51,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".RunApp.bat" />
     <Content Include="assets\bootstrap-4.0.0-beta.3.zip" />
     <Content Include="assets\fontawesome-free-5.0.4.zip" />
     <Content Include="Data\DatabaseLocation.txt" />
