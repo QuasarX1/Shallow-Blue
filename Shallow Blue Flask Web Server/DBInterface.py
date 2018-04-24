@@ -360,7 +360,7 @@ If you wish to close the application and deal with the issue yourself, please re
                     user_id, event_id, score, position
                 )
                 VALUES(
-                    '%s', '%s', '0', '0'
+                    '%s', '%s', '0', '10000'
                 )
             """
             %(userID, eventID)
