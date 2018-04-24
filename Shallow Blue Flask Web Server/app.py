@@ -21,7 +21,7 @@ app = Flask(__name__)
 # Adding the app config data
 app.config["SECRET_KEY"] = ""
 for i in range(0, 10):
-    app.config["SECRET_KEY"] += string.printable[random.SystemRandom().randint(0, len(string.printable))]
+    app.config["SECRET_KEY"] += string.printable[random.SystemRandom().randint(0, len(string.printable) - 1)]
 
 # Creating the database object---------------------------------------------------------------------------------------------
 rootDirectory = os.path.dirname(__file__)
@@ -32,7 +32,7 @@ wsgi_app = app.wsgi_app
 
 # Custom Decorators---------------------------------------------------------------------------------------------------------
 def testLogin(func):
-    @wraps(func)
+    @wraps(func)# Used to preserve the 'signiture' of the function when it is added to app
     def wrapper(*args, **kwargs):
         loggedIn = False
 
