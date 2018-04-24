@@ -8,6 +8,7 @@ import random
 import sqlite3
 import SR_EventClass
 import string
+import sys
 import WTFClasses
 
 # Specific Imports---------------------------------------------------------------------------------------------------------
@@ -581,22 +582,15 @@ def scores(eventID):
 
     return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
 
-#@app.route('/test')
-#def test():
-#    """Template Test Page"""
-#    return render_template("TemplateTestPage.html", eventName = "Test Event", pageTitle = "Test Page", splashClass = "active")
-
 if __name__ == '__main__':
+    app.run(str(sys.argv[1]), 5555, threaded = True)
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
     #TODO: Comment out this section before relice
-    import os
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    except ValueError:
-        PORT = 5555
+    #import os
+    #HOST = os.environ.get('SERVER_HOST', 'localhost')
+    #try:
+    #    PORT = int(os.environ.get('SERVER_PORT', '5555'))
+    #except ValueError:
+    #    PORT = 5555
     # Run the web server---------------------------------------------------------------------------------------------------
-    app.run(HOST, PORT, threaded = True)
-
-    # Clearup Operations---------------------------------------------------------------------------------------------------
-    #del database
+    #app.run(HOST, PORT, threaded = True)
