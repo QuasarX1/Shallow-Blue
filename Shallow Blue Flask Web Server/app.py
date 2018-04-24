@@ -45,9 +45,12 @@ def testLogin(func):
 
 def forceLogin(func):
     @wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(eventID = None, *args, **kwargs):
         if "userID" in session:
-            return func()
+            if eventID == None:
+                return func()
+            else:
+                return func(eventID)
         else:
             flash("You must be logged in to view that page.")
             return redirect(url_for("login"))
