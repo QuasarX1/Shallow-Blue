@@ -1,7 +1,7 @@
 ﻿{% extends "EventTemplate.html" %}{# This page builds on the EventTemplate page #}
 
 {% block pageContent %}
-<div class="container-fluid" , style="text-align: center">
+<div class="container-fluid" style="text-align: center">
     {# Headings #}
     <div class="row">
         <div class="col-sm-2"><p>Black:</p></div>
@@ -38,7 +38,7 @@
         <div class="col-sm-2">{{forms[i].submitButton}}{% for error in forms[i].blackResultSelector.errors %}<p>{{error}}</p>{% endfor %}</div>
     </form>
     {% endfor %}
-    {% elif event.status != "finnished" %}#
+    {% elif event.status != "finnished" %}
     {# Start event and/or round button #}
     <p>
         {% if event.round == 0 %}
