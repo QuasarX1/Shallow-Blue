@@ -1,4 +1,4 @@
 call .\env\Scripts\activate.bat
-app.py 192.168.0.3
+app.py <IPv4 adress here>
 call .\env\Scripts\deactivate.bat
 pause

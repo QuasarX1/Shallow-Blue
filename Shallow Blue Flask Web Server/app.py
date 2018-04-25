@@ -586,6 +586,7 @@ def scores(eventID):
     return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
 
 if __name__ == '__main__':
+    # Runs the web server using the IPv4 adress passed in as an argument
     app.run(str(sys.argv[1]), 5555, threaded = True)
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
     #TODO: Comment out this section before relice

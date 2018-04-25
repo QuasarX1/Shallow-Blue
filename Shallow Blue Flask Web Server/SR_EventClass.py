@@ -2,21 +2,32 @@ import EventClass
 import PlayerClass
 
 class SR_Event(EventClass.Event):
+    """
+        Inherits "Event"
+
+        Used to interact with swiss and round robin events
+    """
     def __init__(self, database, eventData):
         EventClass.Event.__init__(self, database, eventData)
 
     def startEvent(self, database):
+        """
+            Prepares the event for the first set of pairings
+        """
         self.status = "in progress"
 
         self.round = 1
 
         self.sortPlayers()
 
+        # If nessessary, adds a bye player
         if float(int(len(self.players)/2)) != float(len(self.players)/2.0):
             self.addPlayer(database, database.getUser("bye")[0])
 
+        # Updates the players' positions
         self.updatePositions(database)
 
+        # If un-set, sets the total number of rounds
         if self.totalRounds == "None":
             if self.eventType == "round robin":
                 self.totalRounds = len(self.players) - 1
@@ -32,11 +43,17 @@ class SR_Event(EventClass.Event):
         database.updateEvent(self)
 
     def sortPlayers(self):
+        """
+            Sorts the players based on raiting and then score
+        """
         self.players.sort(key = lambda player: player.raiting, reverse = True)
 
         self.players.sort(key = lambda player: player.score, reverse = True)
 
     def createPairings(self, database):
+        """
+            Generates the next round's pairings
+        """
         if self.eventType == "swiss":
             self.sortPlayers()
 
@@ -140,12 +157,6 @@ class SR_Event(EventClass.Event):
             else: return "End of round"
 
         else: return None
-
-    #def updatePositions(self, database):
-    #    for position in range(1, len(self.players) + 1):
-    #        self.players[position - 1].position = position
-
-    #    self.updatePlayers(database)
 
     def endRound(self, database):
         self.sortPlayers()

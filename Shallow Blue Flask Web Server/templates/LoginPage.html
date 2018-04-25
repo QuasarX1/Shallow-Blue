@@ -4,10 +4,12 @@
 
 {% block bodyContent %}
 <div class="container-fluid">
+    {# Page heading #}
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">Login</h1>
     </header>
 
+    {# Output messages #}
     {% for message in get_flashed_messages() %}
     <div class="row">
         <div class="col-sm-3"></div>
@@ -23,6 +25,7 @@
     </div>
     {% endfor %}
 
+    {# Display login form #}
     <div class="row">
         <div class="col-sm-3"></div>
 
@@ -45,8 +48,9 @@
 
             <br />
 
+            {# Link to signup form #}
             <p>
-                Or sign up here ---> 
+                Or sign up here --->
                 <a class="btn button-background" href="{{url_for("signup")}}">
                     <i class="fas fa-user-plus button-icon"></i>
                 </a>

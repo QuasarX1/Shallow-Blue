@@ -4,10 +4,12 @@
 
 {% block bodyContent %}
 <div class="container-fluid">
+    {# Page heading #}
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">SHALLOW BLUE - HOME</h1>
     </header>
 
+    {# Output messages #}
     {% for message in get_flashed_messages() %}
     <div class="row">
         <div class="col-sm-3"></div>
@@ -23,9 +25,11 @@
     </div>
     {% endfor %}
 
+    {# Top row of icons #}
     <div class="row">
         <div class="col-sm-3"></div>
 
+        {# Login/logout button #}
         {% if loggedIn == False %}
         <div class="col-sm-3" style="text-align: center">
             <a class="btn splash_button-background" href="{{url_for("login")}}"><i class="fas fa-sign-in-alt SplashPage-Clickable-Icon"></i></a>
@@ -41,6 +45,7 @@
         </div>
         {% endif %}
 
+        {# Profile button #}
         <div class="col-sm-3" style="text-align: center">
             <a class="btn splash_button-background" href="{{url_for("profile")}}"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
             <br />
@@ -50,15 +55,18 @@
         <div class="col-sm-3"></div>
     </div>
 
+    {# Bottom row of icons #}
     <div class="row">
         <div class="col-sm-3"></div>
 
+        {# Spectate bitton #}
         <div class="col-sm-3" style="text-align: center">
             <a class="splash_button-background" href="{{url_for("spectate")}}"><i class="fas fa-binoculars SplashPage-Clickable-Icon"></i></a>
             <br />
             <p>Spectate</p>
         </div>
 
+        {# Join button #}
         <div class="col-sm-3" style="text-align: center">
             <a class="splash_button-background" href="{{url_for("join")}}"><i class="fas fa-calendar-alt SplashPage-Clickable-Icon"></i></a>
             <br />

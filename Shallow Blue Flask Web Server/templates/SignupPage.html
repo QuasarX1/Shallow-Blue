@@ -4,6 +4,7 @@
 
 {% block bodyContent %}
 <div class="container-fluid">
+    {# Page hedding #}
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">Signup</h1>
     </header>
@@ -11,6 +12,7 @@
     <div class="row">
         <div class="col-sm-3"></div>
 
+        {# Signup form #}
         <div class="col-sm-6" style="text-align: center">
             <form method="POST">
                 {{form.hidden_tag()}}{# Used for CRSF protection #}
@@ -65,6 +67,7 @@
 
             <br />
 
+            {# Login page link #}
             <p>
                 Or login here --->
                 <a class="btn button-background" href="{{url_for("login")}}">

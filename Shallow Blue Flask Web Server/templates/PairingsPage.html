@@ -2,6 +2,7 @@
 
 {% block pageContent %}
 <div class="container-fluid" , style="text-align: center">
+    {# Headings #}
     <div class="row">
         <div class="col-sm-2"><p>Black:</p></div>
         <div class="col-sm-2"><p>Result:</p></div>
@@ -9,6 +10,8 @@
         <div class="col-sm-2"><p>White:</p></div>
         <div class="col-sm-2"><p>Result:</p></div>
     </div>
+
+    {# Current pairings #}
     {% for i in range(0, pairings|length) %}
     <div class="row">
         <div class="col-sm-2"><p>{{pairings[i][3]}}</p></div>
@@ -20,6 +23,7 @@
     {% endfor %}
 </div>
 
+{# Form for reporting pairing results #}
 {% if session["userID"] == event.creatorID %}
 <div class="container-fluid" style="text-align: center">
     {% if startNextRound == False %}
@@ -34,7 +38,8 @@
         <div class="col-sm-2">{{forms[i].submitButton}}{% for error in forms[i].blackResultSelector.errors %}<p>{{error}}</p>{% endfor %}</div>
     </form>
     {% endfor %}
-    {% elif event.status != "finnished" %}
+    {% elif event.status != "finnished" %}#
+    {# Start event and/or round button #}
     <p>
         {% if event.round == 0 %}
         Start The Event --->
@@ -48,6 +53,7 @@
     {% endif %}
     {% if event.eventType == "ladder" and event.status != "finnished" %}
     {% if event.status == "registration" %}
+    {# Start ladder event button #}
     <p>
         Start The Event --->
         <a class="btn button-background" href="{{url_for("startLadderEvent", eventID = event.id)}}">
@@ -55,6 +61,7 @@
         </a>
     </p>
     {% else %}
+    {# Add ladder pairings button #}
     <p>
         Add New Pairings --->
         <a class="btn button-background" href="{{url_for("addLadderPairings", eventID = event.id)}}">

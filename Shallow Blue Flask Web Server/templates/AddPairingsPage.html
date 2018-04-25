@@ -3,18 +3,21 @@
 {% block pageContent %}
 <form class="container-fluid" style="text-align: center" method="POST">
     {{form.hidden_tag()}}{# Used for CRSF protection #}
+    {# Field Lables #}
     <div class="row">
         <p class="col-sm-4">{{form.blackNameSelector.label}}</p>
         <div class="col-sm-2"></div>
         <p class="col-sm-4">{{form.whiteNameSelector.label}}</p>
     </div>
 
+    {# Input Fields #}
     <div class="row">
         <p class="col-sm-4">{{form.blackNameSelector}}</p>
         <p class="col-sm-2">Vs.</p>
         <p class="col-sm-4">{{form.whiteNameSelector}}</p>
     </div>
 
+    {# Errors #}
     <div class="row">
         <div class="col-sm-4">
             {% for error in form.blackNameSelector.errors %}

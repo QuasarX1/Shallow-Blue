@@ -2,6 +2,7 @@
 
 {% block pageContent %}
 <div class="container-fluid" style="text-align: center">
+    {# Headings #}
     <div class="row">
         <div class="col-sm-4"><p>Position:</p></div>
         <div class="col-sm-4"><p>Player:</p></div>
@@ -9,6 +10,8 @@
         <div class="col-sm-4"><p>Score:</p></div>
         {% endif %}
     </div>
+
+    {# Players and their positions #}
     {% for player in event.players %}
     <div class="row">
         <div class="col-sm-4"><p>{{player.position}}</p></div>

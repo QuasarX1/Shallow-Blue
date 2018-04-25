@@ -5,6 +5,9 @@ class Event(object):
     """A class representation of the current event in use."""
 
     def __init__(self, database, eventData):
+        """
+            Handles decleration and instantiation of the attributes
+        """
         self.id: int = None
 
         self.name: str = None
@@ -46,6 +49,9 @@ class Event(object):
         self.players.sort(key = lambda player: player.position)
 
     def addPlayer(self, database, userID):
+        """
+            Adds a user to the event as a player
+        """
         player = database.getPlayer(userID, self.id)
 
         if player == None:
@@ -60,15 +66,24 @@ class Event(object):
         self.updatePositions(database)
 
     def getPlayer(self, playerID):
+        """
+            Returns the corisponding player object from the list of players in the "players" attribute
+        """
         for player in self.players:
             if player.id == playerID:
                 return player
 
     def updatePlayers(self, database):
+        """
+            Updates the player records of all the players in the event
+        """
         for player in self.players:
             player.updatePlayer(database)
 
     def updatePositions(self, database):
+        """
+            Updates the position atribute of the players in the event to reflect their current position
+        """
         for position in range(1, len(self.players) + 1):
             self.players[position - 1].position = position
 
@@ -76,4 +91,9 @@ class Event(object):
 
     @staticmethod
     def predictResult(player, oponent):
+        """
+            STATIC
+            Predicts the lokelyhood of the player winning against the oponent
+            Uses player objects
+        """
         return 1 / (1 + float(10) ** ( (player.raiting - oponent.raiting) / 400) )

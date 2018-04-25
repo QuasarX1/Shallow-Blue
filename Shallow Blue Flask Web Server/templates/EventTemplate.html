@@ -4,10 +4,12 @@
 
 {% block bodyContent %}
 <div class="container-fluid">
+    {# Page heading #}
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">{{event.name.upper()}} - {{pageTitle.upper()}}</h1>
     </header>
 
+    {# Output any messages #}
     {% for message in get_flashed_messages() %}
     <div class="row">
         <div class="col-sm-3"></div>
@@ -23,9 +25,9 @@
     </div>
     {% endfor %}
 
+    {# Navigation bar #}
     <div class="row">
         <div class="col-sm-3">
-            {# Navigation Bar #}
             <ul class="navBar_ul">
                 <li>Navigation:</li>
                 <li><a class="{{homeClass}}" href="{{url_for("homepage", eventID = event.id)}}">Home</a></li>
@@ -37,9 +39,11 @@
                 <li><a class="{{splashClass}}" href="{{url_for("home")}}">Splash Page</a></li>
             </ul>
         </div>
+
         <div class="col-sm-6">{% block pageContent %}{% endblock %}</div>{# This holds the content of the page. #}
+
+        {# Score Bar #}
         <div class="col-sm-3">
-            {# Score Bar #}
             <ul class="scoreBar_ul">
                 <li>Ranking:</li>
                 <li><a href="{{url_for("scores", eventID = event.id)}}">1st - {% if event.players|length >= 1 %}{{event.players[0].name}}{% endif %}</a></li>
@@ -52,6 +56,5 @@
             </ul>
         </div>
     </div>
-    <div></div>{# News Bar #}
 </div>
 {% endblock %}

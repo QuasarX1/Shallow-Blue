@@ -823,14 +823,3 @@ If you wish to close the application and deal with the issue yourself, please re
         )
         
         self._connection.commit()
-    
-    #def __del__(self):
-    #    """
-    #    Safely closes the database connection at the end of the program or in the event of an unexpected termination.
-    #    """
-    #    if self._cursor != None:# Checks that _cursor has been assigned a value
-    #        self._cursor.close()# Closes the cursor used to manipulate the database
-    #        print("Database cursor closed")
-    #    if self._connection != None:# Checks that _connection has been assigned a value
-    #        self._connection.close()# Closes the connection to the database
-    #        print("Database connection closed")

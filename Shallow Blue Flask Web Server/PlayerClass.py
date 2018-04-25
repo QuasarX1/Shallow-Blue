@@ -1,7 +1,9 @@
 class Player(object):
-    """A class representation of player data."""
+    """
+        A class representation of player data.
+    """
 
-    def __init__(self, playerData: list):
+    def __init__(self, playerData):
         self.id: int = None
 
         self.name: int = None
@@ -19,14 +21,23 @@ class Player(object):
         self.raiting = playerData[4]
 
     def updatePlayer(self, database):
+        """
+            Updates the player record in the database
+        """
         database.updatePlayer(self)
 
     def updateScore(self, database, result, scoringValues):
+        """
+            Ajusts the player's score dependant on the outcome of their pairing result
+        """
         self.score += scoringValues[result]
 
         self.updatePlayer(database)
 
     def updateRaiting(self, expectedResult, result):
+        """
+            Calculates the player's new raiting
+        """
         score: float = None
 
         if result == "W": score = 1.0
