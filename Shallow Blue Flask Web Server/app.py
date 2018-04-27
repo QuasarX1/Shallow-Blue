@@ -570,6 +570,31 @@ def addLadderPairings(eventID):
     
     return render_template("AddPairingsPage.html", pageTitle = "Add Pairing", event = event, form = form, pairingsClass = "active")
 
+@app.route('/<eventID>/delete', methods = ["GET", "POST"])
+@forceLogin
+def deleteEvent(eventID):
+    event = None
+
+    #Create the event object
+    eventData = database.getEvent(eventID)
+    if eventData[4] == "ladder":
+        event = Ladder_EventClass.Ladder_Event(database, eventData)
+    else:
+        event = SR_EventClass.SR_Event(database, eventData)
+
+    form = WTFClasses.DeleteEventForm()
+
+    if form.validate_on_submit():
+        name = event.name
+
+        event.delete(database)
+
+        flash("The event " + name + " has successfully been deleted.")
+
+        return redirect(url_for("home"))
+
+    return render_template("DeleteEventPage.html", event = event, form = form, session = session)
+
 @app.route('/<eventID>/scores')
 def scores(eventID):
     event = None

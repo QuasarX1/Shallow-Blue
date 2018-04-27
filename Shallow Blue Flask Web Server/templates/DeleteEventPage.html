@@ -1,0 +1,46 @@
+﻿{% extends "EventTemplate.html" %}{# This page builds on the EventTemplate page #}
+
+{% block pageContent %}
+<form class="container-fluid" style="text-align: center" method="POST">
+    {# Page Description #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">
+            This should only be used in the event of a mistake with creating the event. If the event is finnished DO NOT DELETE IT!<br />
+            Also any changes made to a player's raiting will remain unafected by deleting this event. Please consider this before continuing.
+        </p>
+        <div class="col-sm-3"></div>
+    </div>
+
+    {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+    {# Label #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{form.passwordPasswordBox.label}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+
+    {# Field #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{form.passwordPasswordBox()}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+
+    {# Errors #}
+    {% for error in form.passwordPasswordBox.errors %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{error}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endfor %}
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{form.submitButton()}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+</form>
+{% endblock %}

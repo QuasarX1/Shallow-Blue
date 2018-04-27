@@ -52,3 +52,7 @@ class CreateEvent(FlaskForm):
 class AddPlayer(FlaskForm):
     usernameTextBox = StringField("Name", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Add Player")
+
+class DeleteEventForm(FlaskForm):
+    passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Delete Event")
