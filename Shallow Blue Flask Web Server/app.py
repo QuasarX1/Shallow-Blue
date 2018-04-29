@@ -255,7 +255,7 @@ def spectate():
 @forceLogin
 def join():
     """Join Page"""
-    form = WTFClasses.CreateEvent()
+    form = WTFClasses.CreateEventForm()
 
     if form.validate_on_submit():
         name = form.eventNameTextBox.data
@@ -407,7 +407,7 @@ def homepage(event):
 @createEvent
 @adminOnly
 def addPlayer(event):
-    form = WTFClasses.AddPlayer()
+    form = WTFClasses.AddPlayerForm()
 
     if form.validate_on_submit():
         name = form.usernameTextBox.data + " : " + str(datetime.datetime.now())
