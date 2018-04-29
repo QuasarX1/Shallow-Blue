@@ -98,5 +98,5 @@ class Event(object):
         """
         return 1 / (1 + float(10) ** ( (player.raiting - oponent.raiting) / 400) )
 
-    def deleteEvent(self, database):
+    def delete(self, database):
         database.deleteEvent(self.id, self.eventType)

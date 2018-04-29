@@ -35,6 +35,7 @@
                 <li><a class="{{progressClass}}" href="{{url_for("scores", eventID = event.id)}}">Progress/Scores</a></li>
                 {% if session["userID"] == event.creatorID %}
                 <li><a class="{{addPlayerClass}}" href="{{url_for("addPlayer", eventID = event.id)}}">Add Player</a></li>
+                <li><a class="{{delet4eEventClass}}" href="{{url_for("deleteEvent", eventID = event.id)}}">Delete Event</a></li>
                 {% endif %}
                 <li><a class="{{splashClass}}" href="{{url_for("home")}}">Splash Page</a></li>
             </ul>

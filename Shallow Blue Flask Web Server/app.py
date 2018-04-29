@@ -593,7 +593,7 @@ def deleteEvent(eventID):
 
         return redirect(url_for("home"))
 
-    return render_template("DeleteEventPage.html", event = event, form = form, session = session)
+    return render_template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active", session = session)
 
 @app.route('/<eventID>/scores')
 def scores(eventID):
@@ -612,14 +612,14 @@ def scores(eventID):
 
 if __name__ == '__main__':
     # Runs the web server using the IPv4 adress passed in as an argument
-    app.run(str(sys.argv[1]), 5555, threaded = True)
+    #app.run(str(sys.argv[1]), 5555, threaded = True)
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
     #TODO: Comment out this section before relice
-    #import os
-    #HOST = os.environ.get('SERVER_HOST', 'localhost')
-    #try:
-    #    PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    #except ValueError:
-    #    PORT = 5555
-    # Run the web server---------------------------------------------------------------------------------------------------
-    #app.run(HOST, PORT, threaded = True)
+    import os
+    HOST = os.environ.get('SERVER_HOST', 'localhost')
+    try:
+        PORT = int(os.environ.get('SERVER_PORT', '5555'))
+    except ValueError:
+        PORT = 5555
+    #Run the web server---------------------------------------------------------------------------------------------------
+    app.run(HOST, PORT, threaded = True)
