@@ -86,6 +86,7 @@
     <Content Include="static\scripts\popper.min.js" />
     <Content Include="templates\AddPairingsPage.html" />
     <Content Include="templates\AddPlayerPage.html" />
+    <Content Include="templates\EndEventPage.html" />
     <Content Include="templates\DeleteEventPage.html" />
     <Content Include="templates\EventHomePage.html" />
     <Content Include="templates\EventTemplate.html" />

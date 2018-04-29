@@ -24,7 +24,7 @@
 </div>
 
 {# Form for reporting pairing results #}
-{% if session["userID"] == event.creatorID %}
+{% if session["userID"] == event.creatorID or session["userName"] == "admin" %}
 <div class="container-fluid" style="text-align: center">
     {% if startNextRound == False %}
     {% for i in range(0, forms|length) %}
@@ -38,7 +38,7 @@
         <div class="col-sm-2">{{forms[i].submitButton}}{% for error in forms[i].blackResultSelector.errors %}<p>{{error}}</p>{% endfor %}</div>
     </form>
     {% endfor %}
-    {% elif event.status != "finnished" %}
+    {% elif event.status != "finished" %}
     {# Start event and/or round button #}
     <p>
         {% if event.round == 0 %}
@@ -51,7 +51,7 @@
         </a>
     </p>
     {% endif %}
-    {% if event.eventType == "ladder" and event.status != "finnished" %}
+    {% if event.eventType == "ladder" and event.status != "finished" %}
     {% if event.status == "registration" %}
     {# Start ladder event button #}
     <p>

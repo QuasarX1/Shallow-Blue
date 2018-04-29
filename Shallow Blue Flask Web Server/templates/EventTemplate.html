@@ -9,22 +9,6 @@
         <h1 style="text-align:center">{{event.name.upper()}} - {{pageTitle.upper()}}</h1>
     </header>
 
-    {# Output any messages #}
-    {% for message in get_flashed_messages() %}
-    <div class="row">
-        <div class="col-sm-3"></div>
-
-        <div class="col-sm-6">
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{message}}
-            </div>
-        </div>
-
-        <div class="col-sm-3"></div>
-    </div>
-    {% endfor %}
-
     {# Navigation bar #}
     <div class="row">
         <div class="col-sm-3">
@@ -35,13 +19,26 @@
                 <li><a class="{{progressClass}}" href="{{url_for("scores", eventID = event.id)}}">Progress/Scores</a></li>
                 {% if session["userID"] == event.creatorID or session["userName"] == "admin" %}
                 <li><a class="{{addPlayerClass}}" href="{{url_for("addPlayer", eventID = event.id)}}">Add Player</a></li>
-                <li><a class="{{delet4eEventClass}}" href="{{url_for("deleteEvent", eventID = event.id)}}">Delete Event</a></li>
+                <li><a class="{{deleteEventClass}}" href="{{url_for("deleteEvent", eventID = event.id)}}">Delete Event</a></li>
+                {% if event.status == "in progress" %}
+                <li><a class="{{endEventClass}}" href="{{url_for("endEvent", eventID = event.id)}}">End Event</a></li>
+                {% endif %}
                 {% endif %}
                 <li><a class="{{splashClass}}" href="{{url_for("home")}}">Splash Page</a></li>
             </ul>
         </div>
 
-        <div class="col-sm-6">{% block pageContent %}{% endblock %}</div>{# This holds the content of the page. #}
+        {# This holds the content of the page. #}
+        <div class="col-sm-6">
+            {# Output any messages #}
+            {% for message in get_flashed_messages() %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                {{message}}
+            </div>
+            {% endfor %}
+            {% block pageContent %}{% endblock %}
+        </div>
 
         {# Score Bar #}
         <div class="col-sm-3">

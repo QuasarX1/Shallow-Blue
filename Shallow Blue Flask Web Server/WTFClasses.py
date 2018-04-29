@@ -28,6 +28,10 @@ class DeleteEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Delete Event")
 
+class EndEventForm(FlaskForm):
+    passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("End Event")
+
 class LoginForm(FlaskForm):
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
     passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
@@ -58,5 +62,5 @@ class PairingForm(FlaskForm):
     submitButton = SubmitField("Submit")
 
 class ViewOldEventsForm(FlaskForm):
-    viewCheckBox = BooleanField("View Finnished Events")
+    viewCheckBox = BooleanField("View finished Events")
     submitButton = SubmitField("Submit")

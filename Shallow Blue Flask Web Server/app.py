@@ -559,13 +559,19 @@ def deleteEvent(event):
     form = WTFClasses.DeleteEventForm()
 
     if form.validate_on_submit():
-        name = event.name
+        userData = database.getUserLogin(session["userName"], hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
 
-        event.delete(database)
+        if userData != None:
+            name = event.name
 
-        flash("The event " + name + " has successfully been deleted.")
+            event.delete(database)
 
-        return redirect(url_for("home"))
+            flash("The event " + name + " has successfully been deleted.")
+
+            return redirect(url_for("home"))
+
+        else:
+            form.passwordPasswordBox.errors.append("The password provided was incorrect.")
 
     return render_template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active", session = session)
 
@@ -575,6 +581,35 @@ def scores(event):
     event.players.sort(key = lambda player: player.position)
 
     return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
+
+@app.route('/<eventID>/end', methods = ["GET", "POST"])
+@forceLogin
+@createEvent
+@adminOnly
+def endEvent(event):
+    form = WTFClasses.EndEventForm()
+
+    if form.validate_on_submit():
+
+        userData = database.getUserLogin(session["userName"], hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
+
+        if userData != None:
+            if event.eventType == "ladder":
+                event.endEvent(database)
+            else:
+                try:
+                    event.endEvent(database, False)
+                except ValueError:
+                    event.endEvent(database, True)
+
+            flash("The event has been ended.")
+
+            return redirect(url_for("homepage", eventID = event.id))
+
+        else:
+            form.passwordPasswordBox.errors.append("The password provided was incorrect.")
+
+    return render_template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active", session = session)
 
 if __name__ == '__main__':
     # Runs the web server using the IPv4 adress passed in as an argument
