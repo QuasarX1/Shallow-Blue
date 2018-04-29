@@ -77,6 +77,17 @@ def createEvent(func):
 
     return wrapper
 
+def adminOnly(func):
+    @wraps(func)
+    def wrapper(event, *args, **kwargs):
+        if session["userID"] != event.creatorID or session["userName"] != "admin":
+            flash("You don't have permission to access that page.")
+            return redirect(url_for("homepage", eventID = event.id))
+        
+        return func(event)
+
+    return wrapper
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
@@ -379,6 +390,7 @@ def homepage(event):
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin
 @createEvent
+@adminOnly
 def addPlayer(event):
     if session["userID"] != event.creatorID:
         flash("You don't have permission to access that page.")
@@ -453,6 +465,7 @@ def pairings(event):
 @app.route('/<eventID>/startRound')
 @forceLogin
 @createEvent
+@adminOnly
 def startRound(event):
     if event.eventType == "ladder":
         flash("That event type can't have pairings generated for it.")
@@ -475,6 +488,7 @@ def startRound(event):
 @app.route('/<eventID>/startLadderEvent')
 @forceLogin
 @createEvent
+@adminOnly
 def startLadderEvent(event):
     if event.eventType != "ladder":
         flash("Only ladder events can be started in this way.")
@@ -491,6 +505,7 @@ def startLadderEvent(event):
 @app.route('/<eventID>/addPairings', methods = ["GET", "POST"])
 @forceLogin
 @createEvent
+@adminOnly
 def addLadderPairings(event):
     if event.eventType != "ladder":
         flash("This event type can't have manual pairings.")
@@ -540,6 +555,7 @@ def addLadderPairings(event):
 @app.route('/<eventID>/delete', methods = ["GET", "POST"])
 @forceLogin
 @createEvent
+@adminOnly
 def deleteEvent(event):
     form = WTFClasses.DeleteEventForm()
 
