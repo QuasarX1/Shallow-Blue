@@ -56,6 +56,27 @@ def forceLogin(func):
             return redirect(url_for("login"))
     return wrapper
 
+def createEvent(func):
+    @wraps(func)
+    def wrapper(eventID, *args, **kwargs):
+        # Create the event object
+        event = None
+
+        eventData = database.getEvent(eventID)
+
+        if eventData == None:
+            flash("You tried to access an event that doesn’t exist.")
+            return redirect(url_for("home"))
+        
+        if eventData[4] == "ladder":
+            event = Ladder_EventClass.Ladder_Event(database, eventData)
+        else:
+            event = SR_EventClass.SR_Event(database, eventData)
+        
+        return func(event)
+
+    return wrapper
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
@@ -340,18 +361,8 @@ def join():
 
 @app.route('/<eventID>/join')
 @forceLogin
-def joinEvent(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-
-    if eventData != None:
-        if eventData[4] == "ladder":
-            event = Ladder_EventClass.Ladder_Event(database, eventData)
-        else:
-            event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def joinEvent(event):
     try:
         event.addPlayer(database, session["userID"])
 
@@ -361,36 +372,14 @@ def joinEvent(eventID):
     return redirect(url_for("homepage", eventID = eventID))
 
 @app.route('/<eventID>/home')
-def homepage(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-
-    if eventData != None:
-        if eventData[4] == "ladder":
-            event = Ladder_EventClass.Ladder_Event(database, eventData)
-        else:
-            event = SR_EventClass.SR_Event(database, eventData)
-
-        return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
-
-    else:
-        flash("You tried to access an event that doesn’t exist.")
-        return redirect(url_for("home"))
+@createEvent
+def homepage(event):
+    return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin
-def addPlayer(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def addPlayer(event):
     if session["userID"] != event.creatorID:
         flash("You don't have permission to access that page.")
         return redirect(url_for("homepage", eventID = eventID))
@@ -411,16 +400,8 @@ def addPlayer(eventID):
     return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
 
 @app.route('/<eventID>/pairings', methods = ["GET", "POST"])
-def pairings(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def pairings(event):
     currentPairings = event.getPairings(database)
 
     returnForm = WTFClasses.ResultForm()
@@ -471,15 +452,11 @@ def pairings(eventID):
 
 @app.route('/<eventID>/startRound')
 @forceLogin
-def startRound(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
+@createEvent
+def startRound(event):
+    if event.eventType == "ladder":
         flash("That event type can't have pairings generated for it.")
         return redirect(url_for("home"))
-    event = SR_EventClass.SR_Event(database, eventData)
 
     if session["userID"] != event.creatorID:
         flash("You don't have permission to access that page.")
@@ -497,14 +474,9 @@ def startRound(eventID):
 
 @app.route('/<eventID>/startLadderEvent')
 @forceLogin
-def startLadderEvent(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-       event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
+@createEvent
+def startLadderEvent(event):
+    if event.eventType != "ladder":
         flash("Only ladder events can be started in this way.")
         return redirect(url_for("home"))
 
@@ -518,15 +490,10 @@ def startLadderEvent(eventID):
 
 @app.route('/<eventID>/addPairings', methods = ["GET", "POST"])
 @forceLogin
-def addLadderPairings(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        flash("That event type can't have manual pairings.")
+@createEvent
+def addLadderPairings(event):
+    if event.eventType != "ladder":
+        flash("This event type can't have manual pairings.")
         return redirect(url_for("home"))
 
     if session["userID"] != event.creatorID:
@@ -572,16 +539,8 @@ def addLadderPairings(eventID):
 
 @app.route('/<eventID>/delete', methods = ["GET", "POST"])
 @forceLogin
-def deleteEvent(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def deleteEvent(event):
     form = WTFClasses.DeleteEventForm()
 
     if form.validate_on_submit():
@@ -596,16 +555,8 @@ def deleteEvent(eventID):
     return render_template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active", session = session)
 
 @app.route('/<eventID>/scores')
-def scores(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def scores(event):
     event.players.sort(key = lambda player: player.position)
 
     return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
