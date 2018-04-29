@@ -25,6 +25,18 @@
     </div>
     {% endfor %}
 
+    {% if pageTitle.lower() == "spectate" %}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <form class="col-sm-6" method="POST">
+            {{form.hidden_tag()}}{# Used for CRSF protection #}
+            <p>{{form.viewCheckBox.label}} {{form.viewCheckBox()}}</p>
+            {{form.submitButton()}}
+        </form>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endif %}
+
     {# Display the event links for viewing or joining #}
     {% if eventData|length != 0 %}{# If there is at least one event in the list #}
 
@@ -66,7 +78,7 @@
     {% if pageTitle.lower() == 'join' %}
     <div class="row">
         <div class="col-sm-3"></div>
-        <h4 class="col-sm-6" style="color: white"> OR CREATE A NEW EVENT</h4>
+        <h4 class="col-sm-6" style="color: white">OR CREATE A NEW EVENT</h4>
         <div class="col-sm-3"></div>
     </div>
     <div class="row">

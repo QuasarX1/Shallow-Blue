@@ -33,7 +33,7 @@
                 <li><a class="{{homeClass}}" href="{{url_for("homepage", eventID = event.id)}}">Home</a></li>
                 <li><a class="{{pairingsClass}}" href="{{url_for("pairings", eventID = event.id)}}">Pairings</a></li>
                 <li><a class="{{progressClass}}" href="{{url_for("scores", eventID = event.id)}}">Progress/Scores</a></li>
-                {% if session["userID"] == event.creatorID %}
+                {% if session["userID"] == event.creatorID or session["userName"] == "admin" %}
                 <li><a class="{{addPlayerClass}}" href="{{url_for("addPlayer", eventID = event.id)}}">Add Player</a></li>
                 <li><a class="{{delet4eEventClass}}" href="{{url_for("deleteEvent", eventID = event.id)}}">Delete Event</a></li>
                 {% endif %}

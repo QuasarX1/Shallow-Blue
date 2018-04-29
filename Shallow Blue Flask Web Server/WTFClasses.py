@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, HiddenField, FloatField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, HiddenField, FloatField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 
 class LoginForm(FlaskForm):
@@ -56,3 +56,7 @@ class AddPlayer(FlaskForm):
 class DeleteEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Delete Event")
+
+class ViewOldEventsForm(FlaskForm):
+    viewCheckBox = BooleanField("View Finnished Events")
+    submitButton = SubmitField("Submit")
