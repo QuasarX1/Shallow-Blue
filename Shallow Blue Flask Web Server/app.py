@@ -410,6 +410,32 @@ def addPlayer(event):
     form = WTFClasses.AddPlayerForm()
 
     if form.validate_on_submit():
+        name = form.usernameTextBox.data
+
+        userData = database.getUser(name)
+
+        if userData != None:
+            try:
+                event.addPlayer(database, userData[0])
+                flash("The user " + name + "has been added.")
+            except ValueError:
+                flash("The user " + name + "has allready joined the event.")
+
+            return redirect(url_for("scores", eventID = event.id))
+
+        else:
+            form.usernameTextBox.errors.append("There is no user with the username " + name + ".")
+
+    return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+
+@app.route('/<eventID>/addNewPlayer', methods = ["GET", "POST"])
+@forceLogin
+@createEvent
+@adminOnly
+def addNewPlayer(event):
+    form = WTFClasses.AddPlayerForm()
+
+    if form.validate_on_submit():
         name = form.usernameTextBox.data + " : " + str(datetime.datetime.now())
 
         database.addNoUserPlayer(name)
@@ -420,7 +446,7 @@ def addPlayer(event):
 
         return redirect(url_for("scores", eventID = event.id))
 
-    return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+    return render_template("AddNewPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
 
 @app.route('/<eventID>/pairings', methods = ["GET", "POST"])
 @createEvent

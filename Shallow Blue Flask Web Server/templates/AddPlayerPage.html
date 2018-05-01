@@ -4,12 +4,9 @@
 <form class="container-fluid" style="text-align: center" method="POST">
     {# Page Description #}
     <div class="row">
-        <div class="col-sm-3"></div>
-        <p class="col-sm-6">
-            Use this page to add players to the event that don't have an account.<br />
-            Note - this won't allow them to login and this isn't transferable accross multiple events. This can't be undone so be sure before submitting.
+        <p class="col-sm-12">
+            Use this page to add players to the event that allready have an account. Please be sure that the user wishes to enter the event before continuing.
         </p>
-        <div class="col-sm-3"></div>
     </div>
 
     {{form.hidden_tag()}}{# Used for CRSF protection #}
@@ -17,7 +14,7 @@
     {# Field #}
     <div class="row">
         <div class="col-sm-3"></div>
-        <p class="col-sm-6">{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
+        <p class="col-sm-6">{{form.usernameTextBox.label}}: {{form.usernameTextBox()}}</p>
         <div class="col-sm-3"></div>
     </div>
 
@@ -34,6 +31,10 @@
         <div class="col-sm-3"></div>
         <p class="col-sm-6">{{form.submitButton()}}</p>
         <div class="col-sm-3"></div>
+    </div>
+
+    <div class="row">
+        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-clipboard button-icon"></i></a></p>
     </div>
 </form>
 {% endblock %}

@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, IntegerField, Selec
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 
 class AddPlayerForm(FlaskForm):
-    usernameTextBox = StringField("Name", validators = [DataRequired(message = "This is a required field.")])
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Add Player")
 
 class CreateEventForm(FlaskForm):

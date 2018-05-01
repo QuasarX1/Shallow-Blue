@@ -5,29 +5,22 @@
     {# Page Description #}
     <div class="row">
         <p class="col-sm-12">
-            If this is the ladder event, you can safely end the event from here.<br />
-            If this is a swiss or round robin event, the event can be ended from here if you need to however the event will be ended automaticly when the last round's pairings are compleated. Ending the event like this will assume that all the rounds have been finished so only use this if the minimum number of rounds has been compleated.
+            Use this page to add players to the event that don't have an account.<br />
+            Note - this won't allow them to login and this isn't transferable accross multiple events. This can't be undone so be sure before submitting.
         </p>
     </div>
 
     {{form.hidden_tag()}}{# Used for CRSF protection #}
 
-    {# Label #}
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <p class="col-sm-6">{{form.passwordPasswordBox.label}}</p>
-        <div class="col-sm-3"></div>
-    </div>
-
     {# Field #}
     <div class="row">
         <div class="col-sm-3"></div>
-        <p class="col-sm-6">{{form.passwordPasswordBox()}}</p>
+        <p class="col-sm-6">{{form.usernameTextBox.label}}: {{form.usernameTextBox()}}</p>
         <div class="col-sm-3"></div>
     </div>
 
     {# Errors #}
-    {% for error in form.passwordPasswordBox.errors %}
+    {% for error in form.usernameTextBox.errors %}
     <div class="row">
         <div class="col-sm-3"></div>
         <p class="col-sm-6">{{error}}</p>
