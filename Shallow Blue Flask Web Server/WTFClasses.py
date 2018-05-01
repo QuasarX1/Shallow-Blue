@@ -37,6 +37,11 @@ class LoginForm(FlaskForm):
     passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Login")
 
+class PairingForm(FlaskForm):
+    blackNameSelector = SelectField("Player playing Black", coerce = int, validators = [DataRequired(message = "This is a required field.")])
+    whiteNameSelector = SelectField("Player playing White", coerce = int, validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Submit")
+
 class ResultForm(FlaskForm):
     pairingIdentifier = HiddenField()
     matchNumber = HiddenField()
@@ -56,10 +61,18 @@ class SignupForm(FlaskForm):
     repeatPasswordBox = PasswordField("Repeat Password", validators = [DataRequired(message = "This is a required field."), EqualTo("passwordPasswordBox", "Your passwords don't match. Please try entering them again.")])
     submitButton = SubmitField("Signup")
 
-class PairingForm(FlaskForm):
-    blackNameSelector = SelectField("Player playing Black", coerce = int, validators = [DataRequired(message = "This is a required field.")])
-    whiteNameSelector = SelectField("Player playing White", coerce = int, validators = [DataRequired(message = "This is a required field.")])
-    submitButton = SubmitField("Submit")
+class UpdateUserForm(FlaskForm):
+    firstNameTextBox = StringField("First Name")
+    lastNameTextBox = StringField("Last name")
+    usernameTextBox = StringField("Username")
+    emailTextBox = StringField("Email", validators = [Optional(), Email("This field must contain a valid email adress.")])
+    dobDayIntegerBox = IntegerField("Day")
+    dobMonthIntegerBox = IntegerField("Month")
+    dobYearIntegerBox = IntegerField("Year")    
+    passwordPasswordBox = PasswordField("Password")
+    newPasswordPasswordBox = PasswordField("New Password")
+    newRepeatPasswordBox = PasswordField("Repeat New Password", validators = [EqualTo("newPasswordPasswordBox", "This field must match the \"New Password\" field.")])
+    submitButton = SubmitField("Change Data")
 
 class ViewOldEventsForm(FlaskForm):
     viewCheckBox = BooleanField("View finished Events")
