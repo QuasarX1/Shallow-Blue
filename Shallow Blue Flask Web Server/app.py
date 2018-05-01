@@ -12,7 +12,7 @@ import sys
 import WTFClasses
 
 # Specific Imports---------------------------------------------------------------------------------------------------------
-from flask import Flask, render_template, redirect, url_for, session, flash
+from flask import Flask, render_template, redirect, url_for, session, flash, send_from_directory
 from functools import wraps
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
@@ -636,6 +636,13 @@ def endEvent(event):
             form.passwordPasswordBox.errors.append("The password provided was incorrect.")
 
     return render_template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active", session = session)
+
+# Favicon------------------------------------------------------------------------------------------------------------------
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.png')
+
 
 if __name__ == '__main__':
     # Runs the web server using the IPv4 adress passed in as an argument
