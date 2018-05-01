@@ -54,7 +54,7 @@ class Ladder_Event(EventClass.Event):
 
     def getPairings(self, database):
         """
-            Returns all unfinnished pairings
+            Returns all unfinished pairings
         """
         return database.getLadder_Pairings(self.id)
 
@@ -74,9 +74,11 @@ class Ladder_Event(EventClass.Event):
         # Update the pairing and the user's raitings
         database.updateLadder_Pairing(match, bPlayer, bResult, wPlayer, wResult)
 
-    def endEvent():
+    def endEvent(self, database):
         """
             Ends the ladder event
             Not currently implemented
         """
         self.status = "finished"
+
+        database.updateEvent(self)

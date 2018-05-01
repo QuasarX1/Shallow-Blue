@@ -1,37 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, HiddenField, FloatField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, IntegerField, SelectField, HiddenField, FloatField, TextAreaField, BooleanField
 from wtforms.validators import DataRequired, Email, EqualTo, Optional
 
-class LoginForm(FlaskForm):
+class AddPlayerForm(FlaskForm):
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
-    passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
-    submitButton = SubmitField("Login")
+    submitButton = SubmitField("Add Player")
 
-class SignupForm(FlaskForm):
-    firstNameTextBox = StringField("First Name", validators = [DataRequired(message = "This is a required field.")])
-    lastNameTextBox = StringField("Last name", validators = [DataRequired(message = "This is a required field.")])
-    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
-    emailTextBox = StringField("Email", validators = [DataRequired(message = "This is a required field."), Email("This field must contain a valid email adress.")])
-    dobDayIntegerBox = IntegerField("Day")
-    dobMonthIntegerBox = IntegerField("Month")
-    dobYearIntegerBox = IntegerField("Year")    
-    passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
-    repeatPasswordBox = PasswordField("Repeat Password", validators = [DataRequired(message = "This is a required field."), EqualTo("passwordPasswordBox", "Your passwords don't match. Please try entering them again.")])
-    submitButton = SubmitField("Signup")
-
-class ResultForm(FlaskForm):
-    pairingIdentifier = HiddenField()
-    matchNumber = HiddenField()
-    blackResultSelector = SelectField("Black Result", choices = [["", ""], ["W", "Win"], ["D", "Draw"], ["L", "Lose"], ["NS", "No Show"]], validators = [DataRequired(message = "This is a required field.")])
-    whiteResultSelector = SelectField("White Result", choices = [["", ""], ["W", "Win"], ["D", "Draw"], ["L", "Lose"], ["NS", "No Show"]], validators = [DataRequired(message = "This is a required field.")])
-    submitButton = SubmitField("Submit")
-
-class PairingForm(FlaskForm):
-    blackNameSelector = SelectField("Player playing Black", coerce = int, validators = [DataRequired(message = "This is a required field.")])
-    whiteNameSelector = SelectField("Player playing White", coerce = int, validators = [DataRequired(message = "This is a required field.")])
-    submitButton = SubmitField("Submit")
-
-class CreateEvent(FlaskForm):
+class CreateEventForm(FlaskForm):
     typeSelector = SelectField("Event Type", choices = [["", ""], ["swiss", "Swiss"], ["round robin", "Round Robin"], ["ladder", "Ladder"]], validators = [DataRequired()])
     maxRoundsIntegerBox = IntegerField("Number of Rounds",  validators = [Optional()])
     playersIntegerBox = IntegerField("Estimated Number of Players",  validators = [Optional()])
@@ -49,6 +24,56 @@ class CreateEvent(FlaskForm):
     adminPasswordBox = PasswordField("Admin Password",  validators = [Optional()])
     submitButton = SubmitField("Create Event")
 
-class AddPlayer(FlaskForm):
-    usernameTextBox = StringField("Name", validators = [DataRequired(message = "This is a required field.")])
-    submitButton = SubmitField("Add Player")
+class DeleteEventForm(FlaskForm):
+    passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Delete Event")
+
+class EndEventForm(FlaskForm):
+    passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("End Event")
+
+class LoginForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Login")
+
+class PairingForm(FlaskForm):
+    blackNameSelector = SelectField("Player playing Black", coerce = int, validators = [DataRequired(message = "This is a required field.")])
+    whiteNameSelector = SelectField("Player playing White", coerce = int, validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Submit")
+
+class ResultForm(FlaskForm):
+    pairingIdentifier = HiddenField()
+    matchNumber = HiddenField()
+    blackResultSelector = SelectField("Black Result", choices = [["", ""], ["W", "Win"], ["D", "Draw"], ["L", "Lose"], ["NS", "No Show"]], validators = [DataRequired(message = "This is a required field.")])
+    whiteResultSelector = SelectField("White Result", choices = [["", ""], ["W", "Win"], ["D", "Draw"], ["L", "Lose"], ["NS", "No Show"]], validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Submit")
+
+class SignupForm(FlaskForm):
+    firstNameTextBox = StringField("First Name", validators = [DataRequired(message = "This is a required field.")])
+    lastNameTextBox = StringField("Last name", validators = [DataRequired(message = "This is a required field.")])
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    emailTextBox = StringField("Email", validators = [DataRequired(message = "This is a required field."), Email("This field must contain a valid email adress.")])
+    dobDayIntegerBox = IntegerField("Day")
+    dobMonthIntegerBox = IntegerField("Month")
+    dobYearIntegerBox = IntegerField("Year")    
+    passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
+    repeatPasswordBox = PasswordField("Repeat Password", validators = [DataRequired(message = "This is a required field."), EqualTo("passwordPasswordBox", "Your passwords don't match. Please try entering them again.")])
+    submitButton = SubmitField("Signup")
+
+class UpdateUserForm(FlaskForm):
+    firstNameTextBox = StringField("First Name")
+    lastNameTextBox = StringField("Last name")
+    usernameTextBox = StringField("Username")
+    emailTextBox = StringField("Email", validators = [Optional(), Email("This field must contain a valid email adress.")])
+    dobDayIntegerBox = IntegerField("Day")
+    dobMonthIntegerBox = IntegerField("Month")
+    dobYearIntegerBox = IntegerField("Year")    
+    passwordPasswordBox = PasswordField("Password")
+    newPasswordPasswordBox = PasswordField("New Password")
+    newRepeatPasswordBox = PasswordField("Repeat New Password", validators = [EqualTo("newPasswordPasswordBox", "This field must match the \"New Password\" field.")])
+    submitButton = SubmitField("Change Data")
+
+class ViewOldEventsForm(FlaskForm):
+    viewCheckBox = BooleanField("View finished Events")
+    submitButton = SubmitField("Submit")

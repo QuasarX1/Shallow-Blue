@@ -823,3 +823,37 @@ If you wish to close the application and deal with the issue yourself, please re
         )
         
         self._connection.commit()
+
+    @connect
+    def deleteEvent(self, eventID, eventType):
+        pairingTable = None
+        if eventType == "ladder":
+            pairingTable = "ladder_pairing"
+        else:
+            pairingTable = "sr_pairing"
+
+        self._cursor.execute(
+            """
+                DELETE FROM %s
+                WHERE event_id = %s
+            """
+            %(pairingTable ,eventID)
+        )
+
+        self._cursor.execute(
+            """
+                DELETE FROM player
+                WHERE event_id = %s
+            """
+            %(eventID)
+        )
+
+        self._cursor.execute(
+            """
+                DELETE FROM event
+                WHERE event_id = %s
+            """
+            %(eventID)
+        )
+
+        self._connection.commit()

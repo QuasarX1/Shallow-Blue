@@ -56,6 +56,38 @@ def forceLogin(func):
             return redirect(url_for("login"))
     return wrapper
 
+def createEvent(func):
+    @wraps(func)
+    def wrapper(eventID, *args, **kwargs):
+        # Create the event object
+        event = None
+
+        eventData = database.getEvent(eventID)
+
+        if eventData == None:
+            flash("You tried to access an event that doesn’t exist.")
+            return redirect(url_for("home"))
+        
+        if eventData[4] == "ladder":
+            event = Ladder_EventClass.Ladder_Event(database, eventData)
+        else:
+            event = SR_EventClass.SR_Event(database, eventData)
+        
+        return func(event)
+
+    return wrapper
+
+def adminOnly(func):
+    @wraps(func)
+    def wrapper(event, *args, **kwargs):
+        if session["userID"] != event.creatorID and session["userName"] != "admin":
+            flash("You don't have permission to access that page.")
+            return redirect(url_for("homepage", eventID = event.id))
+        
+        return func(event)
+
+    return wrapper
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
@@ -189,7 +221,7 @@ def profile():
 
     return render_template("ProfilePage.html", pageTitle = "Profile", user = userData)
 
-@app.route('/watch')
+@app.route('/watch', methods = ["GET", "POST"])
 def spectate():
     """Spectate Page"""
     events = database.getEventListings()
@@ -202,13 +234,28 @@ def spectate():
 
     listings.sort(key = lambda event: event[2])
 
-    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings)
+    form = WTFClasses.ViewOldEventsForm()
+
+    # If old events requested
+    if form.validate_on_submit():
+        if form.viewCheckBox.data == True:
+            oldEvents = []
+            for event in events:
+                if event[4] == "finished":
+                    oldEvents.append([event[0], event[1], datetime.datetime.fromtimestamp(int(event[2])), event[3]])
+
+            oldEvents.sort(key = lambda event: event[2])
+
+            for event in oldEvents:
+                listings.append(event)
+
+    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings, form = form)
 
 @app.route('/join', methods = ["GET", "POST"])
 @forceLogin
 def join():
     """Join Page"""
-    form = WTFClasses.CreateEvent()
+    form = WTFClasses.CreateEventForm()
 
     if form.validate_on_submit():
         name = form.eventNameTextBox.data
@@ -340,62 +387,53 @@ def join():
 
 @app.route('/<eventID>/join')
 @forceLogin
-def joinEvent(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-
-    if eventData != None:
-        if eventData[4] == "ladder":
-            event = Ladder_EventClass.Ladder_Event(database, eventData)
-        else:
-            event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def joinEvent(event):
     try:
         event.addPlayer(database, session["userID"])
 
     except:
         flash("You have allready joined this event. You can only join an event once.")
 
-    return redirect(url_for("homepage", eventID = eventID))
+    return redirect(url_for("homepage", eventID = event.id))
 
 @app.route('/<eventID>/home')
-def homepage(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-
-    if eventData != None:
-        if eventData[4] == "ladder":
-            event = Ladder_EventClass.Ladder_Event(database, eventData)
-        else:
-            event = SR_EventClass.SR_Event(database, eventData)
-
-        return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
-
-    else:
-        flash("You tried to access an event that doesn’t exist.")
-        return redirect(url_for("home"))
+@createEvent
+def homepage(event):
+    return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin
-def addPlayer(eventID):
-    event = None
+@createEvent
+@adminOnly
+def addPlayer(event):
+    form = WTFClasses.AddPlayerForm()
 
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
+    if form.validate_on_submit():
+        name = form.usernameTextBox.data
 
-    if session["userID"] != event.creatorID:
-        flash("You don't have permission to access that page.")
-        return redirect(url_for("homepage", eventID = eventID))
+        userData = database.getUser(name)
 
-    form = WTFClasses.AddPlayer()
+        if userData != None:
+            try:
+                event.addPlayer(database, userData[0])
+                flash("The user " + name + "has been added.")
+            except ValueError:
+                flash("The user " + name + "has allready joined the event.")
+
+            return redirect(url_for("scores", eventID = event.id))
+
+        else:
+            form.usernameTextBox.errors.append("There is no user with the username " + name + ".")
+
+    return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+
+@app.route('/<eventID>/addNewPlayer', methods = ["GET", "POST"])
+@forceLogin
+@createEvent
+@adminOnly
+def addNewPlayer(event):
+    form = WTFClasses.AddPlayerForm()
 
     if form.validate_on_submit():
         name = form.usernameTextBox.data + " : " + str(datetime.datetime.now())
@@ -406,21 +444,13 @@ def addPlayer(eventID):
 
         flash("The user " + name + "has been added.")
 
-        return redirect(url_for("scores", eventID = eventID))
+        return redirect(url_for("scores", eventID = event.id))
 
-    return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+    return render_template("AddNewPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
 
 @app.route('/<eventID>/pairings', methods = ["GET", "POST"])
-def pairings(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def pairings(event):
     currentPairings = event.getPairings(database)
 
     returnForm = WTFClasses.ResultForm()
@@ -446,11 +476,11 @@ def pairings(eventID):
         if valid == True:
             status = event.updatePairing(database, matchNumber, event.getPlayer(currentPairings[pairingNumber][1]), returnForm.blackResultSelector.data, event.getPlayer(currentPairings[pairingNumber][2]), returnForm.whiteResultSelector.data)
             if status == "End of event":
-                return redirect(url_for("homepage", eventID = eventID))
+                return redirect(url_for("homepage", eventID = event.id))
             elif status == "End of round":
                 return render_template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active", session = session)
             else:
-                return redirect(url_for("pairings", eventID = eventID))
+                return redirect(url_for("pairings", eventID = event.id))
                 
     currentPairings = event.getPairings(database)
 
@@ -471,67 +501,44 @@ def pairings(eventID):
 
 @app.route('/<eventID>/startRound')
 @forceLogin
-def startRound(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
+@createEvent
+@adminOnly
+def startRound(event):
+    if event.eventType == "ladder":
         flash("That event type can't have pairings generated for it.")
         return redirect(url_for("home"))
-    event = SR_EventClass.SR_Event(database, eventData)
-
-    if session["userID"] != event.creatorID:
-        flash("You don't have permission to access that page.")
-        return redirect(url_for("homepage", eventID = eventID))
 
     if event.round == 0:
         if len(event.players) < 2:
             flash("You can't start a " + event.eventType + " event with fewer than two players.")
-            return redirect(url_for("pairings", eventID = eventID))
+            return redirect(url_for("pairings", eventID = event.id))
         event.startEvent(database)
 
     event.createPairings(database)
 
-    return redirect(url_for("pairings", eventID = eventID))
+    return redirect(url_for("pairings", eventID = event.id))
 
 @app.route('/<eventID>/startLadderEvent')
 @forceLogin
-def startLadderEvent(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-       event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
+@createEvent
+@adminOnly
+def startLadderEvent(event):
+    if event.eventType != "ladder":
         flash("Only ladder events can be started in this way.")
         return redirect(url_for("home"))
-
-    if session["userID"] != event.creatorID:
-        flash("You don't have permission to access that page.")
-        return redirect(url_for("homepage", eventID = eventID))
     
     event.startEvent(database)
     
-    return redirect(url_for("pairings", eventID = eventID))
+    return redirect(url_for("pairings", eventID = event.id))
 
 @app.route('/<eventID>/addPairings', methods = ["GET", "POST"])
 @forceLogin
-def addLadderPairings(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        flash("That event type can't have manual pairings.")
+@createEvent
+@adminOnly
+def addLadderPairings(event):
+    if event.eventType != "ladder":
+        flash("This event type can't have manual pairings.")
         return redirect(url_for("home"))
-
-    if session["userID"] != event.creatorID:
-        flash("You don't have permission to access that page.")
-        return redirect(url_for("homepage", eventID = eventID))
 
     form = WTFClasses.PairingForm()
 
@@ -561,7 +568,7 @@ def addLadderPairings(eventID):
             try:
                 event.addPairing(database, bPlayer, wPlayer)
 
-                return redirect(url_for("pairings", eventID = eventID))
+                return redirect(url_for("pairings", eventID = event.id))
             except ValueError as e:
                 form.blackNameSelector.errors.append(e.args[0])
 
@@ -570,31 +577,76 @@ def addLadderPairings(eventID):
     
     return render_template("AddPairingsPage.html", pageTitle = "Add Pairing", event = event, form = form, pairingsClass = "active")
 
+@app.route('/<eventID>/delete', methods = ["GET", "POST"])
+@forceLogin
+@createEvent
+@adminOnly
+def deleteEvent(event):
+    form = WTFClasses.DeleteEventForm()
+
+    if form.validate_on_submit():
+        userData = database.getUserLogin(session["userName"], hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
+
+        if userData != None:
+            name = event.name
+
+            event.delete(database)
+
+            flash("The event " + name + " has successfully been deleted.")
+
+            return redirect(url_for("home"))
+
+        else:
+            form.passwordPasswordBox.errors.append("The password provided was incorrect.")
+
+    return render_template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active", session = session)
+
 @app.route('/<eventID>/scores')
-def scores(eventID):
-    event = None
-
-    #Create the event object
-    eventData = database.getEvent(eventID)
-    if eventData[4] == "ladder":
-        event = Ladder_EventClass.Ladder_Event(database, eventData)
-    else:
-        event = SR_EventClass.SR_Event(database, eventData)
-
+@createEvent
+def scores(event):
     event.players.sort(key = lambda player: player.position)
 
     return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
 
+@app.route('/<eventID>/end', methods = ["GET", "POST"])
+@forceLogin
+@createEvent
+@adminOnly
+def endEvent(event):
+    form = WTFClasses.EndEventForm()
+
+    if form.validate_on_submit():
+
+        userData = database.getUserLogin(session["userName"], hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
+
+        if userData != None:
+            if event.eventType == "ladder":
+                event.endEvent(database)
+            else:
+                try:
+                    event.endEvent(database, False)
+                except ValueError:
+                    event.endEvent(database, True)
+
+            flash("The event has been ended.")
+
+            return redirect(url_for("homepage", eventID = event.id))
+
+        else:
+            form.passwordPasswordBox.errors.append("The password provided was incorrect.")
+
+    return render_template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active", session = session)
+
 if __name__ == '__main__':
     # Runs the web server using the IPv4 adress passed in as an argument
-    app.run(str(sys.argv[1]), 5555, threaded = True)
+    #app.run(str(sys.argv[1]), 5555, threaded = True)
     # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
     #TODO: Comment out this section before relice
-    #import os
-    #HOST = os.environ.get('SERVER_HOST', 'localhost')
-    #try:
-    #    PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    #except ValueError:
-    #    PORT = 5555
-    # Run the web server---------------------------------------------------------------------------------------------------
-    #app.run(HOST, PORT, threaded = True)
+    import os
+    HOST = os.environ.get('SERVER_HOST', 'localhost')
+    try:
+        PORT = int(os.environ.get('SERVER_PORT', '5555'))
+    except ValueError:
+        PORT = 5555
+    #Run the web server---------------------------------------------------------------------------------------------------
+    app.run(HOST, PORT, threaded = True)

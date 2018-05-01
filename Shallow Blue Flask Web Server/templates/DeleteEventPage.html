@@ -5,21 +5,29 @@
     {# Page Description #}
     <div class="row">
         <p class="col-sm-12">
-            Use this page to add players to the event that allready have an account. Please be sure that the user wishes to enter the event before continuing.
+            This should only be used in the event of a mistake with creating the event. If the event is finished DO NOT DELETE IT!<br />
+            Also any changes made to a player's raiting will remain unafected by deleting this event. Please consider this before continuing.
         </p>
     </div>
 
     {{form.hidden_tag()}}{# Used for CRSF protection #}
 
+    {# Label #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <p class="col-sm-6">{{form.passwordPasswordBox.label}}</p>
+        <div class="col-sm-3"></div>
+    </div>
+
     {# Field #}
     <div class="row">
         <div class="col-sm-3"></div>
-        <p class="col-sm-6">{{form.usernameTextBox.label}}: {{form.usernameTextBox()}}</p>
+        <p class="col-sm-6">{{form.passwordPasswordBox()}}</p>
         <div class="col-sm-3"></div>
     </div>
 
     {# Errors #}
-    {% for error in form.usernameTextBox.errors %}
+    {% for error in form.passwordPasswordBox.errors %}
     <div class="row">
         <div class="col-sm-3"></div>
         <p class="col-sm-6">{{error}}</p>
@@ -31,10 +39,6 @@
         <div class="col-sm-3"></div>
         <p class="col-sm-6">{{form.submitButton()}}</p>
         <div class="col-sm-3"></div>
-    </div>
-
-    <div class="row">
-        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-clipboard button-icon"></i></a></p>
     </div>
 </form>
 {% endblock %}

@@ -1,5 +1,7 @@
 ﻿{% extends "EventTemplate.html" %}{# This page builds on the EventTemplate page #}
 
 {% block pageContent %}
+<p>Event Status: {{event.status.title()}}</p>
+<p>Number of Players: {{event.players|length}}</p>
 <p>{{event.info}}</p>
 {% endblock %}
