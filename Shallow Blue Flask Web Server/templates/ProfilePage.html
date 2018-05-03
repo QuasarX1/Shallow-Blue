@@ -9,48 +9,95 @@
         <h1 style="text-align:center">{{user[1].upper()}}'S PROFILE</h1>
     </header>
 
-    {# User infomation displayed below #}
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <div class="col-sm-6">
-            <table>
-                <tr>
-                    <td><p>User ID</p></td>
-                    <td><p>{{user[0]}}</p></td>
-                </tr>
-
-                <tr>
-                    <td><p>Username</p></td>
-                    <td><p>{{user[1].title()}}</p></td>
-                </tr>
-
-                <tr>
-                    <td><p>First Name</p></td>
-                    <td><p>{{user[2]}}</p></td>
-                </tr>
-
-                <tr>
-                    <td><p>Last Name</p></td>
-                    <td><p>{{user[3]}}</p></td>
-                </tr>
-
-                <tr>
-                    <td><p>Email</p></td>
-                    <td><p>{{user[4]}}</p></td>
-                </tr>
-
-                <tr>
-                    <td><p>Date of Birth</p></td>
-                    <td><p>{{user[5]}}</p></td>
-                </tr>
-
-                <tr>
-                    <td><p>Elo Raiting</p></td>
-                    <td><p>{{user[6]}}</p></td>
-                </tr>
-            </table>
+    <div class="col-sm-6 container-fluid">
+        {# User infomation displayed below #}
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">User ID</p>
+            <p class="col-sm-3">{{user[0]}}</p>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2"></div>
         </div>
-        <div class="col-sm-3"></div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Username</p>
+            <p class="col-sm-3">{{user[1].title()}}</p>
+            <div class="col-sm-2">{{form.firstNameTextBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">First Name</p>
+            <p class="col-sm-3">{{user[2]}}</p>
+            <div class="col-sm-2">{{form.lastNameTextBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Last Name</p>
+            <p class="col-sm-3">{{user[3]}}</p>
+            <div class="col-sm-2">{{form.usernameTextBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Email</p>
+            <p class="col-sm-3">{{user[4]}}</p>
+            <div class="col-sm-2">{{form.emailTextBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Date of Birth</p>
+            <p class="col-sm-3">{{user[5]}}</p>
+            <p class="col-sm-2">{{form.dobDayIntegerBox()}} / {{form.dobMonthIntegerBox()}} / {{form.dobYearIntegerBox()}}</p>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Chess Raiting</p>
+            <p class="col-sm-3">{{user[6]|int}}</p>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Current Password</p>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">{{form.passwordPasswordBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">New Password</p>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">{{form.newPasswordPasswordBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <p class="col-sm-3">Repeat New Password</p>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-2">{{form.newRepeatPasswordBox()}}</div>
+            <div class="col-sm-2"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-3"></div>
+            <div class="col-sm-3">{{form.submitButton()}}</div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-2"></div>
+        </div>
     </div>
 </div>
 {% endblock %}

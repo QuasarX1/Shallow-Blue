@@ -208,6 +208,11 @@ def signup():
 @app.route('/profile')
 @forceLogin
 def profile():
+    form = WTFClasses.UpdateUserForm()
+
+    if form.validate_on_submit():
+        pass
+
     userData = []
     
     for item in database.getUser(session["userName"]):
@@ -219,7 +224,7 @@ def profile():
         userData[5] = datetime.datetime.fromtimestamp(int(userData[5]))
         userData[5] = userData[5].strftime(format = "%d/%m/%Y")
 
-    return render_template("ProfilePage.html", pageTitle = "Profile", user = userData)
+    return render_template("ProfilePage.html", pageTitle = "Profile", user = userData, form = form)
 
 @app.route('/watch', methods = ["GET", "POST"])
 def spectate():
@@ -642,7 +647,6 @@ def endEvent(event):
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.png')
-
 
 if __name__ == '__main__':
     # Runs the web server using the IPv4 adress passed in as an argument
