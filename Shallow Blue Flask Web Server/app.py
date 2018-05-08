@@ -218,13 +218,19 @@ def signup():
 
     return render_template("SignupPage.html", pageTitle = "Signup", form = form)
 
-@app.route('/profile')
+@app.route('/profile', methods = ["GET", "POST"])
 @forceLogin
 def profile():
     form = WTFClasses.UpdateUserForm()
 
     if form.validate_on_submit():
         pass
+        #fname
+        #lname
+        #usrname
+        #email
+        #dob
+        #password
 
     userData = []
     
