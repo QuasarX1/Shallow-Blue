@@ -103,7 +103,11 @@ def home(loggedIn):
 @app.route('/admin')
 @forceLogin
 def adminMenu():
-    pass
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    return render_template("AdminMenuPage.html")
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -415,6 +419,15 @@ def joinEvent(event):
 @createEvent
 def homepage(event):
     return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
+
+@app.route('/admin/resetUserPassword')
+@forceLogin
+def resetUserPassword():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    return render_template("ResetUserPassword.html")
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin

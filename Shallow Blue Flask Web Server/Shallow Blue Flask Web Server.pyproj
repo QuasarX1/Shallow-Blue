@@ -87,6 +87,7 @@
     <Content Include="templates\AddPairingsPage.html" />
     <Content Include="templates\AddNewPlayerPage.html" />
     <Content Include="templates\AddPlayerPage.html" />
+    <Content Include="templates\AdminMenuPage.html" />
     <Content Include="templates\EndEventPage.html" />
     <Content Include="templates\DeleteEventPage.html" />
     <Content Include="templates\EventHomePage.html" />
@@ -95,6 +96,7 @@
     <Content Include="templates\LoginPage.html" />
     <Content Include="templates\MainTemplate.html" />
     <Content Include="templates\PairingsPage.html" />
+    <Content Include="templates\ResetUserPassword.html" />
     <Content Include="templates\ScoresPage.html" />
     <Content Include="templates\SignupPage.html" />
     <Content Include="templates\SplashPage.html" />
