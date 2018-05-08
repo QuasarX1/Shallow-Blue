@@ -47,9 +47,13 @@
 
         {# Profile button #}
         <div class="col-sm-3" style="text-align: center">
-            <a class="btn splash_button-background" href="{{url_for("profile")}}"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
+            <a class="btn splash_button-background" href="{% if admin == False %}{{url_for("profile")}}{% else %}{{url_for("adminMenu")}}{% endif %}"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
             <br />
+            {% if admin == False %}
             <p>Profile</p>
+            {% else %}
+            <p>Admin Pages</p>
+            {% endif %}
         </div>
 
         <div class="col-sm-3"></div>

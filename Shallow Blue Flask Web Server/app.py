@@ -94,7 +94,16 @@ def adminOnly(func):
 @testLogin
 def home(loggedIn):
     """Splash Page"""
-    return render_template("SplashPage.html", loggedIn = loggedIn)
+    admin = False
+    if loggedIn:
+        if session["userName"] == "admin":
+            admin = True
+    return render_template("SplashPage.html", loggedIn = loggedIn, admin = admin)
+
+@app.route('/admin')
+@forceLogin
+def adminMenu():
+    pass
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
