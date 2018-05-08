@@ -42,6 +42,11 @@ class PairingForm(FlaskForm):
     whiteNameSelector = SelectField("Player playing White", coerce = int, validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Submit")
 
+class ResetUserPasswordForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    passwordPasswordBox = PasswordField("New Password", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Reset Password")
+
 class ResultForm(FlaskForm):
     pairingIdentifier = HiddenField()
     matchNumber = HiddenField()

@@ -666,6 +666,19 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchall()
 
     @connect
+    def updateUserPassword(self, userName, password):
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET password = '%s'
+                WHERE user_name = '%s';
+            """
+            % (password, userName)
+        )
+
+        self._connection.commit()
+
+    @connect
     def updateEvent(self, event):
         self._cursor.execute(
             """
