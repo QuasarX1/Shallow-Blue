@@ -666,6 +666,10 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchall()
 
     @connect
+    def updateUser(self, userData):
+        pass
+
+    @connect
     def updateUserPassword(self, userName, password):
         self._cursor.execute(
             """

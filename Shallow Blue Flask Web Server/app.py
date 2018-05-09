@@ -223,19 +223,72 @@ def signup():
 def profile():
     form = WTFClasses.UpdateUserForm()
 
-    if form.validate_on_submit():
-        pass
-        #fname
-        #lname
-        #usrname
-        #email
-        #dob
-        #password
-
     userData = []
     
     for item in database.getUser(session["userName"]):
         userData.append(item)
+
+    if form.validate_on_submit():
+
+        valid = True
+
+        #check password
+
+        if form.firstNameTextBox.data != "":
+            userData[2] = form.firstNameTextBox.data
+
+        if form.lastNameTextBox.data != "":
+            userData[3] = form.lastNameTextBox.data
+
+        if form.usernameTextBox.data != "":
+            if form.usernameTextBox.data not in database.getUsernames():
+                userData[1] = form.usernameTextBox.data
+            else:
+                form.usernameTextBox.errors.append("This username is allready being used. Please try another")
+
+        if form.emailTextBox.data != "":
+            userData[5] = form.emailTextBox.data
+
+        #dob
+        if form.usernameTextBox.data != "":
+
+            try:
+                # Check the date is in a sutable range
+                datetime.timedelta()
+                if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
+                    form.dobDayIntegerBox.errors.append("The date provided was not posible as a date of birth. Please try again.")
+                    valid = False
+
+            except ValueError:
+                valid = False
+
+                # Check that day and month values are valid
+                if month in [1, 3, 5, 7, 8, 10, 12] and (day < 1 or day > 31):
+                    form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                elif month in [4, 6, 9, 11] and (day < 1 or day > 31):
+                    form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+            
+                elif month == 2:
+                    if int(year/4) == int(float(year/4.0)) and (day < 1 or day > 29):
+                        form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                    elif day < 1 or day > 28:
+                        form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                else:
+                    form.dobMonthIntegerBox.errors.append("The month provided dosen't exist.")
+
+                userData[2] = form.firstNameTextBox.data
+
+        if form.newPasswordPasswordBox.data != "":
+            userData[4] = hashlib.sha512(form.newPasswordPasswordBox.data.encode('utf8')).hexdigest()
+
+            if valid == True:
+                database.updateUser()#-----------
+
+        #dob
+        #password
 
     userData.pop(4)
 
