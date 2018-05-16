@@ -739,15 +739,20 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.png')
 
 if __name__ == '__main__':
-    # Runs the web server using the IPv4 adress passed in as an argument
-    #app.run(str(sys.argv[1]), 5555, threaded = True)
-    # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
-    #TODO: Comment out this section before relice
-    import os
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    except ValueError:
+    if len(sys.argv) > 1:
+        # Runs the web server using the IPv4 adress passed in as an argument
+        HOST = str(sys.argv[1])
         PORT = 5555
+
+    else:
+        # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
+        #TODO: Comment out this section before relice
+        import os
+        HOST = os.environ.get('SERVER_HOST', 'localhost')
+        try:
+            PORT = int(os.environ.get('SERVER_PORT', '5555'))
+        except ValueError:
+            PORT = 5555
+
     #Run the web server---------------------------------------------------------------------------------------------------
     app.run(HOST, PORT, threaded = True)

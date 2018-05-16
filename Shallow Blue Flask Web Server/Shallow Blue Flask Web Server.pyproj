@@ -40,6 +40,7 @@
     <Compile Include="PlayerClass.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include=".RunApp.py" />
     <Compile Include="SR_EventClass.py">
       <SubType>Code</SubType>
     </Compile>
