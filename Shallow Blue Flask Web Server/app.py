@@ -228,11 +228,17 @@ def profile():
     for item in database.getUser(session["userName"]):
         userData.append(item)
 
+    if userData[6] != None:# To prevent errors with profiles with no dob e.g. admin
+        userData[6] = datetime.datetime.fromtimestamp(int(userData[6]))
+
     if form.validate_on_submit():
 
         valid = True
 
-        #check password
+        # Check password
+        if database.getUserLogin(session["userName"], hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest()) == None:
+            form.passwordPasswordBox.errors.append("Incorrect password")
+            valid = False
 
         if form.firstNameTextBox.data != "":
             userData[2] = form.firstNameTextBox.data
@@ -250,14 +256,23 @@ def profile():
             userData[5] = form.emailTextBox.data
 
         #dob
-        if form.usernameTextBox.data != "":
+        if form.dobDayIntegerBox.data != None or form.dobMonthIntegerBox.data != None or form.dobYearIntegerBox.data != None:
+
+            if form.dobDayIntegerBox.data == None:
+                form.dobDayIntegerBox.data = userData[6].day
+            if form.dobMonthIntegerBox.data == None:
+                form.dobMonthIntegerBox.data = userData[6].month
+            if form.dobYearIntegerBox.data == None:
+                form.dobYearIntegerBox.data = userData[6].year
 
             try:
                 # Check the date is in a sutable range
-                datetime.timedelta()
-                if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
+                #datetime.timedelta()
+                if datetime.date(form.dobYearIntegerBox.data, form.dobMonthIntegerBox.data, form.dobDayIntegerBox.data) > datetime.date.today() or datetime.date(form.dobYearIntegerBox.data, form.dobMonthIntegerBox.data, form.dobDayIntegerBox.data) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
                     form.dobDayIntegerBox.errors.append("The date provided was not posible as a date of birth. Please try again.")
                     valid = False
+                else:
+                    userData[6] = datetime.datetime(form.dobYearIntegerBox.data, form.dobMonthIntegerBox.data, form.dobDayIntegerBox.data)
 
             except ValueError:
                 valid = False
@@ -279,21 +294,27 @@ def profile():
                 else:
                     form.dobMonthIntegerBox.errors.append("The month provided dosen't exist.")
 
-                userData[2] = form.firstNameTextBox.data
+                #userData[6] = datetime.datetime(dobYearIntegerBox, dobMonthIntegerBox, dobDayIntegerBox).timestamp()
 
         if form.newPasswordPasswordBox.data != "":
             userData[4] = hashlib.sha512(form.newPasswordPasswordBox.data.encode('utf8')).hexdigest()
 
-            if valid == True:
-                database.updateUser()#-----------
+        if valid == True:
+            userData[6] = userData[6].timestamp()
+            database.updateUser(userData)
+            userData[6] = datetime.datetime.fromtimestamp(int(userData[6]))
 
-        #dob
-        #password
+            form.dobDayIntegerBox.data = None
+            form.dobMonthIntegerBox.data = None
+            form.dobYearIntegerBox.data = None
+            form.emailTextBox.data = ""
+            form.usernameTextBox.data = ""
+            form.firstNameTextBox.data = ""
+            form.lastNameTextBox.data = ""
 
     userData.pop(4)
 
-    if userData[5] != None:
-        userData[5] = datetime.datetime.fromtimestamp(int(userData[5]))
+    if userData[5] != None:# To prevent errors with profiles with no dob e.g. admin
         userData[5] = userData[5].strftime(format = "%d/%m/%Y")
 
     return render_template("ProfilePage.html", pageTitle = "Profile", user = userData, form = form)

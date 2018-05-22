@@ -667,7 +667,16 @@ If you wish to close the application and deal with the issue yourself, please re
 
     @connect
     def updateUser(self, userData):
-        pass
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET user_name = '%s', first_name = '%s', last_name = '%s', password = '%s', email = '%s', dob = '%s'
+                WHERE user_name = '%s'
+            """
+            % (userData[1], userData[2], userData[3], userData[4], userData[5], userData[6], userData[1])
+        )
+
+        self._connection.commit()
 
     @connect
     def updateUserPassword(self, userName, password):
