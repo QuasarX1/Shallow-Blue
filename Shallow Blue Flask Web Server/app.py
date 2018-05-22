@@ -218,6 +218,33 @@ def signup():
 
     return render_template("SignupPage.html", pageTitle = "Signup", form = form)
 
+@app.route('/admin/resetUserPassword', methods = ["GET", "POST"])
+@forceLogin
+def resetUserPassword():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    form = WTFClasses.ResetUserPasswordForm()
+
+    if form.validate_on_submit():
+        if database.getUser(form.usernameTextBox.data) != None:
+            database.updateUserPassword(form.usernameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
+            return redirect(url_for("adminMenu"))
+        else:
+            form.usernameTextBox.errors.append("There is no user with the username provided.")
+
+    return render_template("ResetUserPassword.html", form = form)
+
+@app.route('/admin/deleteUser', methods = ["GET", "POST"])
+@forceLogin
+def deleteUser():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    return redirect(url_for("adminMenu"))
+
 @app.route('/profile', methods = ["GET", "POST"])
 @forceLogin
 def profile():
@@ -499,24 +526,6 @@ def joinEvent(event):
 @createEvent
 def homepage(event):
     return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
-
-@app.route('/admin/resetUserPassword', methods = ["GET", "POST"])
-@forceLogin
-def resetUserPassword():
-    if session["userName"] != "admin":
-        flash("Only the admin may access this page.")
-        return redirect(url_for("home"))
-
-    form = WTFClasses.ResetUserPasswordForm()
-
-    if form.validate_on_submit():
-        if database.getUser(form.usernameTextBox.data) != None:
-            database.updateUserPassword(form.usernameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
-            return redirect(url_for("adminMenu"))
-        else:
-            form.usernameTextBox.errors.append("There is no user with the username provided.")
-
-    return render_template("ResetUserPassword.html", form = form)
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin
