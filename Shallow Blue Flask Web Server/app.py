@@ -243,7 +243,30 @@ def deleteUser():
         flash("Only the admin may access this page.")
         return redirect(url_for("home"))
 
-    return redirect(url_for("adminMenu"))
+    form = WTFClasses.DeleteUserForm()
+
+    if form.validate_on_submit():
+        valid = True
+        if database.getUser(form.usernameTextBox.data) == None:
+            valid = False
+            form.usernameTextBox.errors.append("The user provided dosen't exist.")
+        
+        if database.getUserLogin("admin", hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest()) == None:
+            valid = False
+            form.passwordPasswordBox.errors.append("The password you entered was incorrect.")
+
+        if valid:
+            database.deleteUser(form.usernameTextBox.data)
+
+            flash("The personal data for " + form.usernameTextBox.data + " has been removed.")
+
+            return redirect(url_for("adminMenu"))
+    
+    form.confirmData.data = ""
+    for i in range(0, 8):
+        form.confirmData.data += string.ascii_letters[random.randint(0, len(string.ascii_letters) - 1)]
+
+    return render_template("DeleteUserPage.html", form = form)
 
 @app.route('/profile', methods = ["GET", "POST"])
 @forceLogin

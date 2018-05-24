@@ -1,3 +1,4 @@
+import datetime
 import hashlib
 import os
 import sqlite3
@@ -848,6 +849,21 @@ If you wish to close the application and deal with the issue yourself, please re
             %(newRaiting, wPlayer.name)
         )
         
+        self._connection.commit()
+
+    @connect
+    def deleteUser(self, username):
+        now = datetime.datetime.now()
+
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET user_name = '%s', first_name = NULL, last_name = NULL, password = NULL, email = NULL, dob = NULL
+                WHERE user_name = '%s'
+            """
+            % (now.timestamp(), username)
+        )
+
         self._connection.commit()
 
     @connect

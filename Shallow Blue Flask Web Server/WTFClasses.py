@@ -28,6 +28,13 @@ class DeleteEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Delete Event")
 
+class DeleteUserForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
+    confirmData = HiddenField()
+    confirmDataTextBox = StringField("Enter the text from above to confirm:", validators = [DataRequired(message = "This is a required field."), EqualTo("confirmData", "The text didn't match - try again.")])
+    submitButton = SubmitField("Delete User")
+
 class EndEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("End Event")
