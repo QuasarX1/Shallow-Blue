@@ -903,3 +903,4 @@ If you wish to close the application and deal with the issue yourself, please re
 
     def backup(self, filename):
         shutil.copy(self._location, "Data\\Backups\\" + filename + ".db")
+        print("Created a database backup called " + filename)
