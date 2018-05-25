@@ -25,7 +25,7 @@
             <div class="col-sm-2"></div>
             <p class="col-sm-3">Username</p>
             <p class="col-sm-3">{{user[1].title()}}</p>
-            <div class="col-sm-2">{{form.usernameTextBox()}}{% for error in form.firstNameTextBox.errors %}<p>{{error}}</p>{% endfor %}</div>
+            <div class="col-sm-2">{{form.usernameTextBox()}}{% for error in form.usernameTextBox.errors %}<p>{{error}}</p>{% endfor %}</div>
             <div class="col-sm-2"></div>
         </div>
 
@@ -41,7 +41,7 @@
             <div class="col-sm-2"></div>
             <p class="col-sm-3">Last Name</p>
             <p class="col-sm-3">{{user[3]}}</p>
-            <div class="col-sm-2">{{form.lastNameTextBox()}}{% for error in form.usernameTextBox.errors %}<p>{{error}}</p>{% endfor %}</div>
+            <div class="col-sm-2">{{form.lastNameTextBox()}}{% for error in form.firstNameTextBox.errors %}<p>{{error}}</p>{% endfor %}</div>
             <div class="col-sm-2"></div>
         </div>
 

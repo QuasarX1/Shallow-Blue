@@ -315,16 +315,20 @@ def profile():
             if form.dobYearIntegerBox.data == None:
                 form.dobYearIntegerBox.data = userData[6].year
 
+            day = form.dobDayIntegerBox.data
+            month = form.dobMonthIntegerBox.data
+            year = form.dobYearIntegerBox.data
+
             try:
                 # Check the date is in a sutable range
-                #datetime.timedelta()
-                if datetime.date(form.dobYearIntegerBox.data, form.dobMonthIntegerBox.data, form.dobDayIntegerBox.data) > datetime.date.today() or datetime.date(form.dobYearIntegerBox.data, form.dobMonthIntegerBox.data, form.dobDayIntegerBox.data) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
+                if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
                     form.dobDayIntegerBox.errors.append("The date provided was not posible as a date of birth. Please try again.")
                     valid = False
                 else:
-                    userData[6] = datetime.datetime(form.dobYearIntegerBox.data, form.dobMonthIntegerBox.data, form.dobDayIntegerBox.data)
+                    userData[6] = datetime.datetime(year, month, day)
 
             except ValueError:
+                form.dobDayIntegerBox.errors.append("The date provided was invalid.")
                 valid = False
 
                 # Check that day and month values are valid
@@ -344,8 +348,6 @@ def profile():
                 else:
                     form.dobMonthIntegerBox.errors.append("The month provided dosen't exist.")
 
-                #userData[6] = datetime.datetime(dobYearIntegerBox, dobMonthIntegerBox, dobDayIntegerBox).timestamp()
-
         if form.newPasswordPasswordBox.data != "":
             userData[4] = hashlib.sha512(form.newPasswordPasswordBox.data.encode('utf8')).hexdigest()
 
@@ -361,6 +363,14 @@ def profile():
             form.usernameTextBox.data = ""
             form.firstNameTextBox.data = ""
             form.lastNameTextBox.data = ""
+        else:
+            userData = []
+    
+            for item in database.getUser(session["userName"]):
+                userData.append(item)
+
+            if userData[6] != None:# To prevent errors with profiles with no dob e.g. admin
+                userData[6] = datetime.datetime.fromtimestamp(int(userData[6]))
 
     userData.pop(4)
 
