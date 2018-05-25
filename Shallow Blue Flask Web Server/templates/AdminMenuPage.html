@@ -1,30 +1,10 @@
-﻿{% extends "MainTemplate.html" %}
+﻿{% extends "MenuTemplate.html" %}
 
-{% block pageTitle %}Shallow Blue - Admin Menu{% endblock %}
+{% block pageTitle %}Admin Menu{% endblock %}
+
+{% block pageHeading %}SHALLOW BLUE - ADMIN MENU{% endblock %}
 
 {% block bodyContent %}
-<div class="container-fluid">
-    {# Page heading #}
-    <header class="jumbotron Page-Heading">
-        <h1 style="text-align:center">SHALLOW BLUE - ADMIN MENU</h1>
-    </header>
-
-    {# Output messages #}
-    {% for message in get_flashed_messages() %}
-    <div class="row">
-        <div class="col-sm-3"></div>
-
-        <div class="col-sm-6">
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{message}}
-            </div>
-        </div>
-
-        <div class="col-sm-3"></div>
-    </div>
-    {% endfor %}
-
     {# Top row of icons #}
     <div class="row">
         <div class="col-sm-3"></div>
@@ -65,5 +45,4 @@
 
         <div class="col-sm-3"></div>
     </div>
-</div>
 {% endblock %}

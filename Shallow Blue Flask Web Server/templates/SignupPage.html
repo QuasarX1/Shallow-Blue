@@ -1,82 +1,77 @@
-﻿{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+﻿{% extends "MenuTemplate.html" %}{# This page builds on the MenuTemplate page #}
 
-{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+{% block pageTitle %}{{pageTitle}}{% endblock %}
+
+{% block pageHeading %}Signup{% endblock %}
 
 {% block bodyContent %}
-<div class="container-fluid">
-    {# Page hedding #}
-    <header class="jumbotron Page-Heading">
-        <h1 style="text-align:center">Signup</h1>
-    </header>
+<div class="row">
+    <div class="col-sm-3"></div>
 
-    <div class="row">
-        <div class="col-sm-3"></div>
+    {# Signup form #}
+    <div class="col-sm-6" style="text-align: center">
+        <form method="POST">
+            {{form.hidden_tag()}}{# Used for CRSF protection #}
 
-        {# Signup form #}
-        <div class="col-sm-6" style="text-align: center">
-            <form method="POST">
-                {{form.hidden_tag()}}{# Used for CRSF protection #}
+            <p>{{form.firstNameTextBox.label}} {{form.firstNameTextBox()}}</p>
+            {% for error in form.firstNameTextBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
 
-                <p>{{form.firstNameTextBox.label}} {{form.firstNameTextBox()}}</p>
-                {% for error in form.firstNameTextBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
+            <p>{{form.lastNameTextBox.label}} {{form.lastNameTextBox()}}</p>
+            {% for error in form.lastNameTextBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
 
-                <p>{{form.lastNameTextBox.label}} {{form.lastNameTextBox()}}</p>
-                {% for error in form.lastNameTextBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
+            <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
+            {% for error in form.usernameTextBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
 
-                <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
-                {% for error in form.usernameTextBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
+            <p>{{form.emailTextBox.label}} {{form.emailTextBox()}}</p>
+            {% for error in form.emailTextBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
 
-                <p>{{form.emailTextBox.label}} {{form.emailTextBox()}}</p>
-                {% for error in form.emailTextBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-
-                <p>
-                    Date of Birth (Format: day/month/year)
-                    <br />
-                    {{form.dobDayIntegerBox()}} / {{form.dobMonthIntegerBox()}} / {{form.dobYearIntegerBox()}}
-                </p>
-                {% for error in form.dobDayIntegerBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-                {% for error in form.dobMonthIntegerBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-                {% for error in form.dobYearIntegerBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-
-                <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
-                {% for error in form.passwordPasswordBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-
-                <p>{{form.repeatPasswordBox.label}} {{form.repeatPasswordBox()}}</p>
-                {% for error in form.repeatPasswordBox.errors %}
-                <p>{{error}}</p>
-                {% endfor %}
-
-                <p>{{form.submitButton(class="btn button-background")}}</p>
-            </form>
-
-            <br />
-
-            {# Login page link #}
             <p>
-                Or login here --->
-                <a class="btn button-background" href="{{url_for("login")}}">
-                    <i class="fas fa-sign-in-alt button-icon"></i>
-                </a>
+                Date of Birth (Format: day/month/year)
+                <br />
+                {{form.dobDayIntegerBox()}} / {{form.dobMonthIntegerBox()}} / {{form.dobYearIntegerBox()}}
             </p>
-        </div>
+            {% for error in form.dobDayIntegerBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
+            {% for error in form.dobMonthIntegerBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
+            {% for error in form.dobYearIntegerBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
 
-        <div class="col-sm-3"></div>
+            <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
+            {% for error in form.passwordPasswordBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
+
+            <p>{{form.repeatPasswordBox.label}} {{form.repeatPasswordBox()}}</p>
+            {% for error in form.repeatPasswordBox.errors %}
+            <p>{{error}}</p>
+            {% endfor %}
+
+            <p>{{form.submitButton(class="btn button-background")}}</p>
+        </form>
+
+        <br />
+
+        {# Login page link #}
+        <p>
+            Or login here --->
+            <a class="btn button-background" href="{{url_for("login")}}">
+                <i class="fas fa-sign-in-alt button-icon"></i>
+            </a>
+        </p>
     </div>
+
+    <div class="col-sm-3"></div>
 </div>
 {% endblock %}

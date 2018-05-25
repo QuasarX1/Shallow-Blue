@@ -1,14 +1,10 @@
-{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+{% extends "MenuTemplate.html" %}{# This page builds on the MenuTemplate page #}
 
-{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+{% block pageTitle %}{{pageTitle}}{% endblock %}
+
+{% block pageHeading %}{{user[1]|upper}}'S PROFILE{% endblock %}
 
 {% block bodyContent %}
-<div class="container-fluid">
-    {# Page heading #}
-    <header class="jumbotron Page-Heading">
-        <h1 style="text-align:center">{{user[1].upper()}}'S PROFILE</h1>
-    </header>
-
     <form class="col-sm-6 container-fluid" method="POST">
         {{form.hidden_tag()}}{# Used for CRSF protection #}
 
@@ -106,5 +102,4 @@
             <div class="col-sm-2"></div>
         </div>
     </form>
-</div>
 {% endblock %}

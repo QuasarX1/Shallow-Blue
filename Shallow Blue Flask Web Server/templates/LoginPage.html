@@ -1,30 +1,10 @@
-﻿{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+﻿{% extends "MenuTemplate.html" %}{# This page builds on the MenuTemplate page #}
 
-{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+{% block pageTitle %}{{pageTitle}}{% endblock %}
+
+{% block pageHeading %}Login{% endblock %}
 
 {% block bodyContent %}
-<div class="container-fluid">
-    {# Page heading #}
-    <header class="jumbotron Page-Heading">
-        <h1 style="text-align:center">Login</h1>
-    </header>
-
-    {# Output messages #}
-    {% for message in get_flashed_messages() %}
-    <div class="row">
-        <div class="col-sm-3"></div>
-
-        <div class="col-sm-6">
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{message}}
-            </div>
-        </div>
-
-        <div class="col-sm-3"></div>
-    </div>
-    {% endfor %}
-
     {# Display login form #}
     <div class="row">
         <div class="col-sm-3"></div>
@@ -59,5 +39,4 @@
 
         <div class="col-sm-3"></div>
     </div>
-</div>
 {% endblock %}
