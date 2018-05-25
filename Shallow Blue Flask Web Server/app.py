@@ -273,6 +273,40 @@ def deleteUser():
 
     return render_template("DeleteUserPage.html", form = form)
 
+@app.route('/admin/backupDatabase', methods = ["GET", "POST"])
+@forceLogin
+def backupDatabase():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    form = WTFClasses.BackupDatabaseForm()
+
+    if form.validate_on_submit():
+        valid = True
+
+        filename = ""
+
+        if form.nameTextBox.data != "":
+            filename = form.nameTextBox.data
+        else:
+            filename = "BackupDatabase " + datetime.datetime.now().strftime(format = "%d %m %Y")
+
+        try:
+            if valid:
+                database.backup(filename)
+
+                flash("A copy of the database named " + filename + " has been added to \"Data\\Backups\".")
+
+                return redirect(url_for("adminMenu"))
+
+        except Exception as e:
+            form.nameTextBox.errors.append("The filename " + filename + " is invalid on your file system.")
+
+    form.nameTextBox.data = ""
+
+    return render_template("BackupDatabase.html", form = form)
+
 @app.route('/profile', methods = ["GET", "POST"])
 @forceLogin
 def profile():

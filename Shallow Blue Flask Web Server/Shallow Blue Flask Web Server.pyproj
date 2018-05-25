@@ -89,6 +89,7 @@
     <Content Include="templates\AddNewPlayerPage.html" />
     <Content Include="templates\AddPlayerPage.html" />
     <Content Include="templates\AdminMenuPage.html" />
+    <Content Include="templates\BackupDatabase.html" />
     <Content Include="templates\DeleteUserPage.html" />
     <Content Include="templates\EndEventPage.html" />
     <Content Include="templates\DeleteEventPage.html" />
@@ -117,6 +118,7 @@
   <ItemGroup>
     <Folder Include="assets\" />
     <Folder Include="Data\" />
+    <Folder Include="Data\Backups\" />
     <Folder Include="static\" />
     <Folder Include="static\content\" />
     <Folder Include="C:\Users\chris\OneDrive\Documents\All Documents\School\A-Level\Computer Science\Shallow Blue\Shallow Blue Flask Web Server\static\fonts\" />

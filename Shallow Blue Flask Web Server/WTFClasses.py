@@ -6,6 +6,10 @@ class AddPlayerForm(FlaskForm):
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Add Player")
 
+class BackupDatabaseForm(FlaskForm):
+    nameTextBox = StringField("Backup filename", validators = [Optional()])
+    submitButton = SubmitField("Backup")
+
 class CreateEventForm(FlaskForm):
     typeSelector = SelectField("Event Type", choices = [["", ""], ["swiss", "Swiss"], ["round robin", "Round Robin"], ["ladder", "Ladder"]], validators = [DataRequired()])
     maxRoundsIntegerBox = IntegerField("Number of Rounds",  validators = [Optional()])

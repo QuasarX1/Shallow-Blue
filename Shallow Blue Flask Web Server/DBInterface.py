@@ -1,6 +1,7 @@
 import datetime
 import hashlib
 import os
+import shutil
 import sqlite3
 import sys
 
@@ -899,3 +900,6 @@ If you wish to close the application and deal with the issue yourself, please re
         )
 
         self._connection.commit()
+
+    def backup(self, filename):
+        shutil.copy(self._location, "Data\\Backups\\" + filename + ".db")
