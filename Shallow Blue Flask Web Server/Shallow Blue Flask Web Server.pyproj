@@ -98,7 +98,9 @@
     <Content Include="templates\JoinPage.html" />
     <Content Include="templates\LoginPage.html" />
     <Content Include="templates\MainTemplate.html" />
+    <Content Include="templates\MenuTemplate.html" />
     <Content Include="templates\PairingsPage.html" />
+    <Content Include="templates\ProfilesPage.html" />
     <Content Include="templates\ResetUserPassword.html" />
     <Content Include="templates\ScoresPage.html" />
     <Content Include="templates\SignupPage.html" />

@@ -308,9 +308,28 @@ def backupDatabase():
     return render_template("BackupDatabase.html", form = form)
 
 
-@app.route('/profiles')
+@app.route('/profiles', methods = ["GET", "POST"])
 def userProfiles():
-    pass
+    userData = []
+
+    form = WTFClasses.GetUserNameForm()
+
+    if form.validate_on_submit():
+        data = database.getUser(form.usernameTextBox.data)
+
+        if data == None:
+            form.usernameTextBox.errors.append("That user dosen't exist.")
+
+        else:
+            for item in data:
+                userData.append(item)
+
+            if userData[6] != None:# To prevent errors with profiles with no dob e.g. admin
+                userData[6] = datetime.datetime.fromtimestamp(int(userData[6])).strftime(format = "%d/%m/%Y")
+
+            userData.pop(4)
+
+    return render_template("ProfilesPage.html", pageTitle = "User Profiles", form = form, user = userData)
 
 @app.route('/profile', methods = ["GET", "POST"])
 @forceLogin

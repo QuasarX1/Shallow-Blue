@@ -1,0 +1,84 @@
+{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+
+{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+
+{% block bodyContent %}
+<div class="container-fluid">
+    {# Page heading #}
+    <header class="jumbotron Page-Heading">
+        <h1 style="text-align:center">USER PROFILES</h1>
+    </header>
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <form class="col-sm-6 container-fluid" method="POST">
+            {{form.hidden_tag()}}{# Used for CRSF protection #}
+            <p class="row">User: {{form.usernameTextBox()}}</p>
+            {% for error in form.usernameTextBox.errors %}
+            <p class="row">{{error}}</p>
+            {% endfor %}
+            <p class="row">{{form.submitButton()}}</p>
+        </form>
+        <div class="col-sm-3"></div>
+    </div>
+
+    {% if user|length > 0 %}
+
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 container-fluid">
+            {# User infomation displayed below #}
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">User ID</p>
+                <p class="col-sm-3">{{user[0]}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">Username</p>
+                <p class="col-sm-3">{{user[1]}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">First Name</p>
+                <p class="col-sm-3">{{user[2]}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">Last Name</p>
+                <p class="col-sm-3">{{user[3]}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">Email</p>
+                <p class="col-sm-3">{{user[4]}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">Date of Birth</p>
+                <p class="col-sm-3">{{user[5]}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-3">Chess Raiting</p>
+                <p class="col-sm-3">{{user[6]|int}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

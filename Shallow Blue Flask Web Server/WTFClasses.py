@@ -43,6 +43,10 @@ class EndEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("End Event")
 
+class GetUserNameForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Get User")
+
 class LoginForm(FlaskForm):
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
     passwordPasswordBox = PasswordField("Password", validators = [DataRequired(message = "This is a required field.")])
