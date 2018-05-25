@@ -88,6 +88,12 @@ def adminOnly(func):
 
     return wrapper
 
+# Custom Functions----------------------------------------------------------------------------------------------------------
+def template(templateName, *args, **kwargs):
+    date = datetime.date.today()
+
+    return render_template(templateName, *args, **kwargs, session = session, date = date)
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
@@ -98,7 +104,7 @@ def home(loggedIn):
     if loggedIn:
         if session["userName"] == "admin":
             admin = True
-    return render_template("SplashPage.html", loggedIn = loggedIn, admin = admin)
+    return template("SplashPage.html", loggedIn = loggedIn, admin = admin)
 
 @app.route('/admin')
 @forceLogin
@@ -107,7 +113,7 @@ def adminMenu():
         flash("Only the admin may access this page.")
         return redirect(url_for("home"))
 
-    return render_template("AdminMenuPage.html")
+    return template("AdminMenuPage.html")
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -131,7 +137,7 @@ def login():
         else:
             flash("Credentials were incorrect. Please try again.")
 
-    return render_template("LoginPage.html", pageTitle = "Login", form = form)
+    return template("LoginPage.html", pageTitle = "Login", form = form)
 
 @app.route('/logout')
 @forceLogin
@@ -202,7 +208,7 @@ def signup():
             except sqlite3.IntegrityError:
                  form.usernameTextBox.errors.append("This username is allready being used. Please try another")
 
-                 return render_template("SignupPage.html", pageTitle = "Signup", form = form)
+                 return template("SignupPage.html", pageTitle = "Signup", form = form)
 
             # Log the new user in
             userData = database.getUserLogin(form.usernameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
@@ -216,7 +222,7 @@ def signup():
 
             return redirect(url_for("home"))
 
-    return render_template("SignupPage.html", pageTitle = "Signup", form = form)
+    return template("SignupPage.html", pageTitle = "Signup", form = form)
 
 @app.route('/admin/resetUserPassword', methods = ["GET", "POST"])
 @forceLogin
@@ -234,7 +240,7 @@ def resetUserPassword():
         else:
             form.usernameTextBox.errors.append("There is no user with the username provided.")
 
-    return render_template("ResetUserPassword.html", form = form)
+    return template("ResetUserPassword.html", form = form)
 
 @app.route('/admin/deleteUser', methods = ["GET", "POST"])
 @forceLogin
@@ -271,7 +277,7 @@ def deleteUser():
 
     form.confirmDataTextBox.data = ""
 
-    return render_template("DeleteUserPage.html", form = form)
+    return template("DeleteUserPage.html", form = form)
 
 @app.route('/admin/backupDatabase', methods = ["GET", "POST"])
 @forceLogin
@@ -305,7 +311,7 @@ def backupDatabase():
 
     form.nameTextBox.data = ""
 
-    return render_template("BackupDatabase.html", form = form)
+    return template("BackupDatabase.html", form = form)
 
 
 @app.route('/profiles', methods = ["GET", "POST"])
@@ -329,7 +335,7 @@ def userProfiles():
 
             userData.pop(4)
 
-    return render_template("ProfilesPage.html", pageTitle = "User Profiles", form = form, user = userData)
+    return template("ProfilesPage.html", pageTitle = "User Profiles", form = form, user = userData)
 
 @app.route('/profile', methods = ["GET", "POST"])
 @forceLogin
@@ -440,7 +446,7 @@ def profile():
     if userData[5] != None:# To prevent errors with profiles with no dob e.g. admin
         userData[5] = userData[5].strftime(format = "%d/%m/%Y")
 
-    return render_template("ProfilePage.html", pageTitle = "Profile", user = userData, form = form)
+    return template("ProfilePage.html", pageTitle = "Profile", user = userData, form = form)
 
 @app.route('/watch', methods = ["GET", "POST"])
 def spectate():
@@ -470,7 +476,7 @@ def spectate():
             for event in oldEvents:
                 listings.append(event)
 
-    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings, form = form)
+    return template("JoinPage.html", pageTitle = "Spectate", eventData = listings, form = form)
 
 @app.route('/join', methods = ["GET", "POST"])
 @forceLogin
@@ -604,7 +610,7 @@ def join():
 
     listings.sort(key = lambda event: event[2])
 
-    return render_template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
+    return template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
 
 @app.route('/<eventID>/join')
 @forceLogin
@@ -621,7 +627,7 @@ def joinEvent(event):
 @app.route('/<eventID>/home')
 @createEvent
 def homepage(event):
-    return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
+    return template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active")
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin
@@ -647,7 +653,7 @@ def addPlayer(event):
         else:
             form.usernameTextBox.errors.append("There is no user with the username " + name + ".")
 
-    return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+    return template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active")
 
 @app.route('/<eventID>/addNewPlayer', methods = ["GET", "POST"])
 @forceLogin
@@ -667,7 +673,7 @@ def addNewPlayer(event):
 
         return redirect(url_for("scores", eventID = event.id))
 
-    return render_template("AddNewPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+    return template("AddNewPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active")
 
 @app.route('/<eventID>/pairings', methods = ["GET", "POST"])
 @createEvent
@@ -699,7 +705,7 @@ def pairings(event):
             if status == "End of event":
                 return redirect(url_for("homepage", eventID = event.id))
             elif status == "End of round":
-                return render_template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active", session = session)
+                return template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active")
             else:
                 return redirect(url_for("pairings", eventID = event.id))
                 
@@ -716,9 +722,9 @@ def pairings(event):
             forms[len(forms) - 1].whiteResultSelector.data = ""
 
     if len(forms) == 0 and event.eventType != "ladder":
-        return render_template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active", session = session)
+        return template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active")
     else:
-        return render_template("PairingsPage.html", event = event, startNextRound = False, pageTitle = "Pairings", pairings = currentPairings, forms = forms, pairingsClass = "active", session = session)
+        return template("PairingsPage.html", event = event, startNextRound = False, pageTitle = "Pairings", pairings = currentPairings, forms = forms, pairingsClass = "active")
 
 @app.route('/<eventID>/startRound')
 @forceLogin
@@ -796,7 +802,7 @@ def addLadderPairings(event):
     form.blackNameSelector.data = ""
     form.whiteNameSelector.data = ""
     
-    return render_template("AddPairingsPage.html", pageTitle = "Add Pairing", event = event, form = form, pairingsClass = "active")
+    return template("AddPairingsPage.html", pageTitle = "Add Pairing", event = event, form = form, pairingsClass = "active")
 
 @app.route('/<eventID>/delete', methods = ["GET", "POST"])
 @forceLogin
@@ -820,14 +826,14 @@ def deleteEvent(event):
         else:
             form.passwordPasswordBox.errors.append("The password provided was incorrect.")
 
-    return render_template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active", session = session)
+    return template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active")
 
 @app.route('/<eventID>/scores')
 @createEvent
 def scores(event):
     event.players.sort(key = lambda player: player.position)
 
-    return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
+    return template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active")
 
 @app.route('/<eventID>/end', methods = ["GET", "POST"])
 @forceLogin
@@ -856,13 +862,15 @@ def endEvent(event):
         else:
             form.passwordPasswordBox.errors.append("The password provided was incorrect.")
 
-    return render_template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active", session = session)
+    return template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active")
 
 # Favicon------------------------------------------------------------------------------------------------------------------
 
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.png')
+
+# Run Application----------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:

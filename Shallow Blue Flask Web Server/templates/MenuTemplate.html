@@ -10,6 +10,22 @@
         <h1 style="text-align:center">{% block pageHeading %}{% endblock %}</h1>
     </header>
 
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <ul class="menuBar_ul col-sm-6">
+            <li>Hamburger</li>
+            <li><a>Splash Page</a></li>
+            {% if session["userName"] != "admin" %}
+            <li><a>Profile</a></li>
+            {% else %}
+            <li><a>Admin Menu</a></li>
+            {% endif %}
+            <li><a>Spectate</a></li>
+            <li><a>Join</a></li>
+        </ul>
+        <div class="col-sm-3"></div>
+    </div>
+
     {# Output messages #}
     {% for message in get_flashed_messages() %}
     <div class="row">
@@ -35,6 +51,6 @@
         GitHub - "https://github.com/QuasarX1/Shallow-Blue"<br />
         Contact Me - "ShallowBlue@gmail.com"
     </p>
-    <p>Copyright Christopher Rowe {{year}}</p>
+    <p>Copyright Christopher Rowe {{date.year}}</p>
 </footer>
 {% endblock %}

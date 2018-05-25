@@ -76,6 +76,53 @@ p
     text-align: center;
 }
 
+/*Menu Nav Bar*/
+.menuBar_ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.menuBar_ul li
+{
+text-align: center;
+border-bottom: 1px solid black;
+}
+
+.menuBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+    color: #000;
+}
+
+.menuBar_ul li:first-child
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.menuBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.menuBar_ul li a.active
+{
+    background-color: grey;
+    color: white;
+}
+
+.menuBar_ul li a:hover:not(.active)
+{
+    background-color: darkblue;
+    color: white;
+}
+
 /*Event Template Nav Bar*/
 .navBar_ul
 {
