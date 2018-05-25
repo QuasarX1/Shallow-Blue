@@ -307,6 +307,11 @@ def backupDatabase():
 
     return render_template("BackupDatabase.html", form = form)
 
+
+@app.route('/profiles')
+def userProfiles():
+    pass
+
 @app.route('/profile', methods = ["GET", "POST"])
 @forceLogin
 def profile():
