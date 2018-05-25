@@ -9,11 +9,19 @@
         <div class="col-sm-3"></div>
         <form class="col-sm-6 container-fluid" method="POST">
             {{form.hidden_tag()}}{# Used for CRSF protection #}
-            <p class="row">User: {{form.usernameTextBox()}}</p>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-6">User: {{form.usernameTextBox()}} {{form.submitButton()}}</p>
+                <div class="col-sm-3"></div>
+            </div>
+
             {% for error in form.usernameTextBox.errors %}
-            <p class="row">{{error}}</p>
+            <div class="row">
+                <div class="col-sm-3"></div>
+                <p class="col-sm-6">{{error}}</p>
+                <div class="col-sm-3"></div>
+            </div>
             {% endfor %}
-            <p class="row">{{form.submitButton()}}</p>
         </form>
         <div class="col-sm-3"></div>
     </div>
