@@ -250,6 +250,9 @@ def deleteUser():
         if database.getUser(form.usernameTextBox.data) == None:
             valid = False
             form.usernameTextBox.errors.append("The user provided dosen't exist.")
+        elif form.usernameTextBox.data in ["admin", "bye"]:
+            valid = False
+            form.usernameTextBox.errors.append("This user can't be deleted as it is a system account.")
         
         if database.getUserLogin("admin", hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest()) == None:
             valid = False
@@ -265,6 +268,8 @@ def deleteUser():
     form.confirmData.data = ""
     for i in range(0, 8):
         form.confirmData.data += string.ascii_letters[random.randint(0, len(string.ascii_letters) - 1)]
+
+    form.confirmDataTextBox.data = ""
 
     return render_template("DeleteUserPage.html", form = form)
 
