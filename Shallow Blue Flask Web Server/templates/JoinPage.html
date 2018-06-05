@@ -71,7 +71,7 @@
                     <td>
                         <p>{{form.typeSelector.label}}</p>
                         {% for error in form.typeSelector.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -83,7 +83,7 @@
                     <td>
                         <p>{{form.maxRoundsIntegerBox.label}}</p>
                         {% for error in form.maxRoundsIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -95,7 +95,7 @@
                     <td>
                         <p>{{form.playersIntegerBox.label}}</p>
                         {% for error in form.playersIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -107,7 +107,7 @@
                     <td>
                         <p>{{form.eventNameTextBox.label}}</p>
                         {% for error in form.eventNameTextBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -119,7 +119,7 @@
                     <td>
                         <p>{{form.infoTextBox.label}}</p>
                         {% for error in form.infoTextBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -131,13 +131,13 @@
                     <td>
                         <p>{{form.startDayIntegerBox.label}} / {{form.startMonthIntegerBox.label}} / {{form.startYearIntegerBox.label}}</p>
                         {% for error in form.startDayIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                         {% for error in form.startMonthIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                         {% for error in form.startYearIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -149,10 +149,10 @@
                     <td>
                         <p>{{form.startHourIntegerBox.label}} : {{form.startMinuteIntegerBox.label}}</p>
                         {% for error in form.startHourIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                         {% for error in form.startMinuteIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -164,7 +164,7 @@
                     <td>
                         <p>{{form.winScoreFloatBox.label}}</p>
                         {% for error in form.winScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -176,7 +176,7 @@
                     <td>
                         <p>{{form.drawScoreFloatBox.label}}</p>
                         {% for error in form.drawScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -188,7 +188,7 @@
                     <td>
                         <p>{{form.loseScoreFloatBox.label}}</p>
                         {% for error in form.loseScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -200,7 +200,7 @@
                     <td>
                         <p>{{form.noShowScoreFloatBox.label}}</p>
                         {% for error in form.noShowScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -212,7 +212,7 @@
                     <td>
                         <p>{{form.adminPasswordBox.label}}</p>
                         {% for error in form.adminPasswordBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>

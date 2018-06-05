@@ -15,7 +15,7 @@
 
                 <p>{{form.nameTextBox.label}} {{form.nameTextBox()}}</p>
                 {% for error in form.nameTextBox.errors %}
-                <p>{{error}}</p>
+                <p class="feldErrorMessage">{{error}}</p>
                 {% endfor %}
 
                 <p>{{form.submitButton(class="btn button-background")}}</p>

@@ -39,6 +39,11 @@ p
     font-size: 2em;
 }
 
+.feldErrorMessage
+{
+    color: red;
+}
+
 /* Splash Page */
 .SplashPage-Clickable-Icon
 {

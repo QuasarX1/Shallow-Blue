@@ -15,12 +15,12 @@
 
                 <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
                 {% for error in form.usernameTextBox.errors %}
-                <p>{{error}}</p>
+                <p class="feldErrorMessage">{{error}}</p>
                 {% endfor %}
 
                 <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
                 {% for error in form.passwordPasswordBox.errors %}
-                <p>{{error}}</p>
+                <p class="feldErrorMessage">{{error}}</p>
                 {% endfor %}
 
                 <p>{{form.submitButton(class="btn button-background")}}</p>
