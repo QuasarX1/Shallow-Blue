@@ -3,28 +3,13 @@
 {% block fullPageTitle %}Shallow Blue - {% block pageTitle %}{% endblock %}{% endblock %}
 
 {% block fullBodyContent %}
+<a class="btn button-background menuNavButton" style="" onclick="openNav()"><i class="fas fa-bars"></i></a>
 <div class="container-fluid">
 
     {# Page heading #}
     <header class="jumbotron Page-Heading">
         <h1 style="text-align:center">{% block pageHeading %}{% endblock %}</h1>
     </header>
-
-    <div class="row">
-        <div class="col-sm-3"></div>
-        <ul class="menuBar_ul col-sm-6">
-            <li>Hamburger</li>
-            <li><a>Splash Page</a></li>
-            {% if session["userName"] != "admin" %}
-            <li><a>Profile</a></li>
-            {% else %}
-            <li><a>Admin Menu</a></li>
-            {% endif %}
-            <li><a>Spectate</a></li>
-            <li><a>Join</a></li>
-        </ul>
-        <div class="col-sm-3"></div>
-    </div>
 
     {# Output messages #}
     {% for message in get_flashed_messages() %}
@@ -46,11 +31,38 @@
 
 </div>
 
+{# Navigation Menu (Hidden on page load) #}
+<div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="container-fluid overlay-content">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <ul id="menuLinks" class="menuBar_ul">
+                    <li><a href="{{url_for("home")}}">Splash Page</a></li>
+                    {% if session["userName"] != "admin" %}
+                    <li><a href="{{url_for("profile")}}">Profile</a></li>
+                    {% else %}
+                    <li><a href="{{url_for("adminMenu")}}">Admin Menu</a></li>
+                    {% endif %}
+                    <li><a href="{{url_for("spectate")}}">Spectate</a></li>
+                    <li><a href="{{url_for("join")}}">Join</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>
+
+{# Extra lines to prevent footer from cutting off content #}
+<br />
+<br />
+
 <footer class="Page-Footer">
     <p>
         GitHub - "https://github.com/QuasarX1/Shallow-Blue"<br />
-        Contact Me - "ShallowBlue@gmail.com"
+        Contact Me - "ShallowBlue@gmail.com"<br />
+        Copyright Christopher Rowe {{date.year}}
     </p>
-    <p>Copyright Christopher Rowe {{date.year}}</p>
 </footer>
 {% endblock %}

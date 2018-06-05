@@ -85,6 +85,7 @@
     <Content Include="static\scripts\holder.min.js" />
     <Content Include="static\scripts\jquery-slim.min.js" />
     <Content Include="static\scripts\popper.min.js" />
+    <Content Include="static\scripts\ShallowBlueScript.js" />
     <Content Include="templates\AddPairingsPage.html" />
     <Content Include="templates\AddNewPlayerPage.html" />
     <Content Include="templates\AddPlayerPage.html" />

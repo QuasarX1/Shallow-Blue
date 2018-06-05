@@ -1,23 +1,24 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        {# Links to javascript files #}
-        <script src="/static/scripts/jquery-slim.min.js"></script>
-        <script src="/static/scripts/bootstrap.min.js"></script>
+<head>
+    {# Links to javascript files #}
+    <script src="/static/scripts/jquery-slim.min.js"></script>
+    <script src="/static/scripts/bootstrap.min.js"></script>
+    <script src="/static/scripts/ShallowBlueScript.js"></script>
 
-        {# Links to stylesheets #}
-        <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
-        <link rel="stylesheet" type="text/css" href="/static/content/ShallowBlue.css" />
+    {# Links to stylesheets #}
+    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/content/ShallowBlue.css" />
 
-        {# Font Awesome link #}
-        <script src="/static/scripts/fontawesome-all.min.js"></script>
+    {# Font Awesome link #}
+    <script src="/static/scripts/fontawesome-all.min.js"></script>
 
-        {# Other head content #}
-        {% block headContent %}{% endblock %}
+    {# Other head content #}
+    {% block headContent %}{% endblock %}
 
-        {# Page title #}
-        <title>{% block fullPageTitle %}{% endblock %}</title>
-    </head>
+    {# Page title #}
+    <title>{% block fullPageTitle %}{% endblock %}</title>
+</head>
 
     <body>
         {# Page content #}
