@@ -1,30 +1,10 @@
-﻿{% extends "MainTemplate.html" %}{# This page builds on the MainTemplate page #}
+﻿{% extends "MenuTemplate.html" %}{# This page builds on the MenuTemplate page #}
 
-{% block pageTitle %}Shallow Blue - {{pageTitle}}{% endblock %}
+{% block pageTitle %}{{pageTitle}}{% endblock %}
+
+{% block pageHeading %}{{pageTitle|upper}} A TOURNAMENT{% endblock %}
 
 {% block bodyContent %}
-<div class="container-fluid">
-    {# Page heading #}
-    <header class="jumbotron Page-Heading">
-        <h1 style="text-align:center">{{pageTitle.upper()}} A TOURNAMENT</h1>
-    </header>
-
-    {# Output messages #}
-    {% for message in get_flashed_messages() %}
-    <div class="row">
-        <div class="col-sm-3"></div>
-
-        <div class="col-sm-6">
-            <div class="alert alert-warning">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                {{message}}
-            </div>
-        </div>
-
-        <div class="col-sm-3"></div>
-    </div>
-    {% endfor %}
-
     {% if pageTitle.lower() == "spectate" %}
     <div class="row">
         <div class="col-sm-3"></div>
@@ -91,7 +71,7 @@
                     <td>
                         <p>{{form.typeSelector.label}}</p>
                         {% for error in form.typeSelector.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -103,7 +83,7 @@
                     <td>
                         <p>{{form.maxRoundsIntegerBox.label}}</p>
                         {% for error in form.maxRoundsIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -115,7 +95,7 @@
                     <td>
                         <p>{{form.playersIntegerBox.label}}</p>
                         {% for error in form.playersIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -127,7 +107,7 @@
                     <td>
                         <p>{{form.eventNameTextBox.label}}</p>
                         {% for error in form.eventNameTextBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -139,7 +119,7 @@
                     <td>
                         <p>{{form.infoTextBox.label}}</p>
                         {% for error in form.infoTextBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -151,13 +131,13 @@
                     <td>
                         <p>{{form.startDayIntegerBox.label}} / {{form.startMonthIntegerBox.label}} / {{form.startYearIntegerBox.label}}</p>
                         {% for error in form.startDayIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                         {% for error in form.startMonthIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                         {% for error in form.startYearIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -169,10 +149,10 @@
                     <td>
                         <p>{{form.startHourIntegerBox.label}} : {{form.startMinuteIntegerBox.label}}</p>
                         {% for error in form.startHourIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                         {% for error in form.startMinuteIntegerBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -184,7 +164,7 @@
                     <td>
                         <p>{{form.winScoreFloatBox.label}}</p>
                         {% for error in form.winScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -196,7 +176,7 @@
                     <td>
                         <p>{{form.drawScoreFloatBox.label}}</p>
                         {% for error in form.drawScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -208,7 +188,7 @@
                     <td>
                         <p>{{form.loseScoreFloatBox.label}}</p>
                         {% for error in form.loseScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -220,7 +200,7 @@
                     <td>
                         <p>{{form.noShowScoreFloatBox.label}}</p>
                         {% for error in form.noShowScoreFloatBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -232,7 +212,7 @@
                     <td>
                         <p>{{form.adminPasswordBox.label}}</p>
                         {% for error in form.adminPasswordBox.errors %}
-                        <p>{{error}}</p>
+                        <p class="feldErrorMessage">{{error}}</p>
                         {% endfor %}
                     </td>
                     <td>
@@ -246,5 +226,4 @@
         <div class="col-sm-3"></div>
     </div>
     {% endif %}
-</div>
 {% endblock %}

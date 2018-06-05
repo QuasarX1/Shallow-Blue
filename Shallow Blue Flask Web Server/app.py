@@ -12,7 +12,7 @@ import sys
 import WTFClasses
 
 # Specific Imports---------------------------------------------------------------------------------------------------------
-from flask import Flask, render_template, redirect, url_for, session, flash
+from flask import Flask, render_template, redirect, url_for, session, flash, send_from_directory
 from functools import wraps
 
 # Creating the Flask object------------------------------------------------------------------------------------------------
@@ -88,13 +88,32 @@ def adminOnly(func):
 
     return wrapper
 
+# Custom Functions----------------------------------------------------------------------------------------------------------
+def template(templateName, *args, **kwargs):
+    date = datetime.date.today()
+
+    return render_template(templateName, *args, **kwargs, session = session, date = date)
+
 # View functions to handele web requests and generate responces-------------------------------------------------------------
 @app.route('/')
 @app.route('/home')
 @testLogin
 def home(loggedIn):
     """Splash Page"""
-    return render_template("SplashPage.html", loggedIn = loggedIn)
+    admin = False
+    if loggedIn:
+        if session["userName"] == "admin":
+            admin = True
+    return template("SplashPage.html", loggedIn = loggedIn, admin = admin)
+
+@app.route('/admin')
+@forceLogin
+def adminMenu():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    return template("AdminMenuPage.html")
 
 @app.route('/login', methods = ["GET", "POST"])
 def login():
@@ -118,7 +137,7 @@ def login():
         else:
             flash("Credentials were incorrect. Please try again.")
 
-    return render_template("LoginPage.html", pageTitle = "Login", form = form)
+    return template("LoginPage.html", pageTitle = "Login", form = form)
 
 @app.route('/logout')
 @forceLogin
@@ -189,7 +208,7 @@ def signup():
             except sqlite3.IntegrityError:
                  form.usernameTextBox.errors.append("This username is allready being used. Please try another")
 
-                 return render_template("SignupPage.html", pageTitle = "Signup", form = form)
+                 return template("SignupPage.html", pageTitle = "Signup", form = form)
 
             # Log the new user in
             userData = database.getUserLogin(form.usernameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
@@ -203,23 +222,231 @@ def signup():
 
             return redirect(url_for("home"))
 
-    return render_template("SignupPage.html", pageTitle = "Signup", form = form)
+    return template("SignupPage.html", pageTitle = "Signup", form = form)
 
-@app.route('/profile')
+@app.route('/admin/resetUserPassword', methods = ["GET", "POST"])
+@forceLogin
+def resetUserPassword():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    form = WTFClasses.ResetUserPasswordForm()
+
+    if form.validate_on_submit():
+        if database.getUser(form.usernameTextBox.data) != None:
+            database.updateUserPassword(form.usernameTextBox.data, hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest())
+            return redirect(url_for("adminMenu"))
+        else:
+            form.usernameTextBox.errors.append("There is no user with the username provided.")
+
+    return template("ResetUserPassword.html", form = form)
+
+@app.route('/admin/deleteUser', methods = ["GET", "POST"])
+@forceLogin
+def deleteUser():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    form = WTFClasses.DeleteUserForm()
+
+    if form.validate_on_submit():
+        valid = True
+        if database.getUser(form.usernameTextBox.data) == None:
+            valid = False
+            form.usernameTextBox.errors.append("The user provided dosen't exist.")
+        elif form.usernameTextBox.data in ["admin", "bye"]:
+            valid = False
+            form.usernameTextBox.errors.append("This user can't be deleted as it is a system account.")
+        
+        if database.getUserLogin("admin", hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest()) == None:
+            valid = False
+            form.passwordPasswordBox.errors.append("The password you entered was incorrect.")
+
+        if valid:
+            database.deleteUser(form.usernameTextBox.data)
+
+            flash("The personal data for " + form.usernameTextBox.data + " has been removed.")
+
+            return redirect(url_for("adminMenu"))
+    
+    form.confirmData.data = ""
+    for i in range(0, 8):
+        form.confirmData.data += string.ascii_letters[random.randint(0, len(string.ascii_letters) - 1)]
+
+    form.confirmDataTextBox.data = ""
+
+    return template("DeleteUserPage.html", form = form)
+
+@app.route('/admin/backupDatabase', methods = ["GET", "POST"])
+@forceLogin
+def backupDatabase():
+    if session["userName"] != "admin":
+        flash("Only the admin may access this page.")
+        return redirect(url_for("home"))
+
+    form = WTFClasses.BackupDatabaseForm()
+
+    if form.validate_on_submit():
+        valid = True
+
+        filename = ""
+
+        if form.nameTextBox.data != "":
+            filename = form.nameTextBox.data
+        else:
+            filename = "BackupDatabase " + datetime.datetime.now().strftime(format = "%d %m %Y")
+
+        try:
+            if valid:
+                database.backup(filename)
+
+                flash("A copy of the database named " + filename + " has been added to \"Data\\Backups\".")
+
+                return redirect(url_for("adminMenu"))
+
+        except Exception as e:
+            form.nameTextBox.errors.append("The filename " + filename + " is invalid on your file system.")
+
+    form.nameTextBox.data = ""
+
+    return template("BackupDatabase.html", form = form)
+
+
+@app.route('/profiles', methods = ["GET", "POST"])
+def userProfiles():
+    userData = []
+
+    form = WTFClasses.GetUserNameForm()
+
+    if form.validate_on_submit():
+        data = database.getUser(form.usernameTextBox.data)
+
+        if data == None:
+            form.usernameTextBox.errors.append("That user dosen't exist.")
+
+        else:
+            for item in data:
+                userData.append(item)
+
+            if userData[6] != None:# To prevent errors with profiles with no dob e.g. admin
+                userData[6] = datetime.datetime.fromtimestamp(int(userData[6])).strftime(format = "%d/%m/%Y")
+
+            userData.pop(4)
+
+    return template("ProfilesPage.html", pageTitle = "User Profiles", form = form, user = userData)
+
+@app.route('/profile', methods = ["GET", "POST"])
 @forceLogin
 def profile():
+    form = WTFClasses.UpdateUserForm()
+
     userData = []
     
     for item in database.getUser(session["userName"]):
         userData.append(item)
 
+    if userData[6] != None:# To prevent errors with profiles with no dob e.g. admin
+        userData[6] = datetime.datetime.fromtimestamp(int(userData[6]))
+
+    if form.validate_on_submit():
+
+        valid = True
+
+        # Check password
+        if database.getUserLogin(session["userName"], hashlib.sha512(form.passwordPasswordBox.data.encode('utf8')).hexdigest()) == None:
+            form.passwordPasswordBox.errors.append("Incorrect password")
+            valid = False
+
+        if form.firstNameTextBox.data != "":
+            userData[2] = form.firstNameTextBox.data
+
+        if form.lastNameTextBox.data != "":
+            userData[3] = form.lastNameTextBox.data
+
+        if form.usernameTextBox.data != "":
+            if form.usernameTextBox.data not in database.getUsernames():
+                userData[1] = form.usernameTextBox.data
+            else:
+                form.usernameTextBox.errors.append("This username is allready being used. Please try another")
+
+        if form.emailTextBox.data != "":
+            userData[5] = form.emailTextBox.data
+
+        #dob
+        if form.dobDayIntegerBox.data != None or form.dobMonthIntegerBox.data != None or form.dobYearIntegerBox.data != None:
+
+            if form.dobDayIntegerBox.data == None:
+                form.dobDayIntegerBox.data = userData[6].day
+            if form.dobMonthIntegerBox.data == None:
+                form.dobMonthIntegerBox.data = userData[6].month
+            if form.dobYearIntegerBox.data == None:
+                form.dobYearIntegerBox.data = userData[6].year
+
+            day = form.dobDayIntegerBox.data
+            month = form.dobMonthIntegerBox.data
+            year = form.dobYearIntegerBox.data
+
+            try:
+                # Check the date is in a sutable range
+                if datetime.date(year, month, day) > datetime.date.today() or datetime.date(year, month, day) -  datetime.date(1, 1, 1) < datetime.date.today() - datetime.date(120, 1, 1):
+                    form.dobDayIntegerBox.errors.append("The date provided was not posible as a date of birth. Please try again.")
+                    valid = False
+                else:
+                    userData[6] = datetime.datetime(year, month, day)
+
+            except ValueError:
+                form.dobDayIntegerBox.errors.append("The date provided was invalid.")
+                valid = False
+
+                # Check that day and month values are valid
+                if month in [1, 3, 5, 7, 8, 10, 12] and (day < 1 or day > 31):
+                    form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                elif month in [4, 6, 9, 11] and (day < 1 or day > 31):
+                    form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+            
+                elif month == 2:
+                    if int(year/4) == int(float(year/4.0)) and (day < 1 or day > 29):
+                        form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                    elif day < 1 or day > 28:
+                        form.dobDayIntegerBox.errors.append("The day of the month provided dosen't exist.")
+
+                else:
+                    form.dobMonthIntegerBox.errors.append("The month provided dosen't exist.")
+
+        if form.newPasswordPasswordBox.data != "":
+            userData[4] = hashlib.sha512(form.newPasswordPasswordBox.data.encode('utf8')).hexdigest()
+
+        if valid == True:
+            userData[6] = userData[6].timestamp()
+            database.updateUser(userData)
+            userData[6] = datetime.datetime.fromtimestamp(int(userData[6]))
+
+            form.dobDayIntegerBox.data = None
+            form.dobMonthIntegerBox.data = None
+            form.dobYearIntegerBox.data = None
+            form.emailTextBox.data = ""
+            form.usernameTextBox.data = ""
+            form.firstNameTextBox.data = ""
+            form.lastNameTextBox.data = ""
+        else:
+            userData = []
+    
+            for item in database.getUser(session["userName"]):
+                userData.append(item)
+
+            if userData[6] != None:# To prevent errors with profiles with no dob e.g. admin
+                userData[6] = datetime.datetime.fromtimestamp(int(userData[6]))
+
     userData.pop(4)
 
-    if userData[5] != None:
-        userData[5] = datetime.datetime.fromtimestamp(int(userData[5]))
+    if userData[5] != None:# To prevent errors with profiles with no dob e.g. admin
         userData[5] = userData[5].strftime(format = "%d/%m/%Y")
 
-    return render_template("ProfilePage.html", pageTitle = "Profile", user = userData)
+    return template("ProfilePage.html", pageTitle = "Profile", user = userData, form = form)
 
 @app.route('/watch', methods = ["GET", "POST"])
 def spectate():
@@ -249,7 +476,7 @@ def spectate():
             for event in oldEvents:
                 listings.append(event)
 
-    return render_template("JoinPage.html", pageTitle = "Spectate", eventData = listings, form = form)
+    return template("JoinPage.html", pageTitle = "Spectate", eventData = listings, form = form)
 
 @app.route('/join', methods = ["GET", "POST"])
 @forceLogin
@@ -383,7 +610,7 @@ def join():
 
     listings.sort(key = lambda event: event[2])
 
-    return render_template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
+    return template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
 
 @app.route('/<eventID>/join')
 @forceLogin
@@ -400,7 +627,7 @@ def joinEvent(event):
 @app.route('/<eventID>/home')
 @createEvent
 def homepage(event):
-    return render_template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active", session = session)
+    return template("EventHomePage.html", event = event, pageTitle = "Home", homeClass = "active")
 
 @app.route('/<eventID>/addPlayer', methods = ["GET", "POST"])
 @forceLogin
@@ -426,7 +653,7 @@ def addPlayer(event):
         else:
             form.usernameTextBox.errors.append("There is no user with the username " + name + ".")
 
-    return render_template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+    return template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active")
 
 @app.route('/<eventID>/addNewPlayer', methods = ["GET", "POST"])
 @forceLogin
@@ -446,7 +673,7 @@ def addNewPlayer(event):
 
         return redirect(url_for("scores", eventID = event.id))
 
-    return render_template("AddNewPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active", session = session)
+    return template("AddNewPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active")
 
 @app.route('/<eventID>/pairings', methods = ["GET", "POST"])
 @createEvent
@@ -478,7 +705,7 @@ def pairings(event):
             if status == "End of event":
                 return redirect(url_for("homepage", eventID = event.id))
             elif status == "End of round":
-                return render_template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active", session = session)
+                return template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active")
             else:
                 return redirect(url_for("pairings", eventID = event.id))
                 
@@ -495,9 +722,9 @@ def pairings(event):
             forms[len(forms) - 1].whiteResultSelector.data = ""
 
     if len(forms) == 0 and event.eventType != "ladder":
-        return render_template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active", session = session)
+        return template("PairingsPage.html", event = event, startNextRound = True, pageTitle = "Pairings", pairings = [], forms = [], pairingsClass = "active")
     else:
-        return render_template("PairingsPage.html", event = event, startNextRound = False, pageTitle = "Pairings", pairings = currentPairings, forms = forms, pairingsClass = "active", session = session)
+        return template("PairingsPage.html", event = event, startNextRound = False, pageTitle = "Pairings", pairings = currentPairings, forms = forms, pairingsClass = "active")
 
 @app.route('/<eventID>/startRound')
 @forceLogin
@@ -575,7 +802,7 @@ def addLadderPairings(event):
     form.blackNameSelector.data = ""
     form.whiteNameSelector.data = ""
     
-    return render_template("AddPairingsPage.html", pageTitle = "Add Pairing", event = event, form = form, pairingsClass = "active")
+    return template("AddPairingsPage.html", pageTitle = "Add Pairing", event = event, form = form, pairingsClass = "active")
 
 @app.route('/<eventID>/delete', methods = ["GET", "POST"])
 @forceLogin
@@ -599,14 +826,14 @@ def deleteEvent(event):
         else:
             form.passwordPasswordBox.errors.append("The password provided was incorrect.")
 
-    return render_template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active", session = session)
+    return template("DeleteEventPage.html", event = event, form = form, pageTitle = "Delete Event", deleteEventClass = "active")
 
 @app.route('/<eventID>/scores')
 @createEvent
 def scores(event):
     event.players.sort(key = lambda player: player.position)
 
-    return render_template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active", session = session)
+    return template("ScoresPage.html", pageTitle = "Scores and Progress", event = event, progressClass = "active")
 
 @app.route('/<eventID>/end', methods = ["GET", "POST"])
 @forceLogin
@@ -635,18 +862,31 @@ def endEvent(event):
         else:
             form.passwordPasswordBox.errors.append("The password provided was incorrect.")
 
-    return render_template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active", session = session)
+    return template("EndEventPage.html", event = event, form = form, pageTitle = "End Event", endEventClass = "active")
+
+# Favicon------------------------------------------------------------------------------------------------------------------
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'), 'favicon.png')
+
+# Run Application----------------------------------------------------------------------------------------------------------
 
 if __name__ == '__main__':
-    # Runs the web server using the IPv4 adress passed in as an argument
-    #app.run(str(sys.argv[1]), 5555, threaded = True)
-    # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
-    #TODO: Comment out this section before relice
-    import os
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    except ValueError:
+    if len(sys.argv) > 1:
+        # Runs the web server using the IPv4 adress passed in as an argument
+        HOST = str(sys.argv[1])
         PORT = 5555
+
+    else:
+        # Visual Studio Code For Debugging-------------------------------------------------------------------------------------
+        #TODO: Comment out this section before relice
+        import os
+        HOST = os.environ.get('SERVER_HOST', 'localhost')
+        try:
+            PORT = int(os.environ.get('SERVER_PORT', '5555'))
+        except ValueError:
+            PORT = 5555
+
     #Run the web server---------------------------------------------------------------------------------------------------
     app.run(HOST, PORT, threaded = True)

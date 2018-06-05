@@ -1,0 +1,27 @@
+﻿{% extends "MenuTemplate.html" %}
+
+{% block pageTitle %}Backup Database{% endblock %}
+
+{% block pageHeading %}SHALLOW BLUE - BACKUP DATABASE{% endblock %}
+
+{% block bodyContent %}
+    {# Display form #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-6" style="text-align: center">
+            <form method="POST">
+                {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+                <p>{{form.nameTextBox.label}} {{form.nameTextBox()}}</p>
+                {% for error in form.nameTextBox.errors %}
+                <p class="feldErrorMessage">{{error}}</p>
+                {% endfor %}
+
+                <p>{{form.submitButton(class="btn button-background")}}</p>
+            </form>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+{% endblock %}

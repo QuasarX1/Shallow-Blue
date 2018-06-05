@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-sm-4">
             {% for error in form.blackNameSelector.errors %}
-            <p>{{error}}</p>
+            <p class="feldErrorMessage">{{error}}</p>
             {% endfor %}
         </div>
         <div class="col-sm-2">
@@ -29,7 +29,7 @@
         </div>
         <div class="col-sm-4">
             {% for error in form.whiteNameSelector.errors %}
-            <p>{{error}}</p>
+            <p class="feldErrorMessage">{{error}}</p>
             {% endfor %}
         </div>
     </div>

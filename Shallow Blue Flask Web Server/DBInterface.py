@@ -1,5 +1,7 @@
+import datetime
 import hashlib
 import os
+import shutil
 import sqlite3
 import sys
 
@@ -666,6 +668,32 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchall()
 
     @connect
+    def updateUser(self, userData):
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET user_name = '%s', first_name = '%s', last_name = '%s', password = '%s', email = '%s', dob = '%s'
+                WHERE user_name = '%s'
+            """
+            % (userData[1], userData[2], userData[3], userData[4], userData[5], userData[6], userData[1])
+        )
+
+        self._connection.commit()
+
+    @connect
+    def updateUserPassword(self, userName, password):
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET password = '%s'
+                WHERE user_name = '%s';
+            """
+            % (password, userName)
+        )
+
+        self._connection.commit()
+
+    @connect
     def updateEvent(self, event):
         self._cursor.execute(
             """
@@ -825,6 +853,21 @@ If you wish to close the application and deal with the issue yourself, please re
         self._connection.commit()
 
     @connect
+    def deleteUser(self, username):
+        now = datetime.datetime.now()
+
+        self._cursor.execute(
+            """
+                UPDATE user
+                SET user_name = '%s', first_name = NULL, last_name = NULL, password = NULL, email = NULL, dob = NULL
+                WHERE user_name = '%s'
+            """
+            % (now.timestamp(), username)
+        )
+
+        self._connection.commit()
+
+    @connect
     def deleteEvent(self, eventID, eventType):
         pairingTable = None
         if eventType == "ladder":
@@ -857,3 +900,7 @@ If you wish to close the application and deal with the issue yourself, please re
         )
 
         self._connection.commit()
+
+    def backup(self, filename):
+        shutil.copy(self._location, "Data\\Backups\\" + filename + ".db")
+        print("Created a database backup called " + filename)

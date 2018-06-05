@@ -1,11 +1,11 @@
-﻿{% extends "MenuTemplate.html" %}{# This page builds on the MenuTemplate page #}
+﻿{% extends "MenuTemplate.html" %}
 
-{% block pageTitle %}{{pageTitle}}{% endblock %}
+{% block pageTitle %}Delete User{% endblock %}
 
-{% block pageHeading %}Login{% endblock %}
+{% block pageHeading %}SHALLOW BLUE - DELETE USER{% endblock %}
 
 {% block bodyContent %}
-    {# Display login form #}
+    {# Display form #}
     <div class="row">
         <div class="col-sm-3"></div>
 
@@ -23,18 +23,15 @@
                 <p class="feldErrorMessage">{{error}}</p>
                 {% endfor %}
 
+                <p><b>{{form.confirmData.data}}</b></p>
+
+                <p>{{form.confirmDataTextBox.label}} {{form.confirmDataTextBox()}}</p>
+                {% for error in form.confirmDataTextBox.errors %}
+                <p class="feldErrorMessage">{{error}}</p>
+                {% endfor %}
+
                 <p>{{form.submitButton(class="btn button-background")}}</p>
             </form>
-
-            <br />
-
-            {# Link to signup form #}
-            <p>
-                Or sign up here --->
-                <a class="btn button-background" href="{{url_for("signup")}}">
-                    <i class="fas fa-user-plus button-icon"></i>
-                </a>
-            </p>
         </div>
 
         <div class="col-sm-3"></div>

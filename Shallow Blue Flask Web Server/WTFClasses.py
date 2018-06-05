@@ -6,6 +6,10 @@ class AddPlayerForm(FlaskForm):
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Add Player")
 
+class BackupDatabaseForm(FlaskForm):
+    nameTextBox = StringField("Backup filename", validators = [Optional()])
+    submitButton = SubmitField("Backup")
+
 class CreateEventForm(FlaskForm):
     typeSelector = SelectField("Event Type", choices = [["", ""], ["swiss", "Swiss"], ["round robin", "Round Robin"], ["ladder", "Ladder"]], validators = [DataRequired()])
     maxRoundsIntegerBox = IntegerField("Number of Rounds",  validators = [Optional()])
@@ -28,9 +32,20 @@ class DeleteEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Delete Event")
 
+class DeleteUserForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
+    confirmData = HiddenField()
+    confirmDataTextBox = StringField("Enter the text from above to confirm:", validators = [DataRequired(message = "This is a required field."), EqualTo("confirmData", "The text didn't match - try again.")])
+    submitButton = SubmitField("Delete User")
+
 class EndEventForm(FlaskForm):
     passwordPasswordBox = PasswordField("Re-enter your password to confirm:", validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("End Event")
+
+class GetUserNameForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Get User")
 
 class LoginForm(FlaskForm):
     usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
@@ -41,6 +56,11 @@ class PairingForm(FlaskForm):
     blackNameSelector = SelectField("Player playing Black", coerce = int, validators = [DataRequired(message = "This is a required field.")])
     whiteNameSelector = SelectField("Player playing White", coerce = int, validators = [DataRequired(message = "This is a required field.")])
     submitButton = SubmitField("Submit")
+
+class ResetUserPasswordForm(FlaskForm):
+    usernameTextBox = StringField("Username", validators = [DataRequired(message = "This is a required field.")])
+    passwordPasswordBox = PasswordField("New Password", validators = [DataRequired(message = "This is a required field.")])
+    submitButton = SubmitField("Reset Password")
 
 class ResultForm(FlaskForm):
     pairingIdentifier = HiddenField()
@@ -62,14 +82,14 @@ class SignupForm(FlaskForm):
     submitButton = SubmitField("Signup")
 
 class UpdateUserForm(FlaskForm):
-    firstNameTextBox = StringField("First Name")
-    lastNameTextBox = StringField("Last name")
-    usernameTextBox = StringField("Username")
+    firstNameTextBox = StringField("First Name", validators = [Optional()])
+    lastNameTextBox = StringField("Last name", validators = [Optional()])
+    usernameTextBox = StringField("Username", validators = [Optional()])
     emailTextBox = StringField("Email", validators = [Optional(), Email("This field must contain a valid email adress.")])
-    dobDayIntegerBox = IntegerField("Day")
-    dobMonthIntegerBox = IntegerField("Month")
-    dobYearIntegerBox = IntegerField("Year")    
-    passwordPasswordBox = PasswordField("Password")
+    dobDayIntegerBox = IntegerField("Day", validators = [Optional()])
+    dobMonthIntegerBox = IntegerField("Month", validators = [Optional()])
+    dobYearIntegerBox = IntegerField("Year", validators = [Optional()])    
+    passwordPasswordBox = PasswordField("Password", validators = [Optional()])
     newPasswordPasswordBox = PasswordField("New Password")
     newRepeatPasswordBox = PasswordField("Repeat New Password", validators = [EqualTo("newPasswordPasswordBox", "This field must match the \"New Password\" field.")])
     submitButton = SubmitField("Change Data")
