@@ -89,13 +89,6 @@ p
     background-color: mediumaquamarine;
 }
 
-@media (max-width:576px) {
-    .menuNavButton {
-        width: 100%;
-        height: auto;
-    }
-}
-
 /* The Overlay (background) */
 .overlay {
     /* Height & width depends on how you want to reveal the overlay (see JS below) */
@@ -241,6 +234,13 @@ p
 {
     background-color: darkblue;
     color: white;
+}
+
+@media (max-width:576px) {
+    .menuNavButton {
+        width: 100%;
+        height: auto;
+    }
 }
 
 /*Event Template Score Bar*/

@@ -1,4 +1,3 @@
-/* Open when someone clicks on the span element */
 function openNav() {
     if ($(window).width() > 576) {
         document.getElementById("myNav").style.height = "100%";
@@ -19,7 +18,6 @@ function openNav() {
     
 }
 
-/* Close when someone clicks on the "x" symbol inside the overlay */
 function closeNav() {
     if ($(window).width() > 576) {
         document.getElementById("myNav").style.width = "0%";
