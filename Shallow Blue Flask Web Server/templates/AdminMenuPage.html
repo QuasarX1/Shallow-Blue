@@ -1,0 +1,48 @@
+﻿{% extends "MenuTemplate.html" %}
+
+{% block pageTitle %}Admin Menu{% endblock %}
+
+{% block pageHeading %}SHALLOW BLUE - ADMIN MENU{% endblock %}
+
+{% block bodyContent %}
+    {# Top row of icons #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        <div class="col-sm-3" style="text-align: center">
+            <a class="btn splash_button-background" href="{{url_for("resetUserPassword")}}"><i class="fas fa-key SplashPage-Clickable-Icon"></i></a>
+            <br />
+            <p>Reset User Password</p>
+        </div>
+
+        {# Profile button #}
+        <div class="col-sm-3" style="text-align: center">
+            <a class="btn splash_button-background" href="{{url_for("userProfiles")}}"><span class="fa-layers fa-fw SplashPage-Clickable-Icon"><i class="fas fa-address-book" data-fa-transform="right-1 up-1" style="color: red"></i><i class="fas fa-address-book" style="color: green"></i><i class="fas fa-square" data-fa-transform="left-1 down-1 shrink-3" style="color: aqua"></i><i class="fas fa-address-book" data-fa-transform="left-1 down-1"></i></span></a>
+            <br />
+            <p>User Profiles</p>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+
+    {# Bottom row of icons #}
+    <div class="row">
+        <div class="col-sm-3"></div>
+
+        {# Spectate bitton #}
+        <div class="col-sm-3" style="text-align: center">
+            <a class="splash_button-background" href="{{url_for("backupDatabase")}}"><i class="fas fa-database SplashPage-Clickable-Icon"></i></a>
+            <br />
+            <p>Backup Database</p>
+        </div>
+
+        {# Join button #}
+        <div class="col-sm-3" style="text-align: center">
+            <a class="splash_button-background" href="{{url_for("deleteUser")}}"><span class="fa-layers fa-fw SplashPage-Clickable-Icon"><i class="fas fa-user"></i><i class="fas fa-times" style="color: red"></i></span></a>
+            <br />
+            <p>Delete User</p>
+        </div>
+
+        <div class="col-sm-3"></div>
+    </div>
+{% endblock %}

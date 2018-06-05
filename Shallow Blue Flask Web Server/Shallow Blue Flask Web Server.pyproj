@@ -40,6 +40,7 @@
     <Compile Include="PlayerClass.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include=".RunApp.py" />
     <Compile Include="SR_EventClass.py">
       <SubType>Code</SubType>
     </Compile>
@@ -84,9 +85,13 @@
     <Content Include="static\scripts\holder.min.js" />
     <Content Include="static\scripts\jquery-slim.min.js" />
     <Content Include="static\scripts\popper.min.js" />
+    <Content Include="static\scripts\ShallowBlueScript.js" />
     <Content Include="templates\AddPairingsPage.html" />
     <Content Include="templates\AddNewPlayerPage.html" />
     <Content Include="templates\AddPlayerPage.html" />
+    <Content Include="templates\AdminMenuPage.html" />
+    <Content Include="templates\BackupDatabase.html" />
+    <Content Include="templates\DeleteUserPage.html" />
     <Content Include="templates\EndEventPage.html" />
     <Content Include="templates\DeleteEventPage.html" />
     <Content Include="templates\EventHomePage.html" />
@@ -94,7 +99,10 @@
     <Content Include="templates\JoinPage.html" />
     <Content Include="templates\LoginPage.html" />
     <Content Include="templates\MainTemplate.html" />
+    <Content Include="templates\MenuTemplate.html" />
     <Content Include="templates\PairingsPage.html" />
+    <Content Include="templates\ProfilesPage.html" />
+    <Content Include="templates\ResetUserPassword.html" />
     <Content Include="templates\ScoresPage.html" />
     <Content Include="templates\SignupPage.html" />
     <Content Include="templates\SplashPage.html" />
@@ -113,6 +121,7 @@
   <ItemGroup>
     <Folder Include="assets\" />
     <Folder Include="Data\" />
+    <Folder Include="Data\Backups\" />
     <Folder Include="static\" />
     <Folder Include="static\content\" />
     <Folder Include="C:\Users\chris\OneDrive\Documents\All Documents\School\A-Level\Computer Science\Shallow Blue\Shallow Blue Flask Web Server\static\fonts\" />
