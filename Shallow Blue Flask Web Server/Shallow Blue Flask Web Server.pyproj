@@ -96,6 +96,7 @@
     <Content Include="templates\DeleteEventPage.html" />
     <Content Include="templates\EventHomePage.html" />
     <Content Include="templates\EventTemplate.html" />
+    <Content Include="templates\JoinEventPage.html" />
     <Content Include="templates\JoinPage.html" />
     <Content Include="templates\LoginPage.html" />
     <Content Include="templates\MainTemplate.html" />

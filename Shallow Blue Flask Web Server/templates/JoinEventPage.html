@@ -1,0 +1,21 @@
+﻿{% extends "MenuTemplate.html" %}{# This page builds on the MenuTemplate page #}
+
+{% block pageTitle %}Join {{event.name}}{% endblock %}
+
+{% block pageHeading %}JOIN {{event.name|upper}}{% endblock %}
+
+{% block bodyContent %}
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        {% if status == "No Request" %}
+        <a class="btn btn-default Event-Link" href="{{url_for("joinEvent", eventID = eventArray[0])}}">
+            Request to join the event "{{event.name}}"
+        </a>
+        {% else %}
+        <p>Request Status: {{status}}</p>
+        {% endif %}
+    </div>
+    <div class="col-sm-3"></div>
+</div>
+{% endblock %}
