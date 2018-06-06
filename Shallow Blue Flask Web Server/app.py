@@ -612,17 +612,37 @@ def join():
 
     return template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
 
+@app.route('/<eventID>/joinEvent')
+@forceLogin
+@createEvent
+def joinSpecificEvent(event):
+    joinRequest = database.addJoinRequest(event.id, session["userID"])
+
+    if joinRequest == None:
+        status = "No Request"
+    else:
+        status = joinRequest[2]
+
+    return template("JoinEventPage.html", status = status)
+
 @app.route('/<eventID>/join')
 @forceLogin
 @createEvent
 def joinEvent(event):
-    try:
-        event.addPlayer(database, session["userID"])
-
-    except:
+    if database.addJoinRequest(event.id, session["userID"]) == None):
+        database.addJoinRequest(event.id, session["userID"])
+    else:
         flash("You have allready joined this event. You can only join an event once.")
 
-    return redirect(url_for("homepage", eventID = event.id))
+    return redirect(url_for("joinSpecificEvent", eventID = event.id))
+
+    #try:
+    #    event.addPlayer(database, session["userID"])
+
+    #except:
+    #    flash("You have allready joined this event. You can only join an event once.")
+
+    #return redirect(url_for("homepage", eventID = event.id))
 
 @app.route('/<eventID>/home')
 @createEvent

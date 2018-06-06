@@ -23,7 +23,7 @@
     {% for eventArray in eventData %}
     <div class="row">
         <div class="col-sm-3"></div>
-        <a class="btn btn-default col-sm-6 Event-Link" href="{% if pageTitle.lower() == 'spectate' %}{{url_for("homepage", eventID = eventArray[0])}}{% else %}{{url_for("joinEvent", eventID = eventArray[0])}}{% endif %}">
+        <a class="btn btn-default col-sm-6 Event-Link" href="{% if pageTitle.lower() == 'spectate' %}{{url_for("homepage", eventID = eventArray[0])}}{% else %}{{url_for("joinSpecificEvent", eventID = eventArray[0])}}{% endif %}">
             <table>
                 {# Used to arange the content of the button #}
                 <tr>
