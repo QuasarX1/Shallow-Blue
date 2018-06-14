@@ -273,7 +273,7 @@ If you wish to close the application and deal with the issue yourself, please re
             """CREATE TABLE IF NOT EXISTS join_event_requests (
                 request_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 event_id int NOT NULL,
-                user_id int NOT NULL
+                user_id int NOT NULL,
                 status varchar(255) NOT NULL,
                 FOREIGN KEY (event_id) REFERENCES event(event_id),
                 FOREIGN KEY (user_id) REFERENCES user(user_id)
@@ -696,9 +696,20 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchall()
 
     @connect
-    def getJoinRequest(event_id, user_id):
+    def getJoinRequestByID(self, request_id):
         self._cursor.execute(
             """SELECT event_id, user_id, status
+            FROM join_event_requests
+            WHERE request_id = '%s'"""
+            %(request_id)
+        )
+
+        return self._cursor.fetchone()
+
+    @connect
+    def getJoinRequest(self, event_id, user_id):
+        self._cursor.execute(
+            """SELECT request_id, event_id, user_id, status
             FROM join_event_requests
             WHERE event_id = '%s' AND user_id = '%s'"""
             %(event_id, user_id)
@@ -707,11 +718,24 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchone()
 
     @connect
-    def getJoinRequests(event_id):
+    def getJoinRequests(self, event_id):
         self._cursor.execute(
             """SELECT event_id, user_id, status
             FROM join_event_requests
             WHERE event_id = '%s'"""
+            %(event_id)
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
+    def getPendingJoinRequestsInfo(self, event_id):
+        self._cursor.execute(
+            """SELECT requestTable.request_id, requestTable.event_id, requestTable.user_id, userTable.user_name, userTable.first_name, userTable.last_name, userTable.dob, userTable.raiting
+            FROM join_event_requests AS requestTable
+            JOIN user AS userTable
+            ON requestTable.user_id = userTable.user_id
+            WHERE event_id = '%s' AND status = 'Request Sent'"""
             %(event_id)
         )
 
@@ -903,16 +927,16 @@ If you wish to close the application and deal with the issue yourself, please re
         self._connection.commit()
 
     @connect
-    def updateJoinRequest(event_id, user_id, newStatus):
+    def updateJoinRequest(self, request_id, newStatus):
         self._cursor.execute(
             """
                 UPDATE join_event_requests
                 SET status = '%s'
-                WHERE event_id = '%s' AND user_id = '%s';
+                WHERE request_id = '%s';
             """
-            %(newStatus, event_id, user_id)
+            %(newStatus, request_id)
         )
-
+        
         self._connection.commit()
 
     @connect

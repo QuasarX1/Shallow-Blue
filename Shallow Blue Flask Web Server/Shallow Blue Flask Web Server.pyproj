@@ -88,6 +88,7 @@
     <Content Include="static\scripts\ShallowBlueScript.js" />
     <Content Include="templates\AddPairingsPage.html" />
     <Content Include="templates\AddNewPlayerPage.html" />
+    <Content Include="templates\ConfirmJoinRequestsPage.html" />
     <Content Include="templates\AddPlayerPage.html" />
     <Content Include="templates\AdminMenuPage.html" />
     <Content Include="templates\BackupDatabase.html" />
