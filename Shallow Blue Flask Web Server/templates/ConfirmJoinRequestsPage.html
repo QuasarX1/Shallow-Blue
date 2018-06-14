@@ -30,8 +30,8 @@
         <p class="col-sm-2">{{request[2]}}</p>
         <p class="col-sm-2">{{request[3]}}</p>
         <p class="col-sm-2">{{request[4]|int}}</p>
-        <a href="{{url_for("acceptJoinRequest", eventID = event.id, requestID = request[0])}}" class="col-sm-2 btn button-background" style="padding: 0, 10px;">Confirm</a>
-        <a href="{{url_for("declineJoinRequest", eventID = event.id, requestID = request[0])}}" class="col-sm-2 btn button-background" style="padding: 0, 10px;">Decline</a>
+        <a href="{{url_for("acceptJoinRequest", eventID = event.id, requestID = request[0])}}" class="col-sm-2 btn button-background" style="padding: 0, 10px;"><i class="fas fa-check-square button-icon"></i></a>
+        <a href="{{url_for("declineJoinRequest", eventID = event.id, requestID = request[0])}}" class="col-sm-2 btn button-background" style="padding: 0, 10px;"><i class="fas fa-window-close button-icon"></i></a>
     </div>
     {% endfor %}
 
@@ -46,7 +46,7 @@
     </div>
 
     <div class="row">
-        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-clipboard button-icon"></i></a></p>
+        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-plus button-icon"></i></a></p>
     </div>
 </div>
 {% endblock %}

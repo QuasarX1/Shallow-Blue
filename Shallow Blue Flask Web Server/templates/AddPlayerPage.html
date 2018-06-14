@@ -34,11 +34,11 @@
     </div>
 
     <div class="row">
-        <p class="col-sm-12">Or accept a request to join ---> <a class="btn button-background" href="{{url_for("confirmJoinRequests", eventID = event.id)}}"><i class="fas fa-clipboard-check-alt button-icon"></i></a></p>
+        <p class="col-sm-12">Or accept a request to join ---> <a class="btn button-background" href="{{url_for("confirmJoinRequests", eventID = event.id)}}"><i class="fas fa-check-circle button-icon"></i></a></p>
     </div>
 
     <div class="row">
-        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-clipboard button-icon"></i></a></p>
+        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-plus button-icon"></i></a></p>
     </div>
 </form>
 {% endblock %}
