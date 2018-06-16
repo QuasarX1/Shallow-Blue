@@ -660,7 +660,7 @@ def addPlayer(event):
         if userData != None:
             try:
                 event.addPlayer(database, userData[0])
-                flash("The user " + name + "has been added.")
+                flash("The user " + name + " has been added.")
                 database.addJoinRequest(event.id, userData[0])
                 database.updateJoinRequest(database.getJoinRequest(event.id, userData[0])[0], "Accepted")
             except ValueError:
