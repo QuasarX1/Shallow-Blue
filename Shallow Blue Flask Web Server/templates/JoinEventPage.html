@@ -9,7 +9,7 @@
     <div class="col-sm-3"></div>
     <div class="col-sm-6" style="text-align: center;">
         {% if status == "No Request" %}
-        <a class="btn btn-default Event-Link" href="{{url_for("joinEvent", eventID = event.id)}}">
+        <a class="btn button-background" href="{{url_for("joinEvent", eventID = event.id)}}">
             Request to join the event "{{event.name}}"
         </a>
         {% else %}

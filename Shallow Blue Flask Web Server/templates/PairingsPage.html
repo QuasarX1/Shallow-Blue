@@ -31,11 +31,11 @@
     <form class="row" method="POST">
         {{forms[i].hidden_tag()}}{# Used for CRSF protection #}
         <div class="col-sm-2"><p>{{pairings[forms[i].pairingIdentifier.data|int][3]}}</p></div>
-        <div class="col-sm-2">{{forms[i].blackResultSelector}}</div>
+        <div class="col-sm-2">{{forms[i].blackResultSelector()}}</div>
         <div class="col-sm-2"><p>Vs.</p></div>
         <div class="col-sm-2"><p>{{pairings[forms[i].pairingIdentifier.data|int][4]}}</p></div>
-        <div class="col-sm-2">{{forms[i].whiteResultSelector}}</div>
-        <div class="col-sm-2">{{forms[i].submitButton}}{% for error in forms[i].blackResultSelector.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2">{{forms[i].whiteResultSelector()}}</div>
+        <div class="col-sm-2">{{forms[i].submitButton(class = "btn button-background")}}{% for error in forms[i].blackResultSelector.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
     </form>
     {% endfor %}
     {% elif event.status != "finished" %}

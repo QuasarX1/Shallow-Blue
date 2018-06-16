@@ -28,9 +28,16 @@ p
     font-size: 0.5em;
 }
 
-.button-background
-{
+.button-background, .button-background:visited, .button-background:link, .button-background:active {
     background-color: aqua;
+    text-decoration: none;
+    color: black;
+}
+
+.button-background:hover {
+    background-color: mediumaquamarine;
+    text-decoration: none;
+    color: black;
 }
 
 .button-icon
@@ -58,6 +65,10 @@ p
     display: block;
 }
 
+.splash_button-background:hover {
+    background-color: mediumaquamarine;
+}
+
 /* Join Page */
 .Event-Link
 {
@@ -66,12 +77,16 @@ p
     border-radius: 20px;
 }
 
-.event-Link-Date
-{
+.Event-Link:hover {
+    background-color: mediumaquamarine;
+}
+
+.event-Link-Date {
     font-size: 2em;
     text-align: center;
     border: 1px solid black;
     border-radius: 20px;
+    background-color: aqua;
 }
 
 .Event-Link-Info
@@ -178,6 +193,10 @@ p
     color: #000;
 }
 
+.menuBar_ul li a .logout-link {
+    background-color: mediumaquamarine;
+}
+
 .menuBar_ul li:last-child
 {
     border-bottom: none;
@@ -191,6 +210,11 @@ p
 
 .menuBar_ul li a:hover:not(.active)
 {
+    background-color: darkblue;
+    color: white;
+}
+
+.menuBar_ul li a:hover:not(.active) .logout-link {
     background-color: darkblue;
     color: white;
 }

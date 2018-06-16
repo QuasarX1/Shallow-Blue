@@ -3,7 +3,7 @@
 {% block fullPageTitle %}Shallow Blue - {% block pageTitle %}{% endblock %}{% endblock %}
 
 {% block fullBodyContent %}
-<a class="btn button-background menuNavButton" style="" onclick="openNav()"><i class="fas fa-bars"></i></a>
+<a class="btn button-background menuNavButton" onclick="openNav()"><i class="fas fa-bars"></i></a>
 <div class="container-fluid">
 
     {# Page heading #}
@@ -39,6 +39,9 @@
             <div class="col-sm-3"></div>
             <div class="col-sm-6">
                 <ul id="menuLinks" class="menuBar_ul">
+                    {% if "userName" in session %}
+                    <li><a href="{{url_for("logout")}}" class="logout-link">Logged In As "{{session["userName"]}}" - Logout</a></li>
+                    {% endif %}
                     <li><a href="{{url_for("home")}}">Splash Page</a></li>
                     {% if session["userName"] != "admin" %}
                     <li><a href="{{url_for("profile")}}">Profile</a></li>
