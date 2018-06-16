@@ -1,0 +1,75 @@
+﻿@{
+    // This page builds on the MainTemplate page
+    Layout = "_MainTemplate";
+
+    ViewData["FullPageTitle"] = "Shallow Blue - " + ViewData["PageTitle"];
+}
+<a class="btn button-background menuNavButton" onclick="openNav()"><i class="fas fa-bars"></i></a>
+<div class="container-fluid">
+
+    @* Page heading *@
+    <header class="jumbotron Page-Heading">
+        <h1 style="text-align:center">@ViewData["PageHeading"]</h1>
+    </header>
+
+    @* Output messages *@
+    @*{% for message in get_flashed_messages() %}*@
+    @foreach (string message in (dynamic)ViewData["Messages"])
+    {
+        <div class="row">
+            <div class="col-sm-3"></div>
+
+            <div class="col-sm-6">
+                <div class="alert alert-warning">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    @message
+                </div>
+            </div>
+
+            <div class="col-sm-3"></div>
+        </div>
+        @*{% endfor %}*@
+    }
+
+
+    @RenderBody()
+
+</div>
+
+@* Navigation Menu (Hidden on page load) *@
+<div id="myNav" class="overlay">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <div class="container-fluid overlay-content">
+        <div class="row">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <ul id="menuLinks" class="menuBar_ul">
+                    {% if "userName" in session %}
+                    <li><a href="{{url_for("logout")}}" class="logout-link">Logged In As "{{session["userName"]}}" - Logout</a></li>
+                    {% endif %}
+                    <li><a href="{{url_for("home")}}">Splash Page</a></li>
+                    {% if session["userName"] != "admin" %}
+                    <li><a href="{{url_for("profile")}}">Profile</a></li>
+                    {% else %}
+                    <li><a href="{{url_for("adminMenu")}}">Admin Menu</a></li>
+                    {% endif %}
+                    <li><a href="{{url_for("spectate")}}">Spectate</a></li>
+                    <li><a href="{{url_for("join")}}">Join</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3"></div>
+        </div>
+    </div>
+</div>
+
+{# Extra lines to prevent footer from cutting off content #}
+<br />
+<br />
+
+<footer class="Page-Footer">
+    <p>
+        GitHub - "https://github.com/QuasarX1/Shallow-Blue"<br />
+        Contact Me - "ShallowBlue@gmail.com"<br />
+        Copyright <i class="far fa-copyright"></i> Christopher Rowe @DateTime.Today.Year
+    </p>
+</footer>

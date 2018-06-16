@@ -5,13 +5,27 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Shallow_Blue_ASP.Models;
+using static Shallow_Blue_ASP.Controllers.Operations;
 
 namespace Shallow_Blue_ASP.Controllers
 {
-    public class HomeController : Controller
+    public class MenuController : Controller
     {
-        public IActionResult Index()
+        private void addTemplateData()
         {
+            foreach (KeyValuePair<string, dynamic> item in Operations.addTemplateData())
+            {
+                ViewData[item.Key] = item.Value;
+            }
+            
+        }
+
+        public IActionResult SplashPage()
+        {
+            ViewData["LoggedIn"] = TestLogin();
+            ViewData["Admin"] = IsAdmin();
+
+            addTemplateData();
             return View();
         }
 

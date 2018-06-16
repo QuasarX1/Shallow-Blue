@@ -1,0 +1,67 @@
+﻿@{
+    // This page builds on the MenuTemplate page
+    Layout = "MenuTemplate";
+
+    ViewData["PageTitle"] = "Home";
+
+    ViewData["PageHeading"] = "SHALLOW BLUE - HOME";
+}
+@* Top row of icons *@
+<div class="row">
+    <div class="col-sm-3"></div>
+
+    @* Login/logout button *@
+    @if ((bool)ViewData["LoggedIn"] == false)
+    {
+        <div class="col-sm-3" style="text-align: center">
+            <a class="btn splash_button-background" href="{{url_for("login")}}"><i class="fas fa-sign-in-alt SplashPage-Clickable-Icon"></i></a>
+            <br />
+            <p>Log In</p>
+        </div>
+    }
+    else
+    {
+        <div class="col-sm-3" style="text-align: center">
+            <a class="btn splash_button-background" href="{{url_for("logout")}}"><i class="fas fa-sign-out-alt SplashPage-Clickable-Icon"></i></a>
+            <br />
+            <p>Logout</p>
+        </div>
+    }
+
+    @* Profile button *@
+    <div class="col-sm-3" style="text-align: center">
+        <a class="btn splash_button-background" href="{% if admin == False %}{{url_for("profile")}}{% else %}{{url_for("adminMenu")}}{% endif %}"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
+        <br />
+        @if ((bool)ViewData["Admin"] == false)
+        {
+            <p>Profile</p>
+        }
+        else
+        {
+            <p>Admin Menu</p>
+        }
+    </div>
+
+    <div class="col-sm-3"></div>
+</div>
+
+    @* Bottom row of icons *@
+<div class="row">
+    <div class="col-sm-3"></div>
+
+    @* Spectate bitton *@
+    <div class="col-sm-3" style="text-align: center">
+        <a class="splash_button-background" href="{{url_for("spectate")}}"><i class="fas fa-binoculars SplashPage-Clickable-Icon"></i></a>
+        <br />
+        <p>Spectate</p>
+    </div>
+
+    @* Join button *@
+    <div class="col-sm-3" style="text-align: center">
+        <a class="splash_button-background" href="{{url_for("join")}}"><i class="fas fa-calendar-alt SplashPage-Clickable-Icon"></i></a>
+        <br />
+        <p>Join</p>
+    </div>
+
+    <div class="col-sm-3"></div>
+</div>

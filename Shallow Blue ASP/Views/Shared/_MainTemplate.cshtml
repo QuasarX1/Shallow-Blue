@@ -15,10 +15,10 @@
     <script src="/static/scripts/fontawesome-all.min.js"></script>
 
     @* Other head content *@
-    {% block headContent %}{% endblock %}
+    @RenderSection("HeadContent", required: false)
 
     @* Page title *@
-    <title>{% block fullPageTitle %}{% endblock %}</title>@ViewData["Title"]
+    <title>@ViewData["FullPageTitle"]</title>
 
     @* ASP Head Content *@
     <meta charset="utf-8" />

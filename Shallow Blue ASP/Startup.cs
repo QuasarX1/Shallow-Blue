@@ -43,7 +43,7 @@ namespace Shallow_Blue_ASP
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Menu}/{action=SplashPage}/{id?}");
             });
         }
     }
