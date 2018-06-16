@@ -30,8 +30,16 @@
 
     <div class="row">
         <div class="col-sm-3"></div>
-        <p class="col-sm-6">{{form.submitButton()}}</p>
+        <p class="col-sm-6">{{form.submitButton(class = "btn button-background")}}</p>
         <div class="col-sm-3"></div>
+    </div>
+
+    <div class="row">
+        <p class="col-sm-12">Or accept a request to join ---> <a class="btn button-background" href="{{url_for("confirmJoinRequests", eventID = event.id)}}"><i class="fas fa-check-circle button-icon"></i></a></p>
+    </div>
+
+    <div class="row">
+        <p class="col-sm-12">Or add a user manualy ---> <a class="btn button-background" href="{{url_for("addPlayer", eventID = event.id)}}"><i class="fas fa-clipboard button-icon"></i></a></p>
     </div>
 </form>
 {% endblock %}

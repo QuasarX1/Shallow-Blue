@@ -138,7 +138,7 @@ If you wish to close the application and deal with the issue yourself, please re
         if tableNames == []:# If the database is blank
             makeTables = True
 
-        elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',)]:# If the list of tables is incorrect
+        elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',), ("join_event_requests",)]:# If the list of tables is incorrect
             while True:
                 choice = input("""The database """ + nameOfDB + """ contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
 If you wish to continue with this database, please return \"y\". Please note that any nessessary tables that currently don't exist will be created if you chose to do so.\n
@@ -160,31 +160,31 @@ If you wish to close the application and deal with the issue yourself, please re
 
         if makeTables == True:
             self.createTables()# Create the tables in the database
-        if tableNames == []:# If the database is blank
-            makeTables = True
+#        if tableNames == []:# If the database is blank
+#            makeTables = True
 
-        elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',)]:# If the list of tables is incorrect
-            while True:
-                choice = input("""The database """ + nameOfDB + """ contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
-If you wish to continue with this database, please return \"y\". Please note that any nessessary tables that currently don't exist will be created if you chose to do so.\n
-If you wish to close the application and deal with the issue yourself, please return \"n\".\n
----> """)
+#        elif tableNames != [('user',), ('sqlite_sequence',), ('event',), ('player',), ('sr_pairing',), ('ladder_pairing',)]:# If the list of tables is incorrect
+#            while True:
+#                choice = input("""The database """ + nameOfDB + """ contained a list of tables that is either missing nessessary tables or has other tables. This could mean that the database location specified is wrong and this database doesn't belong to this application.\n
+#If you wish to continue with this database, please return \"y\". Please note that any nessessary tables that currently don't exist will be created if you chose to do so.\n
+#If you wish to close the application and deal with the issue yourself, please return \"n\".\n
+#---> """)
 
-                if choice == "y" or choice == "n":
-                    break
+#                if choice == "y" or choice == "n":
+#                    break
 
-                else:
-                    print("You muse enter \"y\" or \"n\"!")
+#                else:
+#                    print("You muse enter \"y\" or \"n\"!")
 
-            if choice == "n":
-                print("The list of tables in the database was incorrect. The tables located were: " + str(tableNames))
-                sys.exit()
+#            if choice == "n":
+#                print("The list of tables in the database was incorrect. The tables located were: " + str(tableNames))
+#                sys.exit()
 
-            else:
-                makeTables = True
+#            else:
+#                makeTables = True
 
-        if makeTables == True:
-            self.createTables()# Create the tables in the database
+#        if makeTables == True:
+#            self.createTables()# Create the tables in the database
 
         self._cursor.close()
         self._connection.close()
@@ -265,6 +265,18 @@ If you wish to close the application and deal with the issue yourself, please re
                 PRIMARY KEY (match_number, player_id),
                 FOREIGN KEY (event_id) REFERENCES event(event_id),
                 FOREIGN KEY (player_id) REFERENCES player(player_id)
+            )"""
+        )
+
+        # join_event_requests table
+        self._cursor.execute(
+            """CREATE TABLE IF NOT EXISTS join_event_requests (
+                request_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                event_id int NOT NULL,
+                user_id int NOT NULL,
+                status varchar(255) NOT NULL,
+                FOREIGN KEY (event_id) REFERENCES event(event_id),
+                FOREIGN KEY (user_id) REFERENCES user(user_id)
             )"""
         )
 
@@ -436,6 +448,22 @@ If you wish to close the application and deal with the issue yourself, please re
             %(eventID, match, wPlayer.id, wExpectedResult)
         )
 
+        self._connection.commit()
+
+    @connect
+    def addJoinRequest(self, event_id, user_id):
+        self._cursor.execute(
+            """
+                INSERT INTO join_event_requests(
+                    event_id, user_id, status
+                )
+                VALUES(
+                    '%s', '%s', 'Request Sent'
+                )
+            """
+            %(event_id, user_id)
+        )
+        
         self._connection.commit()
 
     @connect
@@ -668,6 +696,52 @@ If you wish to close the application and deal with the issue yourself, please re
         return self._cursor.fetchall()
 
     @connect
+    def getJoinRequestByID(self, request_id):
+        self._cursor.execute(
+            """SELECT event_id, user_id, status
+            FROM join_event_requests
+            WHERE request_id = '%s'"""
+            %(request_id)
+        )
+
+        return self._cursor.fetchone()
+
+    @connect
+    def getJoinRequest(self, event_id, user_id):
+        self._cursor.execute(
+            """SELECT request_id, event_id, user_id, status
+            FROM join_event_requests
+            WHERE event_id = '%s' AND user_id = '%s'"""
+            %(event_id, user_id)
+        )
+
+        return self._cursor.fetchone()
+
+    @connect
+    def getJoinRequests(self, event_id):
+        self._cursor.execute(
+            """SELECT event_id, user_id, status
+            FROM join_event_requests
+            WHERE event_id = '%s'"""
+            %(event_id)
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
+    def getPendingJoinRequestsInfo(self, event_id):
+        self._cursor.execute(
+            """SELECT requestTable.request_id, requestTable.event_id, requestTable.user_id, userTable.user_name, userTable.first_name, userTable.last_name, userTable.dob, userTable.raiting
+            FROM join_event_requests AS requestTable
+            JOIN user AS userTable
+            ON requestTable.user_id = userTable.user_id
+            WHERE event_id = '%s' AND status = 'Request Sent'"""
+            %(event_id)
+        )
+
+        return self._cursor.fetchall()
+
+    @connect
     def updateUser(self, userData):
         self._cursor.execute(
             """
@@ -848,6 +922,19 @@ If you wish to close the application and deal with the issue yourself, please re
                 WHERE user_name = '%s'
             """
             %(newRaiting, wPlayer.name)
+        )
+        
+        self._connection.commit()
+
+    @connect
+    def updateJoinRequest(self, request_id, newStatus):
+        self._cursor.execute(
+            """
+                UPDATE join_event_requests
+                SET status = '%s'
+                WHERE request_id = '%s';
+            """
+            %(newStatus, request_id)
         )
         
         self._connection.commit()

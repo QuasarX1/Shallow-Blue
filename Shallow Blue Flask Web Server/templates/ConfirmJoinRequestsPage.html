@@ -1,0 +1,52 @@
+﻿{% extends "EventTemplate.html" %}{# This page builds on the EventTemplate page #}
+
+{% block pageContent %}
+<div class="container-fluid" style="text-align: center">
+    {# Page Description #}
+    <div class="row">
+        <p class="col-sm-12">
+            Use this page to add players to the event that allready have an account. Please be sure that the user wishes to enter the event before continuing.
+        </p>
+    </div>
+
+    {# Headdings #}
+    <div class="row" style="color: white;">
+        <h4 class="col-sm-2">Username</h4>
+        <h4 class="col-sm-2">Name</h4>
+        <h4 class="col-sm-2">Age</h4>
+        <h4 class="col-sm-2">Raiting</h4>
+        <h4 class="col-sm-2">Confirm</h4>
+        <h4 class="col-sm-2">Decline</h4>
+    </div>
+
+    {% if requests|length > 0 %}
+
+    {# Request Data #}
+    {% for request in requests %}
+    <div class="row">
+        <hr />
+        <br />
+        <p class="col-sm-2">{{request[1]}}</p>
+        <p class="col-sm-2">{{request[2]}}</p>
+        <p class="col-sm-2">{{request[3]}}</p>
+        <p class="col-sm-2">{{request[4]|int}}</p>
+        <a href="{{url_for("acceptJoinRequest", eventID = event.id, requestID = request[0])}}" class="col-sm-2 btn button-background" style="padding: 0, 10px;"><i class="fas fa-check-square button-icon"></i></a>
+        <a href="{{url_for("declineJoinRequest", eventID = event.id, requestID = request[0])}}" class="col-sm-2 btn button-background" style="padding: 0, 10px;"><i class="fas fa-window-close button-icon"></i></a>
+    </div>
+    {% endfor %}
+
+    {% else %}
+    <p class="col-sm-12">There are currently no pending requests.</p>
+    {% endif %}
+
+    <br />
+
+    <div class="row">
+        <p class="col-sm-12">Or add a user manualy ---> <a class="btn button-background" href="{{url_for("addPlayer", eventID = event.id)}}"><i class="fas fa-clipboard button-icon"></i></a></p>
+    </div>
+
+    <div class="row">
+        <p class="col-sm-12">Or add a player just for this event ---> <a class="btn button-background" href="{{url_for("addNewPlayer", eventID = event.id)}}"><i class="fas fa-plus button-icon"></i></a></p>
+    </div>
+</div>
+{% endblock %}

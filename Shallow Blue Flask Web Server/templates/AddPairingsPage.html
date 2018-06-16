@@ -12,9 +12,9 @@
 
     {# Input Fields #}
     <div class="row">
-        <p class="col-sm-4">{{form.blackNameSelector}}</p>
+        <p class="col-sm-4">{{form.blackNameSelector()}}</p>
         <p class="col-sm-2">Vs.</p>
-        <p class="col-sm-4">{{form.whiteNameSelector}}</p>
+        <p class="col-sm-4">{{form.whiteNameSelector()}}</p>
     </div>
 
     {# Errors #}
@@ -25,7 +25,7 @@
             {% endfor %}
         </div>
         <div class="col-sm-2">
-            {{form.submitButton}}
+            {{form.submitButton(class = "btn button-background")}}
         </div>
         <div class="col-sm-4">
             {% for error in form.whiteNameSelector.errors %}

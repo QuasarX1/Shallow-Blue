@@ -39,18 +39,15 @@ def testLogin(func):
         if "userID" in session:
             loggedIn = True
 
-        return func(loggedIn)
+        return func(loggedIn, *args, **kwargs)
 
     return wrapper
 
 def forceLogin(func):
     @wraps(func)
-    def wrapper(eventID = None, *args, **kwargs):
+    def wrapper(*args, **kwargs):
         if "userID" in session:
-            if eventID == None:
-                return func()
-            else:
-                return func(eventID)
+            return func(*args, **kwargs)
         else:
             flash("You must be logged in to view that page.")
             return redirect(url_for("login"))
@@ -73,7 +70,7 @@ def createEvent(func):
         else:
             event = SR_EventClass.SR_Event(database, eventData)
         
-        return func(event)
+        return func(event, *args, **kwargs)
 
     return wrapper
 
@@ -84,7 +81,7 @@ def adminOnly(func):
             flash("You don't have permission to access that page.")
             return redirect(url_for("homepage", eventID = event.id))
         
-        return func(event)
+        return func(event, *args, **kwargs)
 
     return wrapper
 
@@ -612,17 +609,33 @@ def join():
 
     return template("JoinPage.html", pageTitle = "Join", eventData = listings, form = form)
 
+@app.route('/<eventID>/joinEvent')
+@forceLogin
+@createEvent
+def joinSpecificEvent(event):
+    if session["userName"] == "admin":
+        flash("The admin account can't be used to join an event!")
+        return redirect(url_for("join"))
+
+    joinRequest = database.getJoinRequest(event.id, session["userID"])
+
+    if joinRequest == None:
+        status = "No Request"
+    else:
+        status = joinRequest[3]
+
+    return template("JoinEventPage.html", event = event, status = status)
+
 @app.route('/<eventID>/join')
 @forceLogin
 @createEvent
 def joinEvent(event):
-    try:
-        event.addPlayer(database, session["userID"])
-
-    except:
+    if database.getJoinRequest(event.id, session["userID"]) == None:
+        database.addJoinRequest(event.id, session["userID"])
+    else:
         flash("You have allready joined this event. You can only join an event once.")
 
-    return redirect(url_for("homepage", eventID = event.id))
+    return redirect(url_for("joinSpecificEvent", eventID = event.id))
 
 @app.route('/<eventID>/home')
 @createEvent
@@ -634,6 +647,9 @@ def homepage(event):
 @createEvent
 @adminOnly
 def addPlayer(event):
+    """
+    Adds a user account to the event as a player
+    """
     form = WTFClasses.AddPlayerForm()
 
     if form.validate_on_submit():
@@ -645,6 +661,8 @@ def addPlayer(event):
             try:
                 event.addPlayer(database, userData[0])
                 flash("The user " + name + "has been added.")
+                database.addJoinRequest(event.id, userData[0])
+                database.updateJoinRequest(database.getJoinRequest(event.id, userData[0])[0], "Accepted")
             except ValueError:
                 flash("The user " + name + "has allready joined the event.")
 
@@ -654,6 +672,40 @@ def addPlayer(event):
             form.usernameTextBox.errors.append("There is no user with the username " + name + ".")
 
     return template("AddPlayerPage.html", event = event, form = form, pageTitle = "Add Player", addPlayerClass = "active")
+
+@app.route('/<eventID>/confirmJoinRequests')
+@forceLogin
+@createEvent
+@adminOnly
+def confirmJoinRequests(event):
+    requests = []
+
+    for request in database.getPendingJoinRequestsInfo(event.id):
+        requests.append([request[0], request[3], request[4] + " " + request[5], int((datetime.date.today() - datetime.date.fromtimestamp(request[6])).days/365.25), request[7]])
+
+    return template("ConfirmJoinRequestsPage.html", requests = requests, event = event, pageTitle = "Confirm Requests", addPlayerClass = "active")
+
+@app.route('/<eventID>/acceptRequest/<requestID>')
+@forceLogin
+@createEvent
+@adminOnly
+def acceptJoinRequest(event, requestID):
+    database.updateJoinRequest(requestID, "Accepted")
+    try:
+        event.addPlayer(database, database.getJoinRequestByID(requestID)[1])
+
+    except Exception as e:
+        flash("That user has allready joined this event. You can only join an event once.")
+
+    return redirect(url_for("confirmJoinRequests", eventID = event.id))
+
+@app.route('/<eventID>/declineRequest/<requestID>')
+@forceLogin
+@createEvent
+@adminOnly
+def declineJoinRequest(event, requestID):
+    database.updateJoinRequest(requestID, "Declined")
+    return redirect(url_for("confirmJoinRequests", eventID = event.id))
 
 @app.route('/<eventID>/addNewPlayer', methods = ["GET", "POST"])
 @forceLogin
