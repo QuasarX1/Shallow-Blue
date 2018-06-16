@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @* Links to javascript files *@
+    <script src="/static/scripts/jquery-slim.min.js"></script>
+    <script src="/static/scripts/bootstrap.min.js"></script>
+    <script src="/static/scripts/ShallowBlueScript.js"></script>
+    @RenderSection("Scripts", required: false)
+
+    @* Links to stylesheets *@
+    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/content/ShallowBlue.css" />
+
+    @* Font Awesome link *@
+    <script src="/static/scripts/fontawesome-all.min.js"></script>
+
+    @* Other head content *@
+    {% block headContent %}{% endblock %}
+
+    @* Page title *@
+    <title>{% block fullPageTitle %}{% endblock %}</title>@ViewData["Title"]
+
+    @* ASP Head Content *@
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+<body>
+    @* Page content *@
+    @RenderBody()@*{% block fullBodyContent %}{% endblock %}*@
+</body>
+</html>
