@@ -1,0 +1,332 @@
+/* HTML Tag Overides */
+body
+{
+    background-color: blue;
+}
+
+p
+{
+    color: white;
+}
+
+/* General */
+.Page-Heading
+{
+    background-color: aqua;
+}
+
+.Page-Footer {
+    background-color: grey;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.Page-Footer p
+{
+    font-size: 0.5em;
+}
+
+.button-background, .button-background:visited, .button-background:link, .button-background:active {
+    background-color: aqua;
+    text-decoration: none;
+    color: black;
+}
+
+.button-background:hover {
+    background-color: mediumaquamarine;
+    text-decoration: none;
+    color: black;
+}
+
+.button-icon
+{
+    color: darkblue;
+    font-size: 2em;
+}
+
+.feldErrorMessage
+{
+    color: red;
+}
+
+/* Splash Page */
+.SplashPage-Clickable-Icon
+{
+    color: darkblue;
+    font-size:12em;
+}
+
+.splash_button-background
+{
+    background-color: aqua;
+    border-radius: 40px;
+    display: block;
+}
+
+.splash_button-background:hover {
+    background-color: mediumaquamarine;
+}
+
+/* Join Page */
+.Event-Link
+{
+    background-color: aqua;
+    border: black;
+    border-radius: 20px;
+}
+
+.Event-Link:hover {
+    background-color: mediumaquamarine;
+}
+
+.event-Link-Date {
+    font-size: 2em;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 20px;
+    background-color: aqua;
+}
+
+.Event-Link-Info
+{
+    padding-left: 1em;
+    width: 100%;
+    text-align: center;
+}
+
+/*Menu Nav Bar*/
+
+.menuNavButton {
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 50px;
+    z-index: 1;
+    display: block;
+    position: fixed;
+    background-color: mediumaquamarine;
+}
+
+/* The Overlay (background) */
+.overlay {
+    /* Height & width depends on how you want to reveal the overlay (see JS below) */
+    height: 0;
+    width: 0;
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Sit on top */
+    left: 0;
+    top: 0;
+    background-color: rgb(0,0,0); /* Black fallback color */
+    background-color: rgba(0,0,0, 0.9); /* Black w/opacity */
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: unset; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+    position: relative;
+    top: 25%; /* 25% from the top */
+    width: 100%; /* 100% width */
+    text-align: center; /* Centered text/links */
+    margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+/* The navigation links inside the overlay */
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block; /* Display block instead of inline */
+    transition: 0.3s; /* Transition effects on hover (color) */
+}
+
+/* When you mouse over the navigation links, change their color */
+.overlay a:hover, .overlay a:focus {
+    color: #f1f1f1;
+}
+
+/* Position the close button (top right corner) */
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+    z-index: 3;
+}
+
+/* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+@media screen and (max-height: 450px) {
+    .overlay .overlay-content a {
+        font-size: 20px
+    }
+
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+} 
+
+.menuBar_ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.menuBar_ul li
+{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.menuBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+    color: #000;
+}
+
+.menuBar_ul li a .logout-link {
+    background-color: mediumaquamarine;
+}
+
+.menuBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.menuBar_ul li a.active
+{
+    background-color: grey;
+    color: white;
+}
+
+.menuBar_ul li a:hover:not(.active)
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.menuBar_ul li a:hover:not(.active) .logout-link {
+    background-color: darkblue;
+    color: white;
+}
+
+/*Event Template Nav Bar*/
+.navBar_ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.navBar_ul li
+{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.navBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+    color: #000;
+}
+
+.navBar_ul li:first-child
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.navBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.navBar_ul li a.active
+{
+    background-color: goldenrod;
+}
+
+.navBar_ul li a:hover:not(.active)
+{
+    background-color: darkblue;
+    color: white;
+}
+
+@media (max-width:576px) {
+    .menuNavButton {
+        width: 100%;
+        height: auto;
+    }
+}
+
+/*Event Template Score Bar*/
+.scoreBar_ul
+{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: aqua;
+    border: 2px solid black;
+    border-radius: 6px;
+}
+
+.scoreBar_ul li
+{
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+.scoreBar_ul li a
+{
+    text-decoration: none;
+    display: block;
+    color: #000;
+}
+
+.scoreBar_ul li:first-child
+{
+    background-color: darkblue;
+    color: white;
+}
+
+.scoreBar_ul li:nth-child(2)
+{
+    background-color: goldenrod;
+    color: white;
+}
+
+.scoreBar_ul li:nth-child(3)
+{
+    background-color: lightslategrey;
+    color: white;
+}
+
+.scoreBar_ul li:nth-child(4)
+{
+    background-color: saddlebrown;
+    color: white;
+}
+
+.scoreBar_ul li:last-child
+{
+    border-bottom: none;
+}
+
+.scoreBar_ul li a:hover:not(:empty)
+{
+    background-color: darkblue;
+    color: white;
+}

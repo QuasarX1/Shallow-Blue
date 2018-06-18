@@ -2,17 +2,17 @@
 <html>
 <head>
     @* Links to javascript files *@
-    <script src="/static/scripts/jquery-slim.min.js"></script>
-    <script src="/static/scripts/bootstrap.min.js"></script>
-    <script src="/static/scripts/ShallowBlueScript.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/js/ShallowBlueScript.js"></script>
     @RenderSection("Scripts", required: false)
 
     @* Links to stylesheets *@
-    <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="/static/content/ShallowBlue.css" />
+    <link rel="stylesheet" type="text/css" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/css/ShallowBlue.css" />
 
     @* Font Awesome link *@
-    <script src="/static/scripts/fontawesome-all.min.js"></script>
+    <script src="~/js/fontawesome-all.min.js"></script>
 
     @* Other head content *@
     @RenderSection("HeadContent", required: false)
@@ -26,6 +26,6 @@
 </head>
 <body>
     @* Page content *@
-    @RenderBody()@*{% block fullBodyContent %}{% endblock %}*@
+    @RenderBody()
 </body>
 </html>

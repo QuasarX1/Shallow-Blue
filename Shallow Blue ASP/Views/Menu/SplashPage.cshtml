@@ -1,6 +1,6 @@
 ﻿@{
     // This page builds on the MenuTemplate page
-    Layout = "MenuTemplate";
+    Layout = "_MenuTemplate";
 
     ViewData["PageTitle"] = "Home";
 
@@ -14,7 +14,7 @@
     @if ((bool)ViewData["LoggedIn"] == false)
     {
         <div class="col-sm-3" style="text-align: center">
-            <a class="btn splash_button-background" href="{{url_for("login")}}"><i class="fas fa-sign-in-alt SplashPage-Clickable-Icon"></i></a>
+            <a class="btn splash_button-background" asp-controller="Menu" asp-action="Login"><i class="fas fa-sign-in-alt SplashPage-Clickable-Icon"></i></a>
             <br />
             <p>Log In</p>
         </div>
@@ -22,7 +22,7 @@
     else
     {
         <div class="col-sm-3" style="text-align: center">
-            <a class="btn splash_button-background" href="{{url_for("logout")}}"><i class="fas fa-sign-out-alt SplashPage-Clickable-Icon"></i></a>
+            <a class="btn splash_button-background" asp-controller="Menu" asp-action="Logout"><i class="fas fa-sign-out-alt SplashPage-Clickable-Icon"></i></a>
             <br />
             <p>Logout</p>
         </div>
@@ -30,7 +30,14 @@
 
     @* Profile button *@
     <div class="col-sm-3" style="text-align: center">
-        <a class="btn splash_button-background" href="{% if admin == False %}{{url_for("profile")}}{% else %}{{url_for("adminMenu")}}{% endif %}"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
+        @if ((bool)ViewData["Admin"] == false)
+        {
+            <a class="btn splash_button-background" asp -controller="Menu" asp-action="Profile"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
+        }
+        else
+        {
+            <a class="btn splash_button-background" asp -controller="Menu" asp-action="AdminMenu"><i class="fas fa-address-book SplashPage-Clickable-Icon"></i></a>
+        }
         <br />
         @if ((bool)ViewData["Admin"] == false)
         {
@@ -51,14 +58,14 @@
 
     @* Spectate bitton *@
     <div class="col-sm-3" style="text-align: center">
-        <a class="splash_button-background" href="{{url_for("spectate")}}"><i class="fas fa-binoculars SplashPage-Clickable-Icon"></i></a>
+        <a class="splash_button-background" sp-controller="Menu" asp-action="Spectate"><i class="fas fa-binoculars SplashPage-Clickable-Icon"></i></a>
         <br />
         <p>Spectate</p>
     </div>
 
     @* Join button *@
     <div class="col-sm-3" style="text-align: center">
-        <a class="splash_button-background" href="{{url_for("join")}}"><i class="fas fa-calendar-alt SplashPage-Clickable-Icon"></i></a>
+        <a class="splash_button-background" sp-controller="Menu" asp-action="Join"><i class="fas fa-calendar-alt SplashPage-Clickable-Icon"></i></a>
         <br />
         <p>Join</p>
     </div>

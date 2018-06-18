@@ -3,6 +3,15 @@
     Layout = "_MainTemplate";
 
     ViewData["FullPageTitle"] = "Shallow Blue - " + ViewData["PageTitle"];
+
+    List<string> removeKeys = new List<string>();
+    void RemoveData()
+    {
+        foreach (string key in removeKeys)
+        {
+            TempData.Remove(key);
+        }
+    }
 }
 <a class="btn button-background menuNavButton" onclick="openNav()"><i class="fas fa-bars"></i></a>
 <div class="container-fluid">
@@ -13,24 +22,26 @@
     </header>
 
     @* Output messages *@
-    @*{% for message in get_flashed_messages() %}*@
-    @foreach (string message in (dynamic)ViewData["Messages"])
+    @foreach (KeyValuePair<string, dynamic> item in TempData)
     {
-        <div class="row">
-            <div class="col-sm-3"></div>
+        if (System.Text.RegularExpressions.Regex.IsMatch(item.Key, "Message .+"))
+        {
+            removeKeys.Add(item.Key);
+            <div class="row">
+                <div class="col-sm-3"></div>
 
-            <div class="col-sm-6">
-                <div class="alert alert-warning">
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                    @message
+                <div class="col-sm-6">
+                    <div class="alert alert-warning">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        @item.Value
+                    </div>
                 </div>
+
+                <div class="col-sm-3"></div>
             </div>
+        }
 
-            <div class="col-sm-3"></div>
-        </div>
-        @*{% endfor %}*@
     }
-
 
     @RenderBody()
 
@@ -45,16 +56,16 @@
             <div class="col-sm-6">
                 <ul id="menuLinks" class="menuBar_ul">
                     {% if "userName" in session %}
-                    <li><a href="{{url_for("logout")}}" class="logout-link">Logged In As "{{session["userName"]}}" - Logout</a></li>
+                    <li><a asp-controller="Menu" asp-action="Logout" class="logout-link">Logged In As "{{session["userName"]}}" - Logout</a></li>
                     {% endif %}
-                    <li><a href="{{url_for("home")}}">Splash Page</a></li>
+                    <li><a asp-controller="Menu" asp-action="SplashPage">Splash Page</a></li>
                     {% if session["userName"] != "admin" %}
-                    <li><a href="{{url_for("profile")}}">Profile</a></li>
+                    <li><a asp-controller="Menu" asp-action="Profile">Profile</a></li>
                     {% else %}
-                    <li><a href="{{url_for("adminMenu")}}">Admin Menu</a></li>
+                    <li><a asp-controller="Menu" asp-action="AdminMenu">Admin Menu</a></li>
                     {% endif %}
-                    <li><a href="{{url_for("spectate")}}">Spectate</a></li>
-                    <li><a href="{{url_for("join")}}">Join</a></li>
+                    <li><a asp-controller="Menu" asp-action="Spectate">Spectate</a></li>
+                    <li><a asp-controller="Menu" asp-action="Join">Join</a></li>
                 </ul>
             </div>
             <div class="col-sm-3"></div>
@@ -62,7 +73,7 @@
     </div>
 </div>
 
-{# Extra lines to prevent footer from cutting off content #}
+@* Extra lines to prevent footer from cutting off content *@
 <br />
 <br />
 
@@ -73,3 +84,5 @@
         Copyright <i class="far fa-copyright"></i> Christopher Rowe @DateTime.Today.Year
     </p>
 </footer>
+
+@{RemoveData();}

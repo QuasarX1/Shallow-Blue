@@ -21,7 +21,10 @@ namespace Shallow_Blue_ASP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc()
+                .AddSessionStateTempDataProvider();
+
+            services.AddSession();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -34,10 +37,12 @@ namespace Shallow_Blue_ASP
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/Menu/Error");
             }
 
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseMvc(routes =>
             {
