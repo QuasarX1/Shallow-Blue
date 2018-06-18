@@ -6,3 +6,38 @@
     ViewData["PageHeading"] = "SHALLOW BLUE - LOGIN";
 }
 
+@* Display login form *@
+<div class="row">
+    <div class="col-sm-3"></div>
+
+    <div class="col-sm-6" style="text-align: center">
+        <form asp-controller="Menu", asp-action="Login" method="POST">
+            {{form.hidden_tag()}}{# Used for CRSF protection #}
+
+            <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
+            {% for error in form.usernameTextBox.errors %}
+            <p class="feldErrorMessage">{{error}}</p>
+            {% endfor %}
+
+            <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
+            {% for error in form.passwordPasswordBox.errors %}
+            <p class="feldErrorMessage">{{error}}</p>
+            {% endfor %}
+
+            <p>{{form.submitButton(class="btn button-background")}}</p>
+        </form>
+
+        <br />
+
+        {# Link to signup form #}
+        <p>
+            Or sign up here --->
+            <a class="btn button-background" asp-controller="Menu", asp-action="Signup">
+                <i class="fas fa-user-plus button-icon"></i>
+            </a>
+        </p>
+    </div>
+
+    <div class="col-sm-3"></div>
+</div>
+{% endblock %}

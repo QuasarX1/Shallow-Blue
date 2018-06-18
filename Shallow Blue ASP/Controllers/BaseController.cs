@@ -32,14 +32,28 @@ namespace Shallow_Blue_ASP.Controllers
             TempData.Keep(key);
         }
 
-        public static bool TestLogin()
+        protected bool TestLogin()
         {
-            return false;
+            if (TempData["UserID"] == null)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
-        public static bool IsAdmin()
+        protected bool IsAdmin()
         {
-            return false;
+            if ((string)TempData["UserName"] == "admin")
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -44,6 +44,8 @@ namespace Shallow_Blue_ASP.Controllers
         /// Handles a request for the login page.
         /// </summary>
         /// <returns>Rendered view.</returns>
+        [HttpGet]
+        [HttpPost]
         public IActionResult Login()
         {
             TempData["UserID"] = 1;
