@@ -34,7 +34,7 @@ namespace Shallow_Blue_ASP.Controllers
 
         protected bool TestLogin()
         {
-            if (TempData["UserID"] == null)
+            if (TempData.Peek("UserID") == null)
             {
                 return false;
             }
@@ -46,7 +46,7 @@ namespace Shallow_Blue_ASP.Controllers
 
         protected bool IsAdmin()
         {
-            if ((string)TempData["UserName"] == "admin")
+            if ((string)TempData.Peek("UserName") == "admin")
             {
                 return true;
             }

@@ -6,15 +6,17 @@ namespace Shallow_Blue_ASP.Models
     public class LoginModel
     {
         [Required]
-        public string UserName { get; set; }
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+        
+        [Required]
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
 
         //[Required]
         //[EmailAddress]
         //[Display(Name = "Email Address")]
         //public string Email { get; set; }
-
-        [Required]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
     }
 }

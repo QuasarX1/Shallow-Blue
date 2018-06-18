@@ -1,7 +1,107 @@
-﻿
+﻿@model ProfileViewModel
 @{
-    ViewData["Title"] = "Profile";
+    Layout = "_MenuTemplate.cshtml";
+
+    ViewData["PageTitle"] = "Profile";
+
+    string username = ((string)TempData["Username"]).ToUpper();
+
+    ViewData["PageHeading"] = username + "'S Profile";
 }
 
-<h2>Profile</h2>
+<div class="col-sm-3"></div>
+<form class="col-sm-6 container-fluid" method="POST">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <label class="col-sm-3" asp-for="UserID"></label>
+        <p class="col-sm-3">@this.Model.UserID</p>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2"></div>
+    </div>
 
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Username</p>
+        <p class="col-sm-3">{{user[1].title()}}</p>
+        <div class="col-sm-2">{{form.usernameTextBox()}}{% for error in form.usernameTextBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">First Name</p>
+        <p class="col-sm-3">{{user[2]}}</p>
+        <div class="col-sm-2">{{form.firstNameTextBox()}}{% for error in form.lastNameTextBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Last Name</p>
+        <p class="col-sm-3">{{user[3]}}</p>
+        <div class="col-sm-2">{{form.lastNameTextBox()}}{% for error in form.firstNameTextBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Email</p>
+        <p class="col-sm-3">{{user[4]}}</p>
+        <div class="col-sm-2">{{form.emailTextBox()}}{% for error in form.emailTextBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Date of Birth</p>
+        <p class="col-sm-3">{{user[5]}}</p>
+        <div class="col-sm-2">
+            <p>{{form.dobDayIntegerBox()}} / {{form.dobMonthIntegerBox()}} / {{form.dobYearIntegerBox()}}</p>
+            {% for error in form.dobDayIntegerBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}
+            {% for error in form.dobMonthIntegerBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}
+            {% for error in form.dobYearIntegerBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Chess Raiting</p>
+        <p class="col-sm-3">{{user[6]|int}}</p>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Current Password</p>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">{{form.passwordPasswordBox()}}{% for error in form.passwordPasswordBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">New Password</p>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">{{form.newPasswordPasswordBox()}}{% for error in form.newPasswordPasswordBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <p class="col-sm-3">Repeat New Password</p>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-2">{{form.newRepeatPasswordBox()}}{% for error in form.newRepeatPasswordBox.errors %}<p class="feldErrorMessage">{{error}}</p>{% endfor %}</div>
+        <div class="col-sm-2"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">{{form.submitButton(class = "btn button-background")}}</div>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-2"></div>
+    </div>
+</form>
+<div class="col-sm-3"></div>

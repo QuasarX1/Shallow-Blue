@@ -1,4 +1,5 @@
-﻿@{
+﻿@model LoginModel
+@{
     Layout = "_MenuTemplate.cshtml";
 
     ViewData["PageTitle"] = "Login";
@@ -11,28 +12,20 @@
     <div class="col-sm-3"></div>
 
     <div class="col-sm-6" style="text-align: center">
-        <form asp-controller="Menu", asp-action="Login" method="POST">
-            {{form.hidden_tag()}}{# Used for CRSF protection #}
-
-            <p>{{form.usernameTextBox.label}} {{form.usernameTextBox()}}</p>
-            {% for error in form.usernameTextBox.errors %}
-            <p class="feldErrorMessage">{{error}}</p>
-            {% endfor %}
-
-            <p>{{form.passwordPasswordBox.label}} {{form.passwordPasswordBox()}}</p>
-            {% for error in form.passwordPasswordBox.errors %}
-            <p class="feldErrorMessage">{{error}}</p>
-            {% endfor %}
-
-            <p>{{form.submitButton(class="btn button-background")}}</p>
+        <form asp-controller="Menu" , asp-action="Login" method="POST">
+            <label asp-for="Username"></label> <input asp-for="Username" />
+            <br />
+            <label asp-for="Password"></label> <input asp-for="Password" />
+            <br />
+            <button type="submit" class="btn button-background">Login</button>
         </form>
 
         <br />
 
-        {# Link to signup form #}
+        @* Link to signup form *@
         <p>
             Or sign up here --->
-            <a class="btn button-background" asp-controller="Menu", asp-action="Signup">
+            <a class="btn button-background" asp-controller="Menu" asp-action="Signup">
                 <i class="fas fa-user-plus button-icon"></i>
             </a>
         </p>
@@ -40,4 +33,3 @@
 
     <div class="col-sm-3"></div>
 </div>
-{% endblock %}

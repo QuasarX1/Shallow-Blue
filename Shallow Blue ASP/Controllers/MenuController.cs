@@ -25,7 +25,7 @@ namespace Shallow_Blue_ASP.Controllers
         {
             ViewData["LoggedIn"] = TestLogin();
             ViewData["Admin"] = IsAdmin();
-            
+
             AddTemplateData();
             return View();
         }
@@ -41,17 +41,31 @@ namespace Shallow_Blue_ASP.Controllers
         }
 
         /// <summary>
-        /// Handles a request for the login page.
+        /// Handles a GET request for the login page.
         /// </summary>
         /// <returns>Rendered view.</returns>
         [HttpGet]
-        [HttpPost]
         public IActionResult Login()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Handles a POST request for the login page.
+        /// </summary>
+        /// <returns>Rendered view.</returns>
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Login(LoginModel model)
         {
             TempData["UserID"] = 1;
             TempData.Keep("UserID");
 
-            return View();
+            TempData["Username"] = model.Username;
+            TempData.Keep("Username");
+
+            Flash("Hi " + TempData.Peek("Username"));
+
+            return RedirectToAction("SplashPage");
         }
 
         /// <summary>
@@ -61,8 +75,9 @@ namespace Shallow_Blue_ASP.Controllers
         public IActionResult Logout()
         {
             TempData.Remove("UserID");
+            TempData.Remove("Username");
 
-            return RedirectToRoute("SplashPage");
+            return RedirectToAction("SplashPage");
         }
 
         /// <summary>
@@ -111,13 +126,34 @@ namespace Shallow_Blue_ASP.Controllers
         }
 
         /// <summary>
-        /// Handles a request for the Profile page.
+        /// Handles a GET request for the Profile page.
         /// </summary>
         /// <returns>Rendered view.</returns>
+        [HttpGet]
         public IActionResult Profile()
         {
+            var test = TempData["UserName"];
 
-            return View();
+            return View(new ProfileViewModel
+            {
+                UserID = 1,
+                FirstName = "Test",
+                LastName = "User",
+                Email = "Test@test.com",
+                DOB = new DateTime(2000, 1, 1),
+                Raiting = 1200                
+            });
+        }
+
+        /// <summary>
+        /// Handles a POST request for the Profile page.
+        /// </summary>
+        /// <returns>Rendered view.</returns>
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Profile(ProfileViewModel model)
+        {
+
+            return View(model);
         }
 
         /// <summary>
